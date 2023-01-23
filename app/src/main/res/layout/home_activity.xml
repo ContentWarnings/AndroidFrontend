@@ -9,8 +9,6 @@
 
     <include
         android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
         layout="@layout/header" />
 
     <TextView
