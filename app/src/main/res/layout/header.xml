@@ -6,15 +6,24 @@
     android:background="@color/header_background">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/logo_width"
+        android:layout_height="@dimen/logo_height"
+        android:layout_marginStart="@dimen/logo_margin_start"
+        android:layout_marginEnd="@dimen/logo_margin_end"
+        android:layout_marginTop="@dimen/logo_margin_top"
+        android:layout_marginBottom="@dimen/logo_margin_bottom"
         android:src="@drawable/logo">
     </ImageView>
 
-    <ImageView
+    <TextView
+        android:id="@+id/header_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/settings_wheel">
-    </ImageView>
+        android:text="Trending"
+        android:textStyle="bold"
+        android:textSize="@dimen/header_title_text_size"
+        android:textColor="@color/header_title"
+        android:layout_marginTop="@dimen/header_title_margin_top">
+    </TextView>
 
 </LinearLayout>
