@@ -10,4 +10,6 @@
     <color name="header_background">@color/black</color>
     <color name="header_title">@color/white</color>
     <color name="footer_background">#CC000000</color>
+    <color name="footer_item_icon">@color/white</color>
+    <color name="footer_item_text">@color/white</color>
 </resources>

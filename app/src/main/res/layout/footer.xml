@@ -1,9 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:gravity="center"
     android:background="@color/footer_background"
     android:layout_alignParentBottom="true">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/footer_featured_margin_top"
+        android:layout_marginBottom="@dimen/footer_featured_margin_bottom"
+        android:alpha="@dimen/footer_item_alpha">
+
+        <ImageButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@android:color/transparent"
+            android:layout_marginBottom="@dimen/footer_featured_icon_margin_bottom"
+            android:src="@drawable/featured_star">
+        </ImageButton>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/footer_featured"
+            android:textColor="@color/footer_item_text"
+            android:textSize="@dimen/footer_item_text_size">
+        </TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/footer_search_margin_top"
+        android:layout_marginBottom="@dimen/footer_search_margin_bottom"
+        android:layout_marginHorizontal="@dimen/footer_search_margin_horizontal"
+        android:alpha="@dimen/footer_item_alpha">
+        
+        <ImageButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@android:color/transparent"
+            android:layout_marginBottom="@dimen/footer_search_icon_margin_bottom"
+            android:src="@drawable/search_magnifying_glass">
+        </ImageButton>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/footer_search"
+            android:textColor="@color/footer_item_text"
+            android:textSize="@dimen/footer_item_text_size">
+        </TextView>
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/footer_settings_margin_top"
+        android:layout_marginBottom="@dimen/footer_settings_margin_bottom"
+        android:alpha="@dimen/footer_item_alpha">
+
+        <ImageButton
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@android:color/transparent"
+            android:layout_marginBottom="@dimen/footer_settings_icon_margin_bottom"
+            android:src="@drawable/settings_wheel">
+        </ImageButton>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/footer_settings"
+            android:textColor="@color/footer_item_text"
+            android:textSize="@dimen/footer_item_text_size">
+        </TextView>
+
+    </LinearLayout>
 
 </LinearLayout>
