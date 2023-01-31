@@ -38,7 +38,7 @@
             android:layout_marginTop="@dimen/header_magnifying_glass_margin_top"
             android:layout_marginEnd="@dimen/header_magnifying_glass_margin_end"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/search_magnifying_glass">
+            android:src="@drawable/header_search_magnifying_glass">
         </ImageButton>
 
     </RelativeLayout>

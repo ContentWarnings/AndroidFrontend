@@ -11,16 +11,15 @@
     <dimen name="header_title_margin_top">18dp</dimen>
     <dimen name="header_magnifying_glass_margin_top">23dp</dimen>
     <dimen name="header_magnifying_glass_margin_end">33dp</dimen>
-    <dimen name="footer_item_alpha">0.5</dimen>
-    <dimen name="footer_item_text_size">12sp</dimen>
-    <dimen name="footer_featured_margin_top">10dp</dimen>
+    <dimen name="footer_item_text_size">16sp</dimen>
+    <dimen name="footer_featured_margin_top">11dp</dimen>
     <dimen name="footer_featured_margin_bottom">10dp</dimen>
-    <dimen name="footer_featured_icon_margin_bottom">2dp</dimen>
+    <dimen name="footer_featured_icon_margin_bottom">6dp</dimen>
     <dimen name="footer_search_margin_top">12dp</dimen>
     <dimen name="footer_search_margin_bottom">10dp</dimen>
-    <dimen name="footer_search_icon_margin_bottom">3dp</dimen>
-    <dimen name="footer_settings_margin_top">11dp</dimen>
+    <dimen name="footer_search_icon_margin_bottom">7dp</dimen>
+    <dimen name="footer_settings_margin_top">12dp</dimen>
     <dimen name="footer_settings_margin_bottom">10dp</dimen>
-    <dimen name="footer_settings_icon_margin_bottom">0dp</dimen>
-    <dimen name="footer_search_margin_horizontal">74dp</dimen>
+    <dimen name="footer_settings_icon_margin_bottom">5dp</dimen>
+    <dimen name="footer_search_margin_horizontal">69dp</dimen>
 </resources>
