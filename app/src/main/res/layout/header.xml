@@ -19,11 +19,28 @@
         android:id="@+id/header_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Trending"
-        android:textStyle="bold"
+        android:text="Settings"
+        android:fontFamily="sans-serif-medium"
         android:textSize="@dimen/header_title_text_size"
         android:textColor="@color/header_title"
         android:layout_marginTop="@dimen/header_title_margin_top">
     </TextView>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_marginTop="@dimen/header_magnifying_glass_margin_top"
+            android:layout_marginEnd="@dimen/header_magnifying_glass_margin_end"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/search_magnifying_glass">
+        </ImageButton>
+
+    </RelativeLayout>
 
 </LinearLayout>
