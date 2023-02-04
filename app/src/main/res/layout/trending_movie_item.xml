@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/trending_movie_item_padding_top"
+    android:paddingBottom="@dimen/trending_movie_item_padding_bottom"
+    android:gravity="center_horizontal">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/trending_movie_image"
+        android:layout_width="@dimen/trending_movie_item_width"
+        android:layout_height="@dimen/trending_movie_image_height"
+        app:shapeAppearanceOverlay="@style/roundedCornersMovieImage"
+        android:src="@drawable/test_movie_poster">
+    </com.google.android.material.imageview.ShapeableImageView>
+
+    <TextView
+        android:id="@+id/trending_movie_name"
+        android:layout_width="@dimen/trending_movie_item_width"
+        android:layout_height="wrap_content"
+        android:gravity="top|start"
+        android:lines="@integer/num_trending_movie_name_lines"
+        android:ellipsize="end"
+        android:textSize="@dimen/trending_movie_name_text_size"
+        android:textColor="@color/trending_movie_text"
+        android:paddingTop="@dimen/trending_movie_name_padding_top">
+    </TextView>
+
+</LinearLayout>
