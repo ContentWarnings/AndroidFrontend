@@ -9,6 +9,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_above="@id/footer"
+        android:background="@color/page_background"
         tools:context=".activities.HomeActivity">
 
         <include
@@ -18,8 +19,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/trending_movies_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#ffaa00">
+            android:layout_height="match_parent">
         </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>

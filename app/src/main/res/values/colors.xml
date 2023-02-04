@@ -12,4 +12,6 @@
     <color name="footer_background">#313131</color>
     <color name="footer_item_icon">#B0B0B0</color>
     <color name="footer_item_text">#B0B0B0</color>
+    <color name="page_background">@color/black</color>
+    <color name="trending_movie_text">@color/white</color>
 </resources>
