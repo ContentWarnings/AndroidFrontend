@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -50,22 +51,16 @@ public class HomeActivity extends AppCompatActivity {
 
         // Initialize dummy list of movie data
         final List<TrendingMovieViewModel> trendingMoviesList = new ArrayList<>();
-        trendingMoviesList.add(new TrendingMovieViewModel("The Avengers", getResources().getDrawable(R.drawable.test_movie_poster)));
-        trendingMoviesList.add(new TrendingMovieViewModel("Harry Potter and the Sorcerer's Stone", getResources().getDrawable(R.drawable.test_movie_poster)));
-        trendingMoviesList.add(new TrendingMovieViewModel("The Dark Knight", getResources().getDrawable(R.drawable.test_movie_poster)));
-        trendingMoviesList.add(new TrendingMovieViewModel("Harry Potter and the Chamber of Secrets", getResources().getDrawable(R.drawable.test_movie_poster)));
-        trendingMoviesList.add(new TrendingMovieViewModel("Harry Potter and the Prisoner of Azkaban", getResources().getDrawable(R.drawable.test_movie_poster)));
-        trendingMoviesList.add(new TrendingMovieViewModel("Moonlight", getResources().getDrawable(R.drawable.test_movie_poster)));
-        trendingMoviesList.add(new TrendingMovieViewModel("Goodfellas", getResources().getDrawable(R.drawable.test_movie_poster)));
-        trendingMoviesList.add(new TrendingMovieViewModel("Iron Man 2", getResources().getDrawable(R.drawable.test_movie_poster)));
-        trendingMoviesList.add(new TrendingMovieViewModel("Avatar", getResources().getDrawable(R.drawable.test_movie_poster)));
-        trendingMoviesList.add(new TrendingMovieViewModel("Tron", getResources().getDrawable(R.drawable.test_movie_poster)));
-        trendingMoviesList.add(new TrendingMovieViewModel("The Wizard of Oz", getResources().getDrawable(R.drawable.test_movie_poster)));
-        trendingMoviesList.add(new TrendingMovieViewModel("Gone with the Wind", getResources().getDrawable(R.drawable.test_movie_poster)));
-        trendingMoviesList.add(new TrendingMovieViewModel("Pulp Fiction", getResources().getDrawable(R.drawable.test_movie_poster)));
-        trendingMoviesList.add(new TrendingMovieViewModel("Men in Black", getResources().getDrawable(R.drawable.test_movie_poster)));
-        trendingMoviesList.add(new TrendingMovieViewModel("Indiana Jones and the Raiders of the Lost Ark", getResources().getDrawable(R.drawable.test_movie_poster)));
-        trendingMoviesList.add(new TrendingMovieViewModel("Star Wars: A New Hope", getResources().getDrawable(R.drawable.test_movie_poster)));
+
+        final String[] movieNames = new String[] { "The Avengers", "Harry Potter and the Sorcerer's Stone",
+                "The Dark Knight", "Harry Potter and the Chamber of Secrets", "Harry Potter and the Prisoner of Azkaban",
+                "Moonlight", "Goodfellas", "Iron Man 2", "Avatar", "Tron", "The Wizard of Oz", "Gone with the Wind",
+                "Pulp Fiction", "Men in Black", "Indiana Jones and the Raiders of the Lost Ark", "Star Wars: A New Hope"};
+        final Drawable moviePoster = getResources().getDrawable(R.drawable.test_movie_poster);
+
+        for (String movieName : movieNames) {
+            trendingMoviesList.add(new TrendingMovieViewModel(movieName, moviePoster));
+        }
 
         return trendingMoviesList;
     }
