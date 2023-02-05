@@ -1,5 +1,7 @@
 package com.example.moviementor.models;
 
+// Drawable provides a generic API for dealing with a visual resource
+// that may take different forms (Ex: png, jpc, svg...)
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
