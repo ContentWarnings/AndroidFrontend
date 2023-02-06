@@ -7,14 +7,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.moviementor.R;
 import com.example.moviementor.adapters.TrendingMoviesAdapter;
 import com.example.moviementor.models.TrendingMovieViewModel;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -48,6 +57,28 @@ public class HomeActivity extends AppCompatActivity {
     @NonNull
     private List<TrendingMovieViewModel> fetchTrendingMovies() {
         // TODO: Replace Dummy Data with API Call to Get Trending Movie Data
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final String apiKey = "oOA8cKgOSs3JzWK3jyAcT7kwuzLavPSh47lvhpmG";
+
+        client.addHeader("x-api-key", apiKey);
+
+        client.get("https://3rash4qeq4.execute-api.us-east-1.amazonaws.com/prod/search", new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                try {
+                    final JSONArray searchResults = new JSONObject(new String(responseBody)).getJSONArray("result");
+                    Log.d("SearchResponse: ", "NumSearchResults: " + searchResults.length());
+                } catch (final JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                error.printStackTrace();
+            }
+        });
 
         // Initialize dummy list of movie data
         final List<TrendingMovieViewModel> trendingMoviesList = new ArrayList<>();
