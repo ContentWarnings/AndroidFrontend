@@ -19,7 +19,6 @@
         android:id="@+id/header_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Settings"
         android:fontFamily="sans-serif-medium"
         android:textSize="@dimen/header_title_text_size"
         android:textColor="@color/header_title"

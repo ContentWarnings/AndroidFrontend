@@ -8,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.example.moviementor.R;
 import com.example.moviementor.adapters.TrendingMoviesAdapter;
 import com.example.moviementor.models.TrendingMovieViewModel;
+import com.example.moviementor.other.SpanSizeLookupWithHeader;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -32,17 +32,16 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
 
-        // Set the home page's title to trending
-        final TextView header_title = findViewById(R.id.header_title);
-        header_title.setText(R.string.home_page_header_title);
-
         // Sets up list of trending movies on home page
         createAndPopulateTrendingMoviesList();
     }
 
     private void createAndPopulateTrendingMoviesList() {
-        // Fetch trending movies from the database
+        // Fetch currently trending movies from the database
         final @NonNull List<TrendingMovieViewModel> trendingMoviesList = fetchTrendingMovies();
+
+        // Get number of columns that grid will render
+        final int numColumns = getResources().getInteger(R.integer.num_trending_list_columns);
 
         // Initialize RecyclerView and its adapter
         final RecyclerView trendingMoviesRecyclerView = findViewById(R.id.trending_movies_recycler_view);
@@ -50,8 +49,9 @@ public class HomeActivity extends AppCompatActivity {
 
         // Bind the adapter and a Grid Layout Manager to the RecyclerView
         trendingMoviesRecyclerView.setAdapter(trendingMoviesAdapter);
-        trendingMoviesRecyclerView.setLayoutManager(
-                new GridLayoutManager(this, getResources().getInteger(R.integer.num_trending_list_columns)));
+        final GridLayoutManager layoutManager = new GridLayoutManager(this, numColumns);
+        layoutManager.setSpanSizeLookup(new SpanSizeLookupWithHeader(numColumns));
+        trendingMoviesRecyclerView.setLayoutManager(layoutManager);
     }
 
     @NonNull

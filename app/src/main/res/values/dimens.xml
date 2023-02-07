@@ -28,4 +28,5 @@
     <dimen name="trending_movie_image_height">240dp</dimen>
     <dimen name="trending_movie_name_text_size">22sp</dimen>
     <dimen name="trending_movie_name_padding_top">5dp</dimen>
+    <dimen name="trending_movie_list_margin_horizontal">9.82dp</dimen>
 </resources>
