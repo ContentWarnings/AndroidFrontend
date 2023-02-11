@@ -5,9 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.moviementor.R;
 import com.example.moviementor.adapters.TrendingMoviesAdapter;
@@ -26,73 +27,72 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 public class HomeActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
 
-        // Sets up list of trending movies on home page
-        createAndPopulateTrendingMoviesList();
+        // Fetch currently trending movies from the database
+        fetchTrendingMovies();
     }
 
-    private void createAndPopulateTrendingMoviesList() {
-        // Fetch currently trending movies from the database
-        final @NonNull List<TrendingMovieViewModel> trendingMoviesList = fetchTrendingMovies();
-
+    private void createAndPopulateTrendingMoviesList(final @NonNull List<TrendingMovieViewModel> trendingMoviesData) {
         // Get number of columns that grid will render
         final int numColumns = getResources().getInteger(R.integer.num_trending_list_columns);
 
         // Initialize RecyclerView and its adapter
         final RecyclerView trendingMoviesRecyclerView = findViewById(R.id.trending_movies_recycler_view);
-        final TrendingMoviesAdapter trendingMoviesAdapter = new TrendingMoviesAdapter(trendingMoviesList);
+        final TrendingMoviesAdapter trendingMoviesAdapter = new TrendingMoviesAdapter(trendingMoviesData);
 
         // Bind the adapter and a Grid Layout Manager to the RecyclerView
         trendingMoviesRecyclerView.setAdapter(trendingMoviesAdapter);
         final GridLayoutManager layoutManager = new GridLayoutManager(this, numColumns);
         layoutManager.setSpanSizeLookup(new SpanSizeLookupWithHeader(numColumns));
         trendingMoviesRecyclerView.setLayoutManager(layoutManager);
+
+        // Now that RecyclerView is populated, remove the loading progress wheel
+        final ProgressBar loadingProgressWheel = findViewById(R.id.loading_circle);
+        loadingProgressWheel.setVisibility(View.GONE);
     }
 
-    @NonNull
-    private List<TrendingMovieViewModel> fetchTrendingMovies() {
-        // TODO: Replace Dummy Data with API Call to Get Trending Movie Data
-
+    private void fetchTrendingMovies() {
         final AsyncHttpClient client = new AsyncHttpClient();
-        final String apiKey = "oOA8cKgOSs3JzWK3jyAcT7kwuzLavPSh47lvhpmG";
 
+        // TODO: Remove apiKey once it is not needed anymore
+        final String apiKey = "oOA8cKgOSs3JzWK3jyAcT7kwuzLavPSh47lvhpmG";
         client.addHeader("x-api-key", apiKey);
 
+        // Hit the search API with no parameters to get data for currently trending movies
         client.get("https://3rash4qeq4.execute-api.us-east-1.amazonaws.com/prod/search", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                final List<TrendingMovieViewModel> trendingMoviesList = new ArrayList<>();
+
                 try {
-                    final JSONArray searchResults = new JSONObject(new String(responseBody)).getJSONArray("result");
-                    Log.d("SearchResponse: ", "NumSearchResults: " + searchResults.length());
-                } catch (final JSONException e) {
-                    e.printStackTrace();
+                    final JSONArray searchResults = new JSONObject(new String(responseBody)).getJSONArray("results");
+
+                    // Decode each movie's data into a ViewModel object
+                    for (int i = 0; i < searchResults.length(); i++) {
+                        final JSONObject searchResult = searchResults.getJSONObject(i);
+
+                        final TrendingMovieViewModel movieData = new TrendingMovieViewModel(searchResult.getString("title"), null);
+                        trendingMoviesList.add(movieData);
+                    }
                 }
+                catch (final JSONException e) {
+                    Log.e("HomeActivity: ", e.toString());
+                    // TODO: Upon failure set home page view to an error screen with a reload button
+                }
+
+                // Done fetching and parsing movie data so populate the home page's list now
+                createAndPopulateTrendingMoviesList(trendingMoviesList);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                error.printStackTrace();
+                Log.e("HomeActivity: ", error.toString());
+                // TODO: Upon failure set home page view to an error screen with a reload button
             }
         });
-
-        // Initialize dummy list of movie data
-        final List<TrendingMovieViewModel> trendingMoviesList = new ArrayList<>();
-
-        final String[] movieNames = new String[] { "The Avengers", "Harry Potter and the Sorcerer's Stone",
-                "The Dark Knight", "Harry Potter and the Chamber of Secrets", "Harry Potter and the Prisoner of Azkaban",
-                "Moonlight", "Goodfellas", "Iron Man 2", "Avatar", "Tron", "The Wizard of Oz", "Gone with the Wind",
-                "Pulp Fiction", "Men in Black", "Indiana Jones and the Raiders of the Lost Ark", "Star Wars: A New Hope"};
-        final Drawable moviePoster = getResources().getDrawable(R.drawable.test_movie_poster);
-
-        for (String movieName : movieNames) {
-            trendingMoviesList.add(new TrendingMovieViewModel(movieName, moviePoster));
-        }
-
-        return trendingMoviesList;
     }
 }
