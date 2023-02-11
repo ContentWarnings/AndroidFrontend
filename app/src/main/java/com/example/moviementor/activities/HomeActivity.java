@@ -75,7 +75,10 @@ public class HomeActivity extends AppCompatActivity {
                     for (int i = 0; i < searchResults.length(); i++) {
                         final JSONObject searchResult = searchResults.getJSONObject(i);
 
-                        final TrendingMovieViewModel movieData = new TrendingMovieViewModel(searchResult.getString("title"), null);
+                        final @NonNull String movieTitle = searchResult.getString("title");
+                        final @NonNull String movieImageUrl = searchResult.getString("img");
+
+                        final TrendingMovieViewModel movieData = new TrendingMovieViewModel(movieTitle, movieImageUrl);
                         trendingMoviesList.add(movieData);
                     }
                 }
