@@ -32,6 +32,10 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
 
+        // Bring progress bar to front so it's visible until RecyclerView is populated
+        final ProgressBar loadingProgressWheel = findViewById(R.id.loading_circle);
+        loadingProgressWheel.bringToFront();
+
         // Fetch currently trending movies from the database
         fetchTrendingMovies();
     }
