@@ -17,7 +17,7 @@ public class TrendingMovieViewModel {
     }
 
     @NonNull
-    public String getMovieImage() {
+    public String getMovieImageUrl() {
         return this.movieImageUrl;
     }
 }

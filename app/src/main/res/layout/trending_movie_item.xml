@@ -12,8 +12,7 @@
         android:id="@+id/trending_movie_image"
         android:layout_width="@dimen/trending_movie_item_width"
         android:layout_height="@dimen/trending_movie_image_height"
-        app:shapeAppearanceOverlay="@style/roundedCornersMovieImage"
-        android:src="@drawable/test_movie_poster">
+        app:shapeAppearanceOverlay="@style/roundedCornersMovieImage">
     </com.google.android.material.imageview.ShapeableImageView>
 
     <TextView
