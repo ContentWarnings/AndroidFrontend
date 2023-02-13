@@ -85,14 +85,8 @@ public class TrendingMoviesAdapter extends RecyclerView.Adapter {
     // Returns whether view is of type header or movie item.
     @Override
     public int getItemViewType(final int position) {
-        // First view is the header
-        if (position == 0) {
-            return VIEW_TYPE_HEADER;
-        }
-        // All other views are for movie items
-        else {
-            return VIEW_TYPE_ITEM;
-        }
+        // First view is the header, all other views are for movie items
+        return (position == 0) ? VIEW_TYPE_HEADER : VIEW_TYPE_ITEM;
     }
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder {
