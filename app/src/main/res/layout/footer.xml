@@ -8,20 +8,21 @@
     android:layout_alignParentBottom="true">
 
     <LinearLayout
+        android:id="@+id/featured_tab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/footer_featured_margin_top"
         android:layout_marginBottom="@dimen/footer_featured_margin_bottom">
 
-        <ImageButton
+        <ImageView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@android:color/transparent"
             android:layout_marginBottom="@dimen/footer_featured_icon_margin_bottom"
             android:src="@drawable/featured_star">
-        </ImageButton>
+        </ImageView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,6 +35,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/search_tab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -41,14 +43,14 @@
         android:layout_marginBottom="@dimen/footer_search_margin_bottom"
         android:layout_marginHorizontal="@dimen/footer_search_margin_horizontal">
         
-        <ImageButton
+        <ImageView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@android:color/transparent"
             android:layout_marginBottom="@dimen/footer_search_icon_margin_bottom"
             android:src="@drawable/footer_search_magnifying_glass">
-        </ImageButton>
+        </ImageView>
 
         <TextView
             android:layout_width="wrap_content"
@@ -61,20 +63,21 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/settings_tab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/footer_settings_margin_top"
         android:layout_marginBottom="@dimen/footer_settings_margin_bottom">
 
-        <ImageButton
+        <ImageView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@android:color/transparent"
             android:layout_marginBottom="@dimen/footer_settings_icon_margin_bottom"
             android:src="@drawable/settings_wheel">
-        </ImageButton>
+        </ImageView>
 
         <TextView
             android:layout_width="wrap_content"
