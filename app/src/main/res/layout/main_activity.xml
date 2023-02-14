@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    
+
     <ProgressBar
         android:id="@+id/loading_circle"
         android:layout_width="wrap_content"
@@ -11,23 +11,12 @@
         android:indeterminateTint="@color/white"
         android:layout_centerInParent="true" />
 
-    <LinearLayout
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_above="@id/footer"
-        android:background="@color/page_background"
-        tools:context=".activities.HomeActivity">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/trending_movies_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/trending_movie_list_margin_horizontal">
-        </androidx.recyclerview.widget.RecyclerView>
-
-    </LinearLayout>
+        android:layout_above="@id/footer">
+    </androidx.fragment.app.FragmentContainerView>
 
     <include
         android:id="@+id/footer"

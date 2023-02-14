@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.moviementor.activities.HomeActivity;
+import com.example.moviementor.fragments.FeaturedFragment;
 import com.example.moviementor.models.TrendingMovieViewModel;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -28,7 +28,7 @@ public class Backend {
         return baseUrl + relativeUrl;
     }
 
-    public static void fetchTrendingMovies(final @NonNull HomeActivity homeActivity) {
+    public static void fetchTrendingMovies(final @NonNull FeaturedFragment fragment) {
         // Hit the search API with no parameters to get data for currently trending movies
         client.get(getAbsoluteUrl("search"), new AsyncHttpResponseHandler() {
             @Override
@@ -55,7 +55,7 @@ public class Backend {
                 }
 
                 // Done fetching and parsing movie data so populate the home page's list now
-                homeActivity.createAndPopulateTrendingMoviesList(trendingMoviesList);
+                fragment.createAndPopulateTrendingMoviesList(trendingMoviesList);
             }
 
             @Override
