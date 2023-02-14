@@ -3,15 +3,14 @@ package com.example.moviementor.activities;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.moviementor.R;
 import com.example.moviementor.fragments.FeaturedFragment;
 import com.example.moviementor.fragments.SearchFragment;
+import com.example.moviementor.fragments.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG_FEATURED_FRAGMENT = "FEATURED_FRAGMENT";
@@ -91,6 +90,33 @@ public class MainActivity extends AppCompatActivity {
             }
             if (settingsFragment != null) {
                 getSupportFragmentManager().beginTransaction().hide(settingsFragment).commit();
+            }
+        });
+
+        settingsTab.setOnClickListener(view -> {
+            @Nullable Fragment settingsFragment = getSupportFragmentManager()
+                    .findFragmentByTag(TAG_SETTINGS_FRAGMENT);
+
+            if (settingsFragment == null) {
+                settingsFragment = new SettingsFragment();
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, settingsFragment, TAG_SETTINGS_FRAGMENT)
+                        .commit();
+            }
+            else {
+                getSupportFragmentManager().beginTransaction().show(settingsFragment).commit();
+            }
+
+            final @Nullable Fragment featuredFragment = getSupportFragmentManager()
+                    .findFragmentByTag(TAG_FEATURED_FRAGMENT);
+            final @Nullable Fragment searchFragment = getSupportFragmentManager()
+                    .findFragmentByTag(TAG_SEARCH_FRAGMENT);
+
+            if (featuredFragment != null) {
+                getSupportFragmentManager().beginTransaction().hide(featuredFragment).commit();
+            }
+            if (searchFragment != null) {
+                getSupportFragmentManager().beginTransaction().hide(searchFragment).commit();
             }
         });
     }
