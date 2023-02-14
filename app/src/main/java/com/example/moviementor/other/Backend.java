@@ -21,8 +21,6 @@ import cz.msebera.android.httpclient.Header;
 public class Backend {
     // Base url that will be used for all API requests
     private static final String baseUrl = "https://api.moviementor.app/";
-    // TODO: Remove apiKey once it is not needed anymore
-    private static final String apiKey = "oOA8cKgOSs3JzWK3jyAcT7kwuzLavPSh47lvhpmG";
 
     private static final AsyncHttpClient client = new AsyncHttpClient();
 
@@ -31,9 +29,6 @@ public class Backend {
     }
 
     public static void fetchTrendingMovies(final @NonNull HomeActivity homeActivity) {
-        // TODO: Remove apiKey once it is not needed anymore
-        client.addHeader("x-api-key", apiKey);
-
         // Hit the search API with no parameters to get data for currently trending movies
         client.get(getAbsoluteUrl("search"), new AsyncHttpResponseHandler() {
             @Override
