@@ -16,10 +16,12 @@
         android:layout_marginBottom="@dimen/footer_featured_margin_bottom">
 
         <ImageView
+            android:id="@+id/featured_icon"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@android:color/transparent"
+            android:background="@drawable/featured_button_selected_background"
+            android:paddingVertical="@dimen/footer_featured_icon_padding_vertical"
             android:layout_marginBottom="@dimen/footer_featured_icon_margin_bottom"
             android:src="@drawable/featured_star">
         </ImageView>
@@ -27,6 +29,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="@string/footer_featured"
             android:textColor="@color/footer_item_text"
             android:textSize="@dimen/footer_item_text_size">
@@ -44,10 +47,12 @@
         android:layout_marginHorizontal="@dimen/footer_search_margin_horizontal">
         
         <ImageView
+            android:id="@+id/search_icon"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@android:color/transparent"
+            android:background="@drawable/search_button_selected_background"
+            android:paddingVertical="@dimen/footer_search_icon_padding_vertical"
             android:layout_marginBottom="@dimen/footer_search_icon_margin_bottom"
             android:src="@drawable/footer_search_magnifying_glass">
         </ImageView>
@@ -55,6 +60,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="@string/footer_search"
             android:textColor="@color/footer_item_text"
             android:textSize="@dimen/footer_item_text_size">
@@ -71,10 +77,12 @@
         android:layout_marginBottom="@dimen/footer_settings_margin_bottom">
 
         <ImageView
+            android:id="@+id/settings_icon"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:background="@android:color/transparent"
+            android:background="@drawable/settings_button_selected_background"
+            android:paddingVertical="@dimen/footer_settings_icon_padding_vertical"
             android:layout_marginBottom="@dimen/footer_settings_icon_margin_bottom"
             android:src="@drawable/settings_wheel">
         </ImageView>
@@ -82,6 +90,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:text="@string/footer_settings"
             android:textColor="@color/footer_item_text"
             android:textSize="@dimen/footer_item_text_size">
