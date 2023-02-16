@@ -14,4 +14,6 @@
     <color name="footer_item_text">#B0B0B0</color>
     <color name="page_background">@color/black</color>
     <color name="trending_movie_text">@color/white</color>
+    <color name="nav_button_selected_background_color">#aa7e56c2</color>
+    <color name="nav_button_unselected_background_color">@android:color/transparent</color>
 </resources>
