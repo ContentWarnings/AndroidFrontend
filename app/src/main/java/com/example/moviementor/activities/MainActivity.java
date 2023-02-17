@@ -13,9 +13,9 @@ import com.example.moviementor.fragments.SearchFragment;
 import com.example.moviementor.fragments.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
-    private final static String TAG_FEATURED_FRAGMENT = "FEATURED_FRAGMENT";
-    private final static String TAG_SEARCH_FRAGMENT = "SEARCH_FRAGMENT";
-    private final static String TAG_SETTINGS_FRAGMENT = "SETTINGS_FRAGMENT";
+    public final static String TAG_FEATURED_FRAGMENT = "FEATURED_FRAGMENT";
+    public final static String TAG_SEARCH_FRAGMENT = "SEARCH_FRAGMENT";
+    public final static String TAG_SETTINGS_FRAGMENT = "SETTINGS_FRAGMENT";
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
