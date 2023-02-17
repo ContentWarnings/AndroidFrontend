@@ -47,7 +47,7 @@ public class BaseFragment extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
 
-        // If fragment should be hidden, update hidden boolean to true and make sure that tne
+        // If fragment should be hidden, update hidden boolean to true and make sure that the
         // footer button for this fragment is deselected
         if (hidden) {
             this.isHidden = true;
