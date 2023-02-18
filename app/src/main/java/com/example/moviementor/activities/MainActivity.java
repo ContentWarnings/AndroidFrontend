@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.example.moviementor.R;
@@ -40,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
             final LinearLayout featuredTabButton = findViewById(R.id.featured_tab);
             featuredTabButton.performClick();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.fragmentStackManager.goBackAPage(getSupportFragmentManager());
     }
 
     private void setupNavigationFooter() {

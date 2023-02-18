@@ -25,6 +25,9 @@ public class FragmentStackManager {
     public final FragmentStack searchTabStack;
     public final FragmentStack settingsTabStack;
 
+    // Keeps track of whichever tab is currently opened
+    private static Tab currentTabOpened = Tab.FEATURED;
+
     private FragmentStackManager () {
         // Init fragment stacks for each tab
         this.featuredTabStack = new FragmentStack();
@@ -140,6 +143,9 @@ public class FragmentStackManager {
             final BaseFragment settingsFragment = settingsTabStack.getTopFragment();
             fragmentManager.beginTransaction().hide(settingsFragment).commit();
         }
+
+        // Update the new tab that is opened
+        currentTabOpened = newTab;
     }
 
     // Used to open a new page/fragment from the current tab
@@ -168,16 +174,15 @@ public class FragmentStackManager {
     }
 
     // Used to go back to the last fragment/page in the current tab
-    public void goBackAPage(final @NonNull FragmentManager fragmentManager,
-                            final @NonNull Tab currentTab) {
+    public void goBackAPage(final @NonNull FragmentManager fragmentManager) {
         FragmentStack currFragmentStack;
         String tag;
 
         // Get the tag and fragment stack of the current tab that the user is trying to go back in
-        if (currentTab == Tab.FEATURED) {
+        if (currentTabOpened == Tab.FEATURED) {
             currFragmentStack = this.featuredTabStack;
             tag = TAG_FEATURED_FRAGMENT;
-        } else if (currentTab == Tab.SEARCH) {
+        } else if (currentTabOpened == Tab.SEARCH) {
             currFragmentStack = this.searchTabStack;
             tag = TAG_SEARCH_FRAGMENT;
         } else {
@@ -194,6 +199,10 @@ public class FragmentStackManager {
         // Remove the currently displayed fragment from the top of the current tab's fragment stack
         currFragmentStack.pop();
         final BaseFragment newTopFragment = currFragmentStack.getTopFragment();
+
+        if (newTopFragment == null) {
+            return;
+        }
 
         // Load the previous fragment into the view hierarchy for this tab
         fragmentManager.beginTransaction()

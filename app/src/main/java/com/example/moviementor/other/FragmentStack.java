@@ -24,9 +24,8 @@ public class FragmentStack {
 
     @Nullable
     public BaseFragment pop() {
-        // Don't let fragment stack become empty since user can not go back further than a
-        // tabs starting page
-        if (this.fragmentStack.size() <= 1) {
+        // Don't let fragment stack pop when already empty
+        if (this.fragmentStack.isEmpty()) {
             return null;
         }
         return this.fragmentStack.pop();
