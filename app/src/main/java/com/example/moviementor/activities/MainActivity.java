@@ -1,37 +1,31 @@
 package com.example.moviementor.activities;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.example.moviementor.R;
 import com.example.moviementor.fragments.BaseFragment;
-import com.example.moviementor.fragments.FeaturedFragment;
-import com.example.moviementor.fragments.SearchFragment;
-import com.example.moviementor.fragments.SettingsFragment;
 import com.example.moviementor.other.FragmentStackManager;
 
 public class MainActivity extends AppCompatActivity {
-    public final static String TAG_FEATURED_FRAGMENT = "FEATURED_FRAGMENT";
-    public final static String TAG_SEARCH_FRAGMENT = "SEARCH_FRAGMENT";
-    public final static String TAG_SETTINGS_FRAGMENT = "SETTINGS_FRAGMENT";
+    final @NonNull FragmentStackManager fragmentStackManager;
 
-    @NonNull FragmentStackManager fragmentStackManager;
+    public MainActivity() {
+        super();
+        this.fragmentStackManager = FragmentStackManager.getInstance();
+    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        this.fragmentStackManager = FragmentStackManager.getInstance();
-        Log.d("YOO: ", "stack sizes: " +  fragmentStackManager.featuredTabStack.size() +
-        " " + fragmentStackManager.searchTabStack.size() + " " + fragmentStackManager.settingsTabStack.size());
-
+        // If MainActivity was recreated, current fragments in the view hierarchy were
+        // recreated, so need to overwrite the stale fragments in the fragment stacks with the
+        // new ones
         if (savedInstanceState != null) {
             fragmentStackManager.replaceTopLevelFragmentsOnStacks(getSupportFragmentManager());
         }
@@ -47,15 +41,6 @@ public class MainActivity extends AppCompatActivity {
             featuredTabButton.performClick();
         }
     }
-
-//    @Override
-//    public void onSaveInstanceState(final Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//
-//        // Save the fragment stack
-//        outState.put
-//        outState.putParcelableArrayList("fragmentStack", new ArrayList<>(mFragmentStack));
-//    }
 
     private void setupNavigationFooter() {
         // Get the three navigation footer tab buttons
