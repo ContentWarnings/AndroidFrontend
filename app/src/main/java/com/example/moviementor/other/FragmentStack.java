@@ -6,6 +6,7 @@ import com.example.moviementor.fragments.BaseFragment;
 
 import java.util.Stack;
 
+// Data structure to hold onto a single tab's fragment history
 public class FragmentStack {
     private Stack<BaseFragment> fragmentStack;
 
@@ -23,6 +24,8 @@ public class FragmentStack {
 
     @Nullable
     public BaseFragment pop() {
+        // Don't let fragment stack become empty since user can not go back further than a
+        // tabs starting page
         if (this.fragmentStack.size() <= 1) {
             return null;
         }
@@ -37,6 +40,7 @@ public class FragmentStack {
         return this.fragmentStack.peek();
     }
 
+    // Only allow user to go back if there is a previous fragment in the stack that can be used
     public boolean canGoBack() {
         return this.fragmentStack.size() > 1;
     }
