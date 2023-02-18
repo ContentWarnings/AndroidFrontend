@@ -17,27 +17,35 @@ public class FragmentStack {
         if (fragment == null) {
             return false;
         }
-        fragmentStack.push(fragment);
+        this.fragmentStack.push(fragment);
         return true;
     }
 
     @Nullable
     public BaseFragment pop() {
-        if (fragmentStack.size() <= 1) {
+        if (this.fragmentStack.size() <= 1) {
             return null;
         }
-        return fragmentStack.pop();
+        return this.fragmentStack.pop();
     }
 
     @Nullable
     public BaseFragment getTopFragment() {
-        if (fragmentStack.isEmpty()) {
+        if (this.fragmentStack.isEmpty()) {
             return null;
         }
-        return fragmentStack.peek();
+        return this.fragmentStack.peek();
     }
 
     public boolean canGoBack() {
-        return fragmentStack.size() > 1;
+        return this.fragmentStack.size() > 1;
+    }
+
+    public boolean isEmpty() {
+        return this.fragmentStack.isEmpty();
+    }
+
+    public int size() {
+        return this.fragmentStack.size();
     }
 }
