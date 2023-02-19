@@ -28,7 +28,7 @@ public class FeaturedFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Bring progress bar to front so it's visible until RecyclerView is populated
-        final ProgressBar loadingProgressWheel = requireActivity().findViewById(R.id.loading_circle);
+        final ProgressBar loadingProgressWheel = view.findViewById(R.id.loading_circle);
         loadingProgressWheel.bringToFront();
 
         // Fetch currently trending movies from the database
@@ -40,7 +40,7 @@ public class FeaturedFragment extends BaseFragment {
         final int numColumns = getResources().getInteger(R.integer.num_trending_list_columns);
 
         // Initialize RecyclerView and its adapter
-        final RecyclerView trendingMoviesRecyclerView = requireActivity().findViewById(R.id.trending_movies_recycler_view);
+        final RecyclerView trendingMoviesRecyclerView = requireView().findViewById(R.id.trending_movies_recycler_view);
         final TrendingMoviesAdapter trendingMoviesAdapter = new TrendingMoviesAdapter(trendingMoviesData);
 
         // Bind the adapter and a Grid Layout Manager to the RecyclerView
@@ -50,7 +50,7 @@ public class FeaturedFragment extends BaseFragment {
         trendingMoviesRecyclerView.setLayoutManager(layoutManager);
 
         // Now that RecyclerView is populated, remove the loading progress wheel
-        final ProgressBar loadingProgressWheel = requireActivity().findViewById(R.id.loading_circle);
+        final ProgressBar loadingProgressWheel = requireView().findViewById(R.id.loading_circle);
         loadingProgressWheel.setVisibility(View.GONE);
     }
 }
