@@ -28,6 +28,10 @@ public class BaseFragment extends Fragment {
         this.parentTab = parentTab;
     }
 
+    public void assignParentTab(final Tab parentTab) {
+        this.parentTab = parentTab;
+    }
+
     @Override
     public void onViewCreated(final @NonNull View view, final @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -70,7 +74,7 @@ public class BaseFragment extends Fragment {
         outState.putBoolean(IS_HIDDEN_KEY, isHidden);
     }
 
-    private void updateTabButton(final boolean searchTabSelected) {
+    private void updateTabButton(final boolean tabSelected) {
         // Get footer icon for this fragment and its background
         final ImageView footerIcon;
         if (this.parentTab == Tab.FEATURED) {
@@ -85,7 +89,7 @@ public class BaseFragment extends Fragment {
         final GradientDrawable gradientDrawable = (GradientDrawable) footerIcon.getBackground();
 
         // If this footer icon is selected, change its background color to purple
-        if (searchTabSelected) {
+        if (tabSelected) {
             gradientDrawable.setColor(getResources().
                     getColor(R.color.nav_button_selected_background_color, null));
         }
