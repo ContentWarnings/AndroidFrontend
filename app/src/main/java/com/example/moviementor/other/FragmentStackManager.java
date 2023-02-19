@@ -74,15 +74,20 @@ public class FragmentStackManager {
                 findFragmentByTag(TAG_SETTINGS_FRAGMENT);
 
         // Replace the top of each non-empty fragment stack with these recreated fragments
+        // and reassign parent tab to each fragment in case this info was lost during each
+        // fragment's recreation
         if (currentFeaturedFragment != null) {
+            currentFeaturedFragment.assignParentTab(Tab.FEATURED);
             this.featuredTabStack.pop();
             this.featuredTabStack.push(currentFeaturedFragment);
         }
         if (currentSearchFragment != null) {
+            currentSearchFragment.assignParentTab(Tab.SEARCH);
             this.searchTabStack.pop();
             this.searchTabStack.push(currentSearchFragment);
         }
         if (currentSettingsFragment != null) {
+            currentSettingsFragment.assignParentTab(Tab.SETTINGS);
             this.settingsTabStack.pop();
             this.settingsTabStack.push(currentSettingsFragment);
         }
@@ -148,7 +153,7 @@ public class FragmentStackManager {
         currentTabOpened = newTab;
     }
 
-    // Used to open a new page/fragment from the current tab
+    // Used to open a new page/fragment from a specified tab
     public void openNewPage(final @NonNull FragmentManager fragmentManager,
                             final @NonNull BaseFragment fragment,
                             final @NonNull Tab currentTab) {
@@ -169,8 +174,29 @@ public class FragmentStackManager {
             tag = TAG_SETTINGS_FRAGMENT;
         }
 
-        // Overwrite this tab's existing fragment in the view hierarchy with this new one
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment, tag).commit();
+        final @Nullable BaseFragment currentFragmentInTab =
+                (BaseFragment) fragmentManager.findFragmentByTag(tag);
+
+        // If no fragment was found in this tab already, then don't try to remove any fragment for
+        // this tab, just add the new fragment to it
+        if (currentFragmentInTab == null) {
+            fragmentManager.beginTransaction().add(R.id.fragment_container, fragment, tag).commit();
+        }
+        // Overwrite this tab's existing fragment in the view hierarchy with the new one
+        else {
+            fragmentManager.beginTransaction().
+                    remove(currentFragmentInTab).
+                    add(R.id.fragment_container, fragment, tag).commit();
+        }
+        // NOTE: originally was using replace() but it would clear all other fragments from view
+        // hierarchy when triggered, so now using remove() then add() which essentially does the
+        // same thing without affecting other fragments with different tags
+    }
+
+    // Used to open a new page/fragment from the current tab
+    public void openNewPage(final @NonNull FragmentManager fragmentManager,
+                            final @NonNull BaseFragment fragment) {
+        openNewPage(fragmentManager, fragment, currentTabOpened);
     }
 
     // Used to go back to the last fragment/page in the current tab
@@ -204,8 +230,16 @@ public class FragmentStackManager {
             return;
         }
 
+        final @Nullable BaseFragment currentFragmentInTab =
+                (BaseFragment) fragmentManager.findFragmentByTag(tag);
+
+        // Should never happen but safety check in case no fragments in current tab
+        if (currentFragmentInTab == null) {
+            return;
+        }
+
         // Load the previous fragment into the view hierarchy for this tab
-        fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, newTopFragment, tag).commit();
+        fragmentManager.beginTransaction().remove(currentFragmentInTab).
+                add(R.id.fragment_container, newTopFragment, tag).commit();
     }
 }
