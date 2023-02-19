@@ -241,5 +241,8 @@ public class FragmentStackManager {
         // Load the previous fragment into the view hierarchy for this tab
         fragmentManager.beginTransaction().remove(currentFragmentInTab).
                 add(R.id.fragment_container, newTopFragment, tag).commit();
+        // NOTE: originally was using replace() but it would clear all other fragments from view
+        // hierarchy when triggered, so now using remove() then add() which essentially does the
+        // same thing without affecting other fragments with different tags
     }
 }
