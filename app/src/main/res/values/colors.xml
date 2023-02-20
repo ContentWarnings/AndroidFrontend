@@ -17,4 +17,8 @@
     <color name="nav_button_selected_background_color">#aa7e56c2</color>
     <color name="nav_button_unselected_background_color">@android:color/transparent</color>
     <color name="genre_name">@color/white</color>
+    <color name="search_bar_background_color">#3C767680</color>
+    <color name="search_bar_icons">#3Cffffff</color>
+    <color name="search_bar_edit_text">@color/white</color>
+    <color name="search_bar_hidden_text">#3Cffffff</color>
 </resources>
