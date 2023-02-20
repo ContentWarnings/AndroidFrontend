@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -45,6 +46,12 @@ public class SearchPageAdapter extends RecyclerView.Adapter {
         if (viewType == VIEW_TYPE_HEADER || viewType == VIEW_TYPE_SEARCH_BAR) {
             // Inflate view from header layout file
             final View headerView = inflater.inflate(R.layout.header, parent, false);
+
+            // Since we are displaying this header on the search page, hide the header's search
+            // button and disable its functionality
+            final ImageButton headerSearchButton = headerView.findViewById(R.id.header_search_button);
+            headerSearchButton.setEnabled(false);
+            headerSearchButton.setVisibility(View.GONE);
 
             // Get the current layout parameters from the parent RecyclerView
             final RelativeLayout.LayoutParams rvParams = (RelativeLayout.LayoutParams) parent.
