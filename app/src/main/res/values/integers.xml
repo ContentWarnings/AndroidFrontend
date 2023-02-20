@@ -2,4 +2,5 @@
 <resources>
     <integer name="num_trending_list_columns">2</integer>
     <integer name="num_trending_movie_name_lines">2</integer>
+    <integer name="genre_background_image_alpha">64</integer>
 </resources>
