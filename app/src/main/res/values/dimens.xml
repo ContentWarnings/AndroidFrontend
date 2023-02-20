@@ -34,4 +34,7 @@
     <dimen name="trending_movie_list_margin_horizontal">9.82dp</dimen>
     <dimen name="nav_button_selected_background_width">70dp</dimen>
     <dimen name="nav_button_selected_background_radius">15dp</dimen>
+    <dimen name="search_page_list_margin_horizontal">22.5dp</dimen>
+    <dimen name="genre_name_text_size">42sp</dimen>
+    <dimen name="genre_row_margin_vertical">9dp</dimen>
 </resources>

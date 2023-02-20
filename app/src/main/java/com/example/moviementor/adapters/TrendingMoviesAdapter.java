@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,18 +35,25 @@ public class TrendingMoviesAdapter extends RecyclerView.Adapter {
             // Inflate view from header layout file
             final View headerView = inflater.inflate(R.layout.header, parent, false);
 
-            // Get layout parameters from the inflated header view and reduce its horizontal margins
-            // to 0. This is achieved by assigning the header with horizontal margins that are
-            // equal to the negative value of the horizontal margins contained in the parent
-            // RecyclerView. This effectively cancels out any horizontal margins present.
-            final GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) headerView.getLayoutParams();
-            final int horizontalMarginVal = (int)(parent.getContext().getResources().getDimension(
-                    R.dimen.trending_movie_list_margin_horizontal));
-            params.setMargins(-horizontalMarginVal, 0, -horizontalMarginVal, 0);
-            headerView.setLayoutParams(params);
+            // Get the current layout parameters from the parent RecyclerView
+            final RelativeLayout.LayoutParams rvParams = (RelativeLayout.LayoutParams) parent.
+                    findViewById(R.id.trending_movies_recycler_view).getLayoutParams();
+
+            // Get the left and right margin from the RecyclerView's layout parameters
+            final int leftMargin = rvParams.leftMargin;
+            final int rightMargin = rvParams.rightMargin;
+
+            // Get the current layout parameters for the header
+            final RecyclerView.LayoutParams headerParams = (RecyclerView.LayoutParams) headerView.getLayoutParams();
+
+            // Set the header's left and right margins equal to the negative left and right margins
+            // of the parent RecyclerView. This effectively cancels out any horizontal margins on
+            // the header view
+            headerParams.setMargins(-leftMargin, 0, -rightMargin, 0);
+            headerView.setLayoutParams(headerParams);
 
             // Return new view holder for inflated header
-            return new HeaderViewHolder(headerView);
+            return new TrendingMoviesAdapter.HeaderViewHolder(headerView);
         }
 
         // Inflate custom layout for singular trending movie
@@ -90,7 +98,7 @@ public class TrendingMoviesAdapter extends RecyclerView.Adapter {
         return (position == 0) ? VIEW_TYPE_HEADER : VIEW_TYPE_ITEM;
     }
 
-    public class HeaderViewHolder extends RecyclerView.ViewHolder {
+    public static class HeaderViewHolder extends RecyclerView.ViewHolder {
         public final TextView headerTitle;
 
         public HeaderViewHolder(final @NonNull View headerView) {
@@ -99,7 +107,7 @@ public class TrendingMoviesAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder {
+    public static class ItemViewHolder extends RecyclerView.ViewHolder {
         public final TextView trendingMovieName;
         public final ImageView trendingMovieImage;
 

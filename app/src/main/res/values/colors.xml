@@ -16,4 +16,5 @@
     <color name="trending_movie_text">@color/white</color>
     <color name="nav_button_selected_background_color">#aa7e56c2</color>
     <color name="nav_button_unselected_background_color">@android:color/transparent</color>
+    <color name="genre_name">@color/white</color>
 </resources>
