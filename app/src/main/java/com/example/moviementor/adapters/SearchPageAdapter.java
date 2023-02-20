@@ -1,10 +1,7 @@
 package com.example.moviementor.adapters;
 
 import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -80,7 +77,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter {
             // Inflate view from search bar layout file
             final View searchBarView = inflater.inflate(R.layout.search_bar, parent, false);
 
-            // St a listener to close keyboard when search bar loses focus
+            // Set a listener to close keyboard when search bar loses focus
             ((SearchView) searchBarView).setOnQueryTextFocusChangeListener((v, hasFocus) -> {
                 if (!hasFocus) {
                     final InputMethodManager inputMethodManager = (InputMethodManager) parent.getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -114,7 +111,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter {
             headerViewHolder.headerTitle.setText(R.string.search_page_header_title);
         }
         else if (itemViewType == VIEW_TYPE_SEARCH_BAR) {
-            // TODO: Bind View for Search Bar
+            // TODO: Bind View for Search Bar if Needed
         }
         else if (itemViewType == VIEW_TYPE_GENRE) {
             final SearchPageAdapter.GenreViewHolder genreViewHolder = (SearchPageAdapter.GenreViewHolder) viewHolder;
