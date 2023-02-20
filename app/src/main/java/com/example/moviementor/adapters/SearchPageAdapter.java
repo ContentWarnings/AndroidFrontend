@@ -1,11 +1,16 @@
 package com.example.moviementor.adapters;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,8 +47,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(final @NonNull ViewGroup parent, final int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        // TODO: Remove matching to search bar view type here
-        if (viewType == VIEW_TYPE_HEADER || viewType == VIEW_TYPE_SEARCH_BAR) {
+        if (viewType == VIEW_TYPE_HEADER) {
             // Inflate view from header layout file
             final View headerView = inflater.inflate(R.layout.header, parent, false);
 
@@ -73,8 +77,19 @@ public class SearchPageAdapter extends RecyclerView.Adapter {
             // Return new view holder for inflated header
             return new HeaderViewHolder(headerView);
         } else if (viewType == VIEW_TYPE_SEARCH_BAR) {
-            // TODO: Inflate View for Search Bar
-            return null;
+            // Inflate view from search bar layout file
+            final View searchBarView = inflater.inflate(R.layout.search_bar, parent, false);
+
+            // St a listener to close keyboard when search bar loses focus
+            ((SearchView) searchBarView).setOnQueryTextFocusChangeListener((v, hasFocus) -> {
+                if (!hasFocus) {
+                    final InputMethodManager inputMethodManager = (InputMethodManager) parent.getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(searchBarView.getWindowToken(), 0);
+                }
+            });
+
+            // Return new view holder for inflated search bar
+            return new SearchPageAdapter.SearchBarViewHolder(searchBarView);
         } else if (viewType == VIEW_TYPE_GENRE) {
             // Inflate custom layout for singular genre
             final View genreItemView = inflater.inflate(R.layout.genre_row, parent, false);
@@ -91,8 +106,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(final @NonNull RecyclerView.ViewHolder viewHolder, final int position) {
         final int itemViewType = this.getItemViewType(position);
 
-        // TODO: Remove matching to search bar view type here
-        if (itemViewType == VIEW_TYPE_HEADER || itemViewType == VIEW_TYPE_SEARCH_BAR) {
+        if (itemViewType == VIEW_TYPE_HEADER) {
             final SearchPageAdapter.HeaderViewHolder headerViewHolder =
                     (SearchPageAdapter.HeaderViewHolder) viewHolder;
 
@@ -155,7 +169,11 @@ public class SearchPageAdapter extends RecyclerView.Adapter {
         }
     }
 
-    // TODO: Create view holder for search bar
+    public static class SearchBarViewHolder extends RecyclerView.ViewHolder {
+        public SearchBarViewHolder(final @NonNull View searchBarView) {
+            super(searchBarView);
+        }
+    }
 
     public static class GenreViewHolder extends RecyclerView.ViewHolder {
         public final TextView genreName;

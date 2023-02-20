@@ -4,4 +4,8 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">10dp</item>
     </style>
+    <style name="SearchBarStyle" parent="Widget.AppCompat.SearchView">
+        <item name="android:editTextColor">@color/search_bar_edit_text</item>
+        <item name="android:textColorHint">@color/search_bar_hidden_text</item>
+    </style>
 </resources>

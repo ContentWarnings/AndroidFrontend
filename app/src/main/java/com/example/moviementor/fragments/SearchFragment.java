@@ -6,14 +6,12 @@ import android.view.View;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moviementor.R;
 import com.example.moviementor.adapters.SearchPageAdapter;
 import com.example.moviementor.models.GenreViewModel;
-import com.example.moviementor.other.SpanSizeLookupWithHeader;
 
 import java.util.ArrayList;
 import java.util.List;
