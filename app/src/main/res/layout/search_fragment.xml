@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/page_background">
+    android:background="@color/page_background"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
 
     <ProgressBar
         android:id="@+id/loading_circle"
@@ -18,10 +20,7 @@
         android:id="@+id/search_page_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/search_page_list_margin_horizontal"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:layout_marginHorizontal="@dimen/search_page_list_margin_horizontal">
     </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

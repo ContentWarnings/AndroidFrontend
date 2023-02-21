@@ -93,9 +93,10 @@ public class FragmentStackManager {
         }
     }
 
-    // Called when the user clicks on a button in the navigation footer to switch to a new tab.
+    // Called when the user clicks on a button in the navigation footer or the header search button
+    // to switch to a new tab.
     public void switchTab(final @NonNull FragmentManager fragmentManager,
-                          final @NonNull Tab newTab) {
+                          final @NonNull Tab newTab, final @NonNull boolean jumpToSearchBar) {
         FragmentStack destFragmentStack;
         String tag;
 
@@ -131,6 +132,13 @@ public class FragmentStackManager {
             topFragment = destFragmentStack.getTopFragment();
         }
 
+        // User requested to jump directly to search bar on search tab, so notify search
+        // fragment that it needs to open search bar immediately after rendering
+        if (newTab == Tab.SEARCH && jumpToSearchBar && topFragment instanceof SearchFragment) {
+            final SearchFragment searchFragment = (SearchFragment) topFragment;
+            searchFragment.requestJumpToSearchBar();
+        }
+
         // Tab's fragment is in view hierarchy, but it may be hidden, so make it visible
         fragmentManager.beginTransaction().show(topFragment).commit();
 
@@ -151,6 +159,12 @@ public class FragmentStackManager {
 
         // Update the new tab that is opened
         currentTabOpened = newTab;
+    }
+
+    // Overloaded switchTab method that defaults to not jumping to any search bar
+    public void switchTab(final @NonNull FragmentManager fragmentManager,
+                          final @NonNull Tab newTab) {
+        this.switchTab(fragmentManager, newTab, false);
     }
 
     // Used to open a new page/fragment from a specified tab
@@ -244,5 +258,44 @@ public class FragmentStackManager {
         // NOTE: originally was using replace() but it would clear all other fragments from view
         // hierarchy when triggered, so now using remove() then add() which essentially does the
         // same thing without affecting other fragments with different tags
+    }
+
+    // Causes search tab to reset back to starting SearchFragment
+    public void goToRootSearchTab(final @NonNull FragmentManager fragmentManager) {
+        // Search tab has not been opened yet or already at starting search tab fragment, so return
+        if (this.searchTabStack.size() <= 1) {
+            return;
+        }
+
+        final @Nullable BaseFragment currentFragmentInSearchTab =
+                (BaseFragment) fragmentManager.findFragmentByTag(TAG_SEARCH_FRAGMENT);
+
+        // No fragment currently in search tab so clear fragment stack and return
+        if (currentFragmentInSearchTab == null) {
+            this.searchTabStack.clear();
+            return;
+        }
+
+        // Keep removing search tab fragments off the stack until only starting search fragment
+        // is left
+        while (this.searchTabStack.size() > 1) {
+            this.searchTabStack.pop();
+        }
+
+        final BaseFragment startingSearchFragment = this.searchTabStack.getTopFragment();
+
+        // Invalid starting search tab fragment so clear fragment stack, remove current search
+        // tab fragment, and return
+        if (!(startingSearchFragment instanceof SearchFragment)) {
+            this.searchTabStack.clear();
+            fragmentManager.beginTransaction().remove(currentFragmentInSearchTab).commitNow();
+            return;
+        }
+
+        // Load the starting fragment back into the search tab
+        fragmentManager.beginTransaction().remove(currentFragmentInSearchTab).
+                add(R.id.fragment_container, startingSearchFragment, TAG_SEARCH_FRAGMENT).
+                commitNow();
+
     }
 }
