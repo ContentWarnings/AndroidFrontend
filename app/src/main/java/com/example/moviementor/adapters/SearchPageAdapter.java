@@ -26,6 +26,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private final @NonNull List<Object> searchPageItems;
 
+    // Defines how transparent background images for genre rows should be
     private int genreBackgroundAlphaValue;
 
     public SearchPageAdapter(final @NonNull List<Object> searchPageItems) {
