@@ -20,12 +20,12 @@ import java.util.List;
 
 public class SearchFragment extends BaseFragment {
     // Static array containing data for each genre's name
-    private static final String[] genreNames = {"Action", "Adventure", "Animation", "Comedy",
+    private static final String[] GENRE_NAMES = {"Action", "Adventure", "Animation", "Comedy",
             "Crime", "Documentary", "Drama", "Family", "Fantasy", "History", "Horror", "Music",
             "Mystery", "Romance", "Science Fiction", "TV Movie", "Thriller", "War", "Western"};
     // TODO: Replace temp image id with ids for each custom genre background image
     // Static array containing resource id for each genre's custom background image
-    private static final int[] genreBackgroundImageIds = {R.drawable.temp_genre_background,
+    private static final int[] GENRE_BACKGROUND_IMAGE_IDS = {R.drawable.temp_genre_background,
             R.drawable.temp_genre_background, R.drawable.temp_genre_background,
             R.drawable.temp_genre_background, R.drawable.temp_genre_background,
             R.drawable.temp_genre_background, R.drawable.temp_genre_background,
@@ -176,9 +176,9 @@ public class SearchFragment extends BaseFragment {
         final List<Object> genreData = new ArrayList<>();
 
         // Go through static arrays of genre data and populate viewModel list
-        for (int i = 0; i < genreNames.length; i++) {
-            final @NonNull String genreName = genreNames[i];
-            final @IdRes int genreBackgroundImageRes = genreBackgroundImageIds[i];
+        for (int i = 0; i < GENRE_NAMES.length; i++) {
+            final @NonNull String genreName = GENRE_NAMES[i];
+            final @IdRes int genreBackgroundImageRes = GENRE_BACKGROUND_IMAGE_IDS[i];
 
             final Object genreItem = new GenreViewModel(genreName, genreBackgroundImageRes);
 
