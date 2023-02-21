@@ -3,12 +3,13 @@ package com.example.moviementor.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -17,14 +18,16 @@ import com.example.moviementor.models.TrendingMovieViewModel;
 
 import java.util.List;
 
-public class TrendingMoviesAdapter extends RecyclerView.Adapter {
+public class TrendingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIEW_TYPE_HEADER = 1;
     private static final int VIEW_TYPE_ITEM = 2;
 
     private final @NonNull List<TrendingMovieViewModel> trendingMoviesList;
+    private @Nullable OnItemClickListener listener;
 
     public TrendingMoviesAdapter(final @NonNull List<TrendingMovieViewModel> trendingMoviesList) {
         this.trendingMoviesList = trendingMoviesList;
+        this.listener = null;
     }
 
     @Override
@@ -98,12 +101,34 @@ public class TrendingMoviesAdapter extends RecyclerView.Adapter {
         return (position == 0) ? VIEW_TYPE_HEADER : VIEW_TYPE_ITEM;
     }
 
-    public static class HeaderViewHolder extends RecyclerView.ViewHolder {
+    // Assign listener from parent fragment to this adapter
+    public void setOnItemClickListener(final @NonNull OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    // Define listener interface for parent fragment to use if it wants to listen to an event
+    // in the RecyclerView. Less prone to memory leaks in comparison to holding onto a reference
+    // to the parent fragment in this adapter
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public class HeaderViewHolder extends RecyclerView.ViewHolder {
         public final TextView headerTitle;
+        public final ImageButton headerSearchButton;
 
         public HeaderViewHolder(final @NonNull View headerView) {
             super(headerView);
             this.headerTitle = headerView.findViewById(R.id.header_title);
+            this.headerSearchButton = headerView.findViewById(R.id.header_search_button);
+
+            // Set up click listener on header's search button to call parent fragment's
+            // listener function if click detected and listener is currently attached
+            headerSearchButton.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onItemClick(getAdapterPosition());
+                }
+            });
         }
     }
 

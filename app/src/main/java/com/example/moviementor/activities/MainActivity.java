@@ -11,7 +11,7 @@ import com.example.moviementor.fragments.BaseFragment;
 import com.example.moviementor.other.FragmentStackManager;
 
 public class MainActivity extends AppCompatActivity {
-    final @NonNull FragmentStackManager fragmentStackManager;
+    private final @NonNull FragmentStackManager fragmentStackManager;
 
     public MainActivity() {
         super();
@@ -67,5 +67,13 @@ public class MainActivity extends AppCompatActivity {
         settingsTab.setOnClickListener(view -> {
             fragmentStackManager.switchTab(getSupportFragmentManager(), BaseFragment.Tab.SETTINGS);
         });
+    }
+
+    // User requested to switch directly to search tab and open up search bar, so first make sure
+    // that search tab is either empty or displaying the starting SearchFragment, and then
+    // direct this request to fragment stack manager right after
+    public void jumpToSearchBar() {
+        fragmentStackManager.goToRootSearchTab(getSupportFragmentManager());
+        fragmentStackManager.switchTab(getSupportFragmentManager(), BaseFragment.Tab.SEARCH, true);
     }
 }

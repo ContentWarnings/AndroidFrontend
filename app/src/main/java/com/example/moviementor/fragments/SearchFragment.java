@@ -2,6 +2,8 @@ package com.example.moviementor.fragments;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.SearchView;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -34,11 +36,16 @@ public class SearchFragment extends BaseFragment {
             R.drawable.temp_genre_background, R.drawable.temp_genre_background,
             R.drawable.temp_genre_background, R.drawable.temp_genre_background};
 
+    // Search bar is always displayed as second item in RecyclerView
+    private static final int SEARCH_BAR_POSITION = 1;
+
     private final @NonNull List<Object> genreList;
+    private boolean shouldJumpToSearchBar;
 
     public SearchFragment() {
         super(R.layout.search_fragment, Tab.SEARCH);
         this.genreList = createGenreList();
+        this.shouldJumpToSearchBar = false;
     }
 
     @Override
@@ -46,6 +53,37 @@ public class SearchFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         setupSearchPage();
+
+        // User requested to open search bar, but search page/fragment is just now being
+        // created and may not be ready yet, so attach layout listener that will open search bar
+        // immediately once search fragment is rendered
+        if (this.shouldJumpToSearchBar) {
+            // Don't jump to search bar again unless another request is made ton
+            this.shouldJumpToSearchBar = false;
+
+            // Add listener that triggers once search fragment is attached to the view hierarchy
+            final RecyclerView searchPageRecyclerView = requireView().findViewById(R.id.search_page_recycler_view);
+            searchPageRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    // Remove this listener immediately to avoid multiple calls
+                    searchPageRecyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                    // Search fragment is rendered, so now try to open search bar
+                    jumpToSearchBar();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+        // Search page is being shown again, and user requested to go straight to search bar
+        if (!hidden && this.shouldJumpToSearchBar) {
+            jumpToSearchBar();
+        }
     }
 
     private void setupSearchPage() {
@@ -60,6 +98,77 @@ public class SearchFragment extends BaseFragment {
         // Bind the adapter and a Linear Layout Manager to the RecyclerView
         searchPageRecyclerView.setAdapter(searchPageAdapter);
         searchPageRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+    }
+
+    // Open search page/fragment immediately to the search bar having focus
+    private void jumpToSearchBar() {
+        final RecyclerView searchPageRecyclerView = requireView().findViewById(R.id.search_page_recycler_view);
+        final LinearLayoutManager layoutManager = (LinearLayoutManager) searchPageRecyclerView.getLayoutManager();
+
+        // RecyclerView is not fully set up yet, so wait until onViewCreated() to open the
+        // search bar
+        if (layoutManager == null) {
+            return;
+        }
+
+        // Don't jump to search bar again unless another request is made to
+        this.shouldJumpToSearchBar = false;
+
+        // Get position of first and last fully visible item in the RecyclerView right now
+        int firstFullyVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition();
+        int lastFullyVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition();
+
+        // Search bar is being displayed fully in the RecyclerView right now
+        if (SEARCH_BAR_POSITION >= firstFullyVisiblePosition && SEARCH_BAR_POSITION <= lastFullyVisiblePosition) {
+            int childCount = searchPageRecyclerView.getChildCount();
+
+            // Iterate through all items currently being displayed in the RecyclerView until
+            // search bar view is found (search bar should either be the first or second child
+            // view, but iterate through all just in case)
+            for (int i = 0; i < childCount; i++) {
+                final View childView = searchPageRecyclerView.getChildAt(i);
+
+                // Once search bar is found, give it focus
+                if (childView instanceof SearchView) {
+                    childView.requestFocus();
+                    break;
+                }
+            }
+        }
+        // Search bar is not currently being displayed in the RecyclerView
+        else {
+            // Need to scroll to position of search bar before it can gain focus
+            searchPageRecyclerView.smoothScrollToPosition(SEARCH_BAR_POSITION);
+
+            // Attach listener to open search bar once scrolling stops
+            searchPageRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                public void onScrollStateChanged(final @NonNull RecyclerView recyclerView, final int state) {
+                    // Wait until scrolling stops
+                    if (state == RecyclerView.SCROLL_STATE_IDLE) {
+                        int childCount = recyclerView.getChildCount();
+
+                        // Iterate through all items currently being displayed in the RecyclerView until
+                        // search bar view is found (search bar should either be the first or second child
+                        // view, but iterate through all just in case)
+                        for (int i = 0; i < childCount; i++) {
+                            final View childView = recyclerView.getChildAt(i);
+
+                            // Once search bar is found, give it focus
+                            if (childView instanceof SearchView) {
+                                childView.requestFocus();
+                                break;
+                            }
+                        }
+
+                        recyclerView.removeOnScrollListener(this);
+                    }
+                }
+            });
+        }
+    }
+
+    public void requestJumpToSearchBar() {
+        this.shouldJumpToSearchBar = true;
     }
 
     @NonNull

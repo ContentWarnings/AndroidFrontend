@@ -51,4 +51,8 @@ public class FragmentStack {
     public int size() {
         return this.fragmentStack.size();
     }
+
+    public void clear() {
+        this.fragmentStack.clear();
+    }
 }
