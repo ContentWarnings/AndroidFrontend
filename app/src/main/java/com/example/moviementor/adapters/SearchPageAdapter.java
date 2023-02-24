@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moviementor.R;
 import com.example.moviementor.models.GenreViewModel;
+import com.example.moviementor.other.Backend;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,9 +74,12 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         // If transitioning from displaying genres to search results, then clear adapter's
         // item list of genre data to stop displaying list of genres
         if (this.isDisplayingGenres) {
-            this.searchPageItems.clear();
             this.isDisplayingGenres = false;
+            this.searchPageItems.clear();
         }
+
+        // Fetch search results for the new search string from the database
+        Backend.fetchSearchResults(this, this.searchString);
     }
 
     @Override
