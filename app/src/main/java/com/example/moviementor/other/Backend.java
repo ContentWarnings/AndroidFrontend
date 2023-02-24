@@ -20,6 +20,8 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 public class Backend {
+    private static final String SEARCH_TAG = "SEARCH";
+
     // Base url that will be used for all API requests
     private static final String baseUrl = "https://api.moviementor.app/";
 
@@ -88,6 +90,9 @@ public class Backend {
         // Setup search params for search URL
         final String searchParamsUrl = getRelativeSearchUrl(searchString);
 
+        // Cancel all in progress search API requests if new one is being made
+        client.cancelRequestsByTAG(SEARCH_TAG, true);
+
         // Hit search API with specified search parameters
         client.get(getAbsoluteUrl(searchParamsUrl), new AsyncHttpResponseHandler() {
             @Override
@@ -111,6 +116,6 @@ public class Backend {
                 Log.e("Backend: ", error.toString());
                 // TODO: Upon failure set search page to display error message
             }
-        });
+        }).setTag(SEARCH_TAG);
     }
 }
