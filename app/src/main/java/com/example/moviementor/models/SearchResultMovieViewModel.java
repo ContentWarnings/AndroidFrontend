@@ -1,23 +1,28 @@
 package com.example.moviementor.models;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import java.net.URL;
 import java.util.Date;
+import java.util.List;
 
 public class SearchResultMovieViewModel {
+    public static final int MISSING_RUNTIME = -1;
+
     private final int movieId;
     private final @NonNull String movieName;
-    private final @NonNull Date releaseDate;
-    private final @NonNull String movieImageUrl;
+    private final @Nullable Date releaseDate;
+    private final @Nullable URL movieImageUrl;
     private final @NonNull String movieOverview;
     private final int runtime;
-    private final @NonNull String[] genres;
-    private final @NonNull String[] contentWarnings;
+    private final @NonNull List<String> genres;
+    private final @NonNull List<String> contentWarnings;
 
     public SearchResultMovieViewModel(final int movieId, final @NonNull String movieName,
-                                      final @NonNull Date releaseDate, final @NonNull String movieImageUrl,
+                                      final @Nullable Date releaseDate, final @Nullable URL movieImageUrl,
                                       final @NonNull String movieOverview, final int runtime,
-                                      final @NonNull String[] genres, final @NonNull String[] contentWarnings) {
+                                      final @NonNull List<String> genres, final @NonNull List<String> contentWarnings) {
         this.movieId = movieId;
         this.movieName = movieName;
         this.releaseDate = releaseDate;
