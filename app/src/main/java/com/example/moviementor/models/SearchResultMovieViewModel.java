@@ -11,13 +11,13 @@ public class SearchResultMovieViewModel {
     private final @NonNull String movieImageUrl;
     private final @NonNull String movieOverview;
     private final int runtime;
-    private final String[] genres;
-    private final String[] contentWarnings;
+    private final @NonNull String[] genres;
+    private final @NonNull String[] contentWarnings;
 
     public SearchResultMovieViewModel(final int movieId, final @NonNull String movieName,
                                       final @NonNull Date releaseDate, final @NonNull String movieImageUrl,
                                       final @NonNull String movieOverview, final int runtime,
-                                      final String[] genres, final String[] contentWarnings) {
+                                      final @NonNull String[] genres, final @NonNull String[] contentWarnings) {
         this.movieId = movieId;
         this.movieName = movieName;
         this.releaseDate = releaseDate;
