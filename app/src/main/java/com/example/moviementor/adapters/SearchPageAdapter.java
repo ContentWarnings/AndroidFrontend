@@ -29,20 +29,24 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private final @NonNull List<Object> searchPageItems;
     private final @NonNull List<Object> genreItems;
-    private boolean isDisplayingGenres;
+
     private @NonNull String searchString;
+
+    private final @NonNull View progressWheelView;
 
     // Defines how transparent background images for genre rows should be
     private int genreBackgroundAlphaValue;
 
-    public SearchPageAdapter(final @NonNull List<Object> genreItems) {
+    public SearchPageAdapter(final @NonNull List<Object> genreItems, final @NonNull View progressWheelView) {
         this.searchPageItems = new ArrayList<>();
         this.searchPageItems.addAll(genreItems);
 
         this.genreItems = genreItems;
-        this.isDisplayingGenres = true;
         this.genreBackgroundAlphaValue = 0;
+
         this.searchString = "";
+
+        this.progressWheelView = progressWheelView;
     }
 
     public void assignAlphaValueForGenreBackgroundImages(final int alphaValue) {
@@ -62,9 +66,11 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         else if (newSearchString.isEmpty()) {
             this.searchString = newSearchString;
 
+            // Make sure progress wheel is not visible anymore
+            this.progressWheelView.setVisibility(View.GONE);
+
             // Replace all current search results with genre data again to re-populate
             // screen with list of genres
-            this.isDisplayingGenres = true;
             this.searchPageItems.clear();
             this.searchPageItems.addAll(this.genreItems);
             return;
@@ -72,35 +78,33 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         this.searchString = newSearchString;
 
-        // If transitioning from displaying genres to search results, then clear adapter's
-        // item list of genre data to stop displaying list of genres
-        if (this.isDisplayingGenres) {
-            this.isDisplayingGenres = false;
-            this.searchPageItems.clear();
-        }
+        // Clear all items currently displayed on the search page
+        this.searchPageItems.clear();
+
+        // May take a second to populate search results, so display loading wheel until the
+        // results are populated
+        this.progressWheelView.setVisibility(View.VISIBLE);
 
         // Fetch search results for the new search string from the database
         Backend.fetchSearchResults(this, this.searchString);
     }
 
     public void setSearchResults(final @NonNull List<Object> searchResults, final @NonNull String searchString) {
-        // If already switched back to displaying genres or search results are stale since search
-        // string was updated, then ignore this late list of search result data coming in
-        if (this.isDisplayingGenres || !this.searchString.equals(searchString)) {
+        // If search results are stale since search string was recently updated, then ignore
+        // this late list of search result data coming in
+        if (!this.searchString.equals(searchString)) {
             return;
         }
 
-        // Get size of list before overwriting with new search results
-        final int oldListSize = this.searchPageItems.size();
-
-        // Replace search page items with search results that were queried from the database
-        this.searchPageItems.clear();
+        // Fill search page items with search results that were queried from the database
         this.searchPageItems.addAll(searchResults);
 
-        // Notify that all the old search result items were removed and then notify how many new
-        // search results need to be populated on the page. Header and search bar should never be
-        // updated so notify adapter of changes starting at position 2 instead of 0.
-        notifyItemRangeRemoved(2, oldListSize);
+        // About to display search result data, so hide progress wheel again
+        this.progressWheelView.setVisibility(View.GONE);
+
+        // Notify how many new search results need to be populated on the page. Header and search
+        // bar should never be updated so notify adapter of changes starting at position 2
+        // instead of 0.
         notifyItemRangeChanged(2, this.searchPageItems.size());
     }
 

@@ -87,9 +87,12 @@ public class SearchFragment extends BaseFragment {
     }
 
     private void setupSearchPage() {
+        // Find progress bar view and pass it to adapter so it can control it's visibility
+        final View progressWheelView = requireView().findViewById(R.id.loading_circle);
+
         // Initialize RecyclerView and its adapter
         final RecyclerView searchPageRecyclerView = requireView().findViewById(R.id.search_page_recycler_view);
-        final SearchPageAdapter searchPageAdapter = new SearchPageAdapter(this.genreList);
+        final SearchPageAdapter searchPageAdapter = new SearchPageAdapter(this.genreList, progressWheelView);
 
         // Give the adapter an alpha value to apply on genre background images
         final int alphaValue = getResources().getInteger(R.integer.genre_background_image_alpha);
