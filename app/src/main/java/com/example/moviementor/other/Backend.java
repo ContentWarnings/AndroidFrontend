@@ -11,6 +11,7 @@ import com.example.moviementor.models.SearchResultMovieViewModel;
 import com.example.moviementor.models.TrendingMovieViewModel;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestHandle;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +37,10 @@ public class Backend {
     private static final String baseUrl = "https://api.moviementor.app/";
 
     private static final AsyncHttpClient client = createAndSetupClient();
+
+    // Keeps track of last pending search request, so it can be cancelled if a new one is made
+    // right after
+    private static @Nullable RequestHandle previousSearchRequest = null;
 
     private static AsyncHttpClient createAndSetupClient() {
         final AsyncHttpClient client = new AsyncHttpClient();
@@ -105,11 +110,14 @@ public class Backend {
         // Setup search params for search URL
         final String searchParamsUrl = getRelativeSearchUrl(searchString);
 
-        // Cancel all in progress search API requests if new one is being made
-        client.cancelRequestsByTAG(SEARCH_TAG, true);
+        // Cancel previous search API request if it hasn't finished yet,
+        // since it is now invalidated by this one
+        if (previousSearchRequest != null && !previousSearchRequest.isFinished()) {
+            previousSearchRequest.cancel(true);
+        }
 
         // Hit search API with specified search parameters
-        client.get(getAbsoluteUrl(searchParamsUrl), new AsyncHttpResponseHandler() {
+        previousSearchRequest = client.get(getAbsoluteUrl(searchParamsUrl), new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 final @NonNull List<Object> searchResultViewModels = new ArrayList<>();
@@ -214,6 +222,6 @@ public class Backend {
                 Log.e("Backend: ", error.toString());
                 // TODO: Upon failure set search page to display error message
             }
-        }).setTag(SEARCH_TAG);
+        });
     }
 }
