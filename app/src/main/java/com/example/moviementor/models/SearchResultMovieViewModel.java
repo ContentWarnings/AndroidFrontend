@@ -33,4 +33,9 @@ public class SearchResultMovieViewModel {
         this.contentWarnings = contentWarnings;
     }
 
+    @NonNull
+    public String getMovieName() {
+        return this.movieName;
+    }
+
 }

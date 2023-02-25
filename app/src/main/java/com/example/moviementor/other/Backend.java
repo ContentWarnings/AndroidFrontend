@@ -112,7 +112,7 @@ public class Backend {
         client.get(getAbsoluteUrl(searchParamsUrl), new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                final @NonNull List<SearchResultMovieViewModel> searchResultViewModels = new ArrayList<>();
+                final @NonNull List<Object> searchResultViewModels = new ArrayList<>();
 
                 try {
                     final JSONArray searchResults = new JSONObject(new String(responseBody)).getJSONArray("results");
@@ -192,7 +192,7 @@ public class Backend {
                             }
                         }
 
-                        final @NonNull SearchResultMovieViewModel searchResultViewModel =
+                        final @NonNull Object searchResultViewModel =
                                 new SearchResultMovieViewModel(movieId, movieName, releaseDate,
                                         movieImageUrl, movieOverview, runtime, genreList,
                                         contentWarningList);
@@ -203,6 +203,10 @@ public class Backend {
                     Log.e("Backend: ", e.toString());
                     // TODO: Upon failure set search page to display error message
                 }
+
+                // Done fetching and parsing movie search results, so populate
+                // the search page with these updated results
+                adapter.setSearchResults(searchResultViewModels, searchString);
             }
 
             @Override
