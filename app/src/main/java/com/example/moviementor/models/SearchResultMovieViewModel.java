@@ -33,6 +33,11 @@ public class SearchResultMovieViewModel {
         this.contentWarnings = contentWarnings;
     }
 
+    @Nullable
+    public URL getMovieImageUrl() {
+        return this.movieImageUrl;
+    }
+
     @NonNull
     public String getMovieName() {
         return this.movieName;

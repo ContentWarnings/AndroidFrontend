@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/search_result_movie_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white">
-    </TextView>
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/search_result_movie_image"
+        android:layout_width="@dimen/search_result_movie_image_width"
+        android:layout_height="@dimen/search_result_movie_image_height"
+        app:shapeAppearanceOverlay="@style/roundedCornersMovieImage">
+    </com.google.android.material.imageview.ShapeableImageView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/search_result_movie_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/search_result_movie_title_text">
+        </TextView>
+
+    </LinearLayout>
 
 </LinearLayout>
