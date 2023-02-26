@@ -21,4 +21,5 @@
     <color name="search_bar_icons">#3Cffffff</color>
     <color name="search_bar_edit_text">@color/white</color>
     <color name="search_bar_hidden_text">#3Cffffff</color>
+    <color name="no_more_search_results_text">@color/white</color>
 </resources>
