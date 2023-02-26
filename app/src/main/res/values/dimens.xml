@@ -39,4 +39,7 @@
     <dimen name="genre_row_margin_vertical">11dp</dimen>
     <dimen name="search_bar_corner_radius">15dp</dimen>
     <dimen name="search_bar_margin_bottom">10dp</dimen>
+    <dimen name="load_more_results_row_height">40dp</dimen>
+    <dimen name="load_more_results_margin_top">5dp</dimen>
+    <dimen name="no_more_search_results_text_size">25sp</dimen>
 </resources>

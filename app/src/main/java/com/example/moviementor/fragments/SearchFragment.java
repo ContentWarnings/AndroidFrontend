@@ -101,6 +101,35 @@ public class SearchFragment extends BaseFragment {
         // Bind the adapter and a Linear Layout Manager to the RecyclerView
         searchPageRecyclerView.setAdapter(searchPageAdapter);
         searchPageRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        // Add a scroll listener to RecyclerView that gets next page of search results if user
+        // scrolls to bottom of search results currently displayed on the screen
+        searchPageRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(final @NonNull RecyclerView recyclerView, final int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                // Get RecyclerView's adapter and make sure it is an instance of the SearchPageAdapter
+                final @Nullable RecyclerView.Adapter adapter = recyclerView.getAdapter();
+                if (!(adapter instanceof SearchPageAdapter)) {
+                    return;
+                }
+
+                final @NonNull SearchPageAdapter searchPageAdapter = (SearchPageAdapter) adapter;
+
+                // Check that RecyclerView can not be scrolled down any further and if next page
+                // of search results is available. If so, retrieve the next page of search results
+                if (!recyclerView.canScrollVertically(1) && searchPageAdapter.shouldGetNextPage()) {
+                    // Try to hide the load more results progress wheel at the bottom of the RecyclerView
+                    final View loadingMoreWheel = requireView().findViewById(R.id.loading_more_circle);
+                    if (loadingMoreWheel != null) {
+                        loadingMoreWheel.setVisibility(View.VISIBLE);
+                    }
+
+                    searchPageAdapter.getNextPage();
+                }
+            }
+        });
     }
 
     // Open search page/fragment immediately to the search bar having focus

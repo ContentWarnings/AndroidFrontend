@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private static final int VIEW_TYPE_SEARCH_BAR = 2;
     private static final int VIEW_TYPE_GENRE = 3;
     private static final int VIEW_TYPE_SEARCH_RESULT = 4;
+    private static final int VIEW_TYPE_LOAD_MORE = 5;
 
     private final @NonNull List<Object> searchPageItems;
     private final @NonNull List<Object> genreItems;
@@ -37,6 +39,11 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     // Defines how transparent background images for genre rows should be
     private int genreBackgroundAlphaValue;
 
+    // Specifies the last page loaded for the current search string and whether or not
+    // more search results are available to be queried
+    private int lastSearchPage;
+    private boolean moreSearchResultsAvailable;
+
     public SearchPageAdapter(final @NonNull List<Object> genreItems, final @NonNull View progressWheelView) {
         this.searchPageItems = new ArrayList<>();
         this.searchPageItems.addAll(genreItems);
@@ -47,6 +54,9 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.searchString = "";
 
         this.progressWheelView = progressWheelView;
+
+        this.lastSearchPage = -1;
+        this.moreSearchResultsAvailable = false;
     }
 
     public void assignAlphaValueForGenreBackgroundImages(final int alphaValue) {
@@ -71,15 +81,24 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             // Replace all current search results with genre data again to re-populate
             // screen with list of genres
+            final int previousLen = this.searchPageItems.size();
             this.searchPageItems.clear();
+            notifyItemRangeRemoved(2, previousLen);
             this.searchPageItems.addAll(this.genreItems);
+            notifyItemRangeInserted(2, this.searchPageItems.size());
+
             return;
         }
 
         this.searchString = newSearchString;
 
+        // Can't load more search results until initial page of search results is populated
+        this.moreSearchResultsAvailable = false;
+
         // Clear all items currently displayed on the search page
+        final int previousLen = this.searchPageItems.size();
         this.searchPageItems.clear();
+        notifyItemRangeRemoved(2, previousLen);
 
         // May take a second to populate search results, so display loading wheel until the
         // results are populated
@@ -89,23 +108,91 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         Backend.fetchSearchResults(this, this.searchString);
     }
 
+    public void getNextPage() {
+        // Don't try to get any more pages until this next one has populated
+        this.moreSearchResultsAvailable = false;
+
+        // Fetch next page of search results from the database
+        Backend.fetchSearchResultsPage(this, this.searchString, this.lastSearchPage + 1);
+    }
+
     public void setSearchResults(final @NonNull List<Object> searchResults, final @NonNull String searchString) {
         // If search results are stale since search string was recently updated, then ignore
         // this late list of search result data coming in
         if (!this.searchString.equals(searchString)) {
             return;
         }
+        // If no search results for this string were found, make it clear that no more
+        // pages can be loaded and hide the progress wheel
+        else if (searchResults.isEmpty()) {
+            this.moreSearchResultsAvailable = false;
+            this.progressWheelView.setVisibility(View.GONE);
+            return;
+        }
 
         // Fill search page items with search results that were queried from the database
         this.searchPageItems.addAll(searchResults);
 
+        // Add null at end of item list as a placeholder for the load more results view
+        this.searchPageItems.add(null);
+
         // About to display search result data, so hide progress wheel again
         this.progressWheelView.setVisibility(View.GONE);
 
+        // First page for this search string is being populated, so you can get the next page
+        // of search results now
+        this.lastSearchPage = 1;
+        this.moreSearchResultsAvailable = true;
+
         // Notify how many new search results need to be populated on the page. Header and search
-        // bar should never be updated so notify adapter of changes starting at position 2
+        // bar should never be updated so notify adapter of insertions starting at position 2
         // instead of 0.
-        notifyItemRangeChanged(2, this.searchPageItems.size());
+        notifyItemRangeInserted(2, this.searchPageItems.size());
+    }
+
+    // Should only get next page of search results if not displaying genres rows, if there are already
+    // search results populated on the screen, and if there are more search results available
+    public boolean shouldGetNextPage() {
+        return !this.searchString.isEmpty() && !this.searchPageItems.isEmpty() && moreSearchResultsAvailable;
+    }
+
+    public void populateNextPage(final @NonNull List<Object> searchResults, final @NonNull String searchString) {
+        // If search string was modified while retrieving next page, then ignore
+        // the outdated page results
+        if (!this.searchString.equals(searchString)) {
+            return;
+        }
+        // If no search results were found in the next page, return since no more
+        // pages can be loaded
+        else if (searchResults.isEmpty()) {
+            // Need to refresh the load more results view so that the loading wheel is hidden
+            // and the "No Results Available" text is displayed instead. This view is at the end
+            // of the item list, so notify that the item at the last position in the RecyclerView
+            // was changed. This is at the last item list position offset by 2 since the header
+            // and search bar are the first two items displayed and minus 1 to get 0-based index.
+            notifyItemChanged(this.searchPageItems.size() + 2 - 1);
+            return;
+        }
+
+        // Remove the null object at the end of the current list since it will need to be added
+        // back to the end of the list again after the new search results are appended
+        this.searchPageItems.remove(this.searchPageItems.size() - 1);
+        notifyItemRemoved(this.searchPageItems.size() + 2);
+
+        // Append all the new page's search results to the end of the item list
+        this.searchPageItems.addAll(searchResults);
+
+        // Add null at end of item list as a placeholder for the load more results view
+        this.searchPageItems.add(null);
+
+        // Current page results were received, so you can get the next page of search results now
+        this.lastSearchPage++;
+        this.moreSearchResultsAvailable = true;
+
+        // Notify how many new search results were appended to the end of the item list. Add 1 to
+        // all the page search results since null was re-appended to the end of the item list
+        notifyItemRangeInserted(this.searchPageItems.size() + 2 - (searchResults.size() + 1),
+                searchResults.size() + 1);
     }
 
     @NonNull
@@ -142,7 +229,8 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             // Return new view holder for inflated header
             return new HeaderViewHolder(headerView);
-        } else if (viewType == VIEW_TYPE_SEARCH_BAR) {
+        }
+        else if (viewType == VIEW_TYPE_SEARCH_BAR) {
             // Inflate view from search bar layout file
             final View searchBarView = inflater.inflate(R.layout.search_bar, parent, false);
 
@@ -166,18 +254,27 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             // Return new view holder for inflated search bar
             return new SearchPageAdapter.SearchBarViewHolder(searchBarView);
-        } else if (viewType == VIEW_TYPE_GENRE) {
+        }
+        else if (viewType == VIEW_TYPE_GENRE) {
             // Inflate custom layout for singular genre
             final View genreItemView = inflater.inflate(R.layout.genre_row, parent, false);
 
             // Return new view holder for inflated genre item
             return new SearchPageAdapter.GenreViewHolder(genreItemView);
-        } else {
+        }
+        else if (viewType == VIEW_TYPE_SEARCH_RESULT) {
             // Inflate custom layout for search result item
             final View movieSearchResultView = inflater.inflate(R.layout.search_result_row, parent, false);
 
             // Return new view holder for inflated move search result
             return new SearchPageAdapter.SearchResultViewHolder(movieSearchResultView);
+        }
+        else {
+            // Inflate custom layout for load more results view that is at the end of the search results list
+            final View loadingMoreView = inflater.inflate(R.layout.load_more_row, parent, false);
+
+            // Return new view holder for inflated load more results view
+            return new SearchPageAdapter.LoadMoreViewHolder(loadingMoreView);
         }
     }
 
@@ -242,6 +339,24 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             // Bind this movie's title to the search result item view generated by the RecyclerView
             searchResultViewHolder.searchResultMovieTitle.setText(searchResultData.getMovieName());
         }
+        else if (itemViewType == VIEW_TYPE_LOAD_MORE) {
+            final SearchPageAdapter.LoadMoreViewHolder loadMoreViewHolder =
+                    (SearchPageAdapter.LoadMoreViewHolder) viewHolder;
+
+            // If there are no more search results available for the current search string,
+            // then set the "No Results Available" text to visible at the bottom of the RecyclerView
+            if (!this.moreSearchResultsAvailable) {
+                loadMoreViewHolder.noMoreResultsText.setVisibility(View.VISIBLE);
+            }
+            // Otherwise, hide the "No Results Available" text
+            else {
+                loadMoreViewHolder.noMoreResultsText.setVisibility(View.GONE);
+            }
+
+            // Make sure that loading wheel at the bottom of the RecyclerView is hidden since
+            // the next page of search results has not been requested yet
+            loadMoreViewHolder.loadMoreWheel.setVisibility(View.GONE);
+        }
     }
 
     // Returns the total number of genres or search results, plus 2 for the header and search bar
@@ -260,6 +375,10 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         // Second view in search page is the search bar
         else if (position == 1) {
             return VIEW_TYPE_SEARCH_BAR;
+        }
+        // Null object in item list is placeholder for load more results view at bottom of RecyclerView
+        else if (searchPageItems.get(position - 2) == null) {
+            return VIEW_TYPE_LOAD_MORE;
         }
         // All other views are either genre or search result items based on whatever data is
         // currently being stored by the adapter
@@ -301,6 +420,17 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public SearchResultViewHolder(final @NonNull View searchResultView) {
             super(searchResultView);
             this.searchResultMovieTitle = searchResultView.findViewById(R.id.search_result_movie_title);
+        }
+    }
+
+    public static class LoadMoreViewHolder extends RecyclerView.ViewHolder {
+        public final ProgressBar loadMoreWheel;
+        public final TextView noMoreResultsText;
+
+        public LoadMoreViewHolder(final @NonNull View loadMoreView) {
+            super(loadMoreView);
+            this.loadMoreWheel = loadMoreView.findViewById(R.id.loading_more_circle);
+            this.noMoreResultsText = loadMoreView.findViewById(R.id.no_more_results);
         }
     }
 }
