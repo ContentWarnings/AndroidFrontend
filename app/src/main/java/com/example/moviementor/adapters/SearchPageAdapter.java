@@ -437,11 +437,13 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public static class SearchResultViewHolder extends RecyclerView.ViewHolder {
         public final ImageView searchResultMovieImage;
+        public final ImageView searchResultWarningIcon;
         public final TextView searchResultMovieTitle;
 
         public SearchResultViewHolder(final @NonNull View searchResultView) {
             super(searchResultView);
             this.searchResultMovieImage = searchResultView.findViewById(R.id.search_result_movie_image);
+            this.searchResultWarningIcon = searchResultView.findViewById(R.id.search_result_warning_icon);
             this.searchResultMovieTitle = searchResultView.findViewById(R.id.search_result_movie_title);
         }
     }

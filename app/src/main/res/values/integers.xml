@@ -3,4 +3,5 @@
     <integer name="num_trending_list_columns">2</integer>
     <integer name="num_trending_movie_name_lines">2</integer>
     <integer name="genre_background_image_alpha">64</integer>
+    <integer name="search_result_movie_title_lines">1</integer>
 </resources>
