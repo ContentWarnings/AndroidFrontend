@@ -14,14 +14,31 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/search_result_movie_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/search_result_movie_title_text">
-        </TextView>
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/search_result_warning_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/warning_triangle" />
+
+            <TextView
+                android:id="@+id/search_result_movie_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="@color/search_result_movie_title_text"
+                android:textSize="@dimen/search_result_movie_title_text_size"
+                android:lines="@integer/search_result_movie_title_lines"
+                android:ellipsize="end" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
