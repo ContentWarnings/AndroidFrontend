@@ -51,6 +51,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     // more search results are available to be queried
     private int lastSearchPage;
     private boolean moreSearchResultsAvailable;
+    private boolean fetchingNextPage;
 
     public SearchPageAdapter(final @NonNull List<Object> genreItems, final @NonNull View progressWheelView,
                              final @NonNull View noMatchingResultsText) {
@@ -67,6 +68,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         this.lastSearchPage = -1;
         this.moreSearchResultsAvailable = false;
+        this.fetchingNextPage = false;
     }
 
     public void assignAlphaValueForGenreBackgroundImages(final int alphaValue) {
@@ -90,6 +92,9 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             this.progressWheelView.setVisibility(View.GONE);
             this.noMatchingResultsText.setVisibility(View.GONE);
 
+            // Since search string was modified, previous requests to get new pages are voided
+            this.fetchingNextPage = false;
+
             // Replace all current search results with genre data again to re-populate
             // screen with list of genres
             final int previousLen = this.searchPageItems.size();
@@ -105,6 +110,9 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         // Can't load more search results until initial page of search results is populated
         this.moreSearchResultsAvailable = false;
+
+        // Since search string was modified, previous requests to get new pages are voided
+        this.fetchingNextPage = false;
 
         // Clear all items currently displayed on the search page
         final int previousLen = this.searchPageItems.size();
@@ -125,6 +133,9 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void getNextPage() {
         // Don't try to get any more pages until this next one has populated
         this.moreSearchResultsAvailable = false;
+
+        // Make RecyclerView aware that fetching next page is in progress
+        this.fetchingNextPage = true;
 
         // Fetch next page of search results from the database
         Backend.fetchSearchResultsPage(this, this.searchString, this.lastSearchPage + 1);
@@ -184,6 +195,9 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         // If no search results were found in the next page, return since no more
         // pages can be loaded
         else if (searchResults.isEmpty()) {
+            // Just finished attempting to fetch next page results
+            this.fetchingNextPage = false;
+
             // Need to refresh the load more results view so that the loading wheel is hidden
             // and the "No Results Available" text is displayed instead. This view is at the end
             // of the item list, so notify that the item at the last position in the RecyclerView
@@ -207,6 +221,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         // Current page results were received, so you can get the next page of search results now
         this.lastSearchPage++;
         this.moreSearchResultsAvailable = true;
+        this.fetchingNextPage = false;
 
         // Notify how many new search results were appended to the end of the item list. Add 1 to
         // all the page search results since null was re-appended to the end of the item list
@@ -423,9 +438,10 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             final SearchPageAdapter.LoadMoreViewHolder loadMoreViewHolder =
                     (SearchPageAdapter.LoadMoreViewHolder) viewHolder;
 
-            // If there are no more search results available for the current search string,
-            // then set the "No Results Available" text to visible at the bottom of the RecyclerView
-            if (!this.moreSearchResultsAvailable) {
+            // If there are no more search results available for the current search string and not currently
+            // waiting for another page's results, then set the "No Results Available" text to visible
+            // at the bottom of the RecyclerView
+            if (!this.moreSearchResultsAvailable && !this.fetchingNextPage) {
                 loadMoreViewHolder.noMoreResultsText.setVisibility(View.VISIBLE);
             }
             // Otherwise, hide the "No Results Available" text
