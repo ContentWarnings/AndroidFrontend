@@ -50,4 +50,6 @@
     <dimen name="genre_tile_icon_width">12dp</dimen>
     <dimen name="genre_tile_text_size">14sp</dimen>
     <dimen name="search_result_year_and_description_text_size">16sp</dimen>
+    <dimen name="content_warning_tile_text_size">14sp</dimen>
+    <dimen name="content_warning_tile_corner_radius">5dp</dimen>
 </resources>

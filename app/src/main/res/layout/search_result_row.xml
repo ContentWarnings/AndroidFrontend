@@ -56,6 +56,12 @@
             android:alpha="0.5"
             android:ellipsize="end" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/content_warning_tiles_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" />
+
     </LinearLayout>
 
 </LinearLayout>
