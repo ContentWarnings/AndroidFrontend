@@ -15,26 +15,26 @@ import com.example.moviementor.R;
 import java.util.List;
 
 public class GenreTilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final @NonNull List<String> genresList;
+    private final @NonNull List<String> genreList;
 
-    public GenreTilesAdapter(final @NonNull List<String> genresList) {
-        this.genresList = genresList;
+    public GenreTilesAdapter(final @NonNull List<String> genreList) {
+        this.genreList = genreList;
     }
 
     // Replace adapter's old list of genres with new list of genres
-    public void setGenresList(final @NonNull List<String> newGenresList) {
+    public void setGenreList(final @NonNull List<String> newGenreList) {
         // If there were already genres in the adapter, then clear the old
         // list of genres and any genre tile views that were present
-        if (!this.genresList.isEmpty()) {
-            final int previousLen = this.genresList.size();
-            this.genresList.clear();
+        if (!this.genreList.isEmpty()) {
+            final int previousLen = this.genreList.size();
+            this.genreList.clear();
             notifyItemRangeRemoved(0, previousLen);
         }
 
-        // Add all the new genres to the empty genresList and notify RecyclerView
+        // Add all the new genres to the empty genreList and notify RecyclerView
         // of how many genres were added to the list
-        this.genresList.addAll(newGenresList);
-        notifyItemRangeInserted(0, this.genresList.size());
+        this.genreList.addAll(newGenreList);
+        notifyItemRangeInserted(0, this.genreList.size());
     }
 
     @Override
@@ -52,7 +52,7 @@ public class GenreTilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(final @NonNull RecyclerView.ViewHolder viewHolder, final int position) {
         final GenreTileViewHolder genreTileViewHolder = (GenreTileViewHolder) viewHolder;
 
-        final @NonNull String genreName = genresList.get(position);
+        final @NonNull String genreName = genreList.get(position);
 
         // Set the genre tile's text and corresponding icon according to the genre name found in
         // the list
@@ -62,7 +62,7 @@ public class GenreTilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemCount() {
-        return this.genresList.size();
+        return this.genreList.size();
     }
 
     public static class GenreTileViewHolder extends RecyclerView.ViewHolder {
