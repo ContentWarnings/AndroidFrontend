@@ -4,12 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@drawable/search_result_bottom_border">
+    android:background="@drawable/search_result_bottom_border"
+    android:paddingTop="@dimen/search_result_row_padding_top"
+    android:paddingBottom="@dimen/search_result_row_padding_bottom">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/search_result_movie_image"
         android:layout_width="@dimen/search_result_movie_image_width"
         android:layout_height="@dimen/search_result_movie_image_height"
+        android:layout_marginEnd="@dimen/search_result_move_image_margin_end"
         app:shapeAppearanceOverlay="@style/roundedCornersMovieImage">
     </com.google.android.material.imageview.ShapeableImageView>
 
@@ -27,6 +30,7 @@
                 android:id="@+id/search_result_warning_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/search_result_warning_triangle_margin_end"
                 android:src="@drawable/warning_triangle" />
 
             <TextView
@@ -55,7 +59,8 @@
             android:textSize="@dimen/search_result_year_and_description_text_size"
             android:lines="@integer/search_result_movie_year_and_description_lines"
             android:alpha="0.5"
-            android:ellipsize="end" />
+            android:ellipsize="end"
+            android:layout_marginVertical="@dimen/search_result_year_and_description_margin_vertical" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/content_warning_tiles_recycler_view"
