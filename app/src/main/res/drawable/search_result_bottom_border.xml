@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:gravity="bottom">
+        <shape>
+            <size android:height="@dimen/search_result_row_bottom_border_size" />
+            <solid android:color="@color/search_result_bottom_border" />
+        </shape>
+    </item>
+</layer-list>
