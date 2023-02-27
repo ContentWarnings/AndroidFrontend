@@ -43,14 +43,27 @@
     <dimen name="load_more_results_margin_top">5dp</dimen>
     <dimen name="no_more_search_results_text_size">25sp</dimen>
     <dimen name="search_result_row_bottom_border_size">1dp</dimen>
+    <dimen name="search_result_row_padding_top">10dp</dimen>
+    <dimen name="search_result_row_padding_bottom">6dp</dimen>
     <dimen name="search_result_movie_image_width">62dp</dimen>
     <dimen name="search_result_movie_image_height">94dp</dimen>
+    <dimen name="search_result_move_image_margin_end">7dp</dimen>
+    <dimen name="search_result_warning_triangle_margin_end">6dp</dimen>
     <dimen name="search_result_movie_title_text_size">21sp</dimen>
     <dimen name="genre_tile_corner_radius">5dp</dimen>
+    <dimen name="genre_tile_margin_end">7dp</dimen>
     <dimen name="genre_tile_icon_height">12dp</dimen>
     <dimen name="genre_tile_icon_width">12dp</dimen>
+    <dimen name="genre_tile_icon_margin_start">8dp</dimen>
+    <dimen name="genre_tile_icon_margin_end">3dp</dimen>
     <dimen name="genre_tile_text_size">14sp</dimen>
+    <dimen name="genre_tile_text_margin_end">9dp</dimen>
     <dimen name="search_result_year_and_description_text_size">16sp</dimen>
+    <dimen name="search_result_year_and_description_margin_vertical">2dp</dimen>
     <dimen name="content_warning_tile_text_size">14sp</dimen>
     <dimen name="content_warning_tile_corner_radius">5dp</dimen>
+    <dimen name="content_warning_tile_padding_top">1dp</dimen>
+    <dimen name="content_warning_tile_padding_bottom">2dp</dimen>
+    <dimen name="content_warning_tile_padding_horizontal">7dp</dimen>
+    <dimen name="content_warning_tile_margin_end">7dp</dimen>
 </resources>
