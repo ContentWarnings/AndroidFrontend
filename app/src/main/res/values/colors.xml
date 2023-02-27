@@ -23,4 +23,6 @@
     <color name="search_bar_hidden_text">#3Cffffff</color>
     <color name="no_more_search_results_text">@color/white</color>
     <color name="search_result_movie_title_text">@color/white</color>
+    <color name="genre_tile_name_text">@color/white</color>
+    <color name="genre_tile_background">#313131</color>
 </resources>

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -358,6 +359,19 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                        .into(searchResultViewHolder.searchResultMovieImage);
            }
 
+           // TODO: hide triangle warning icon by default
+
+           // Get list of genre strings
+           final @NonNull List<String> genresList = searchResultData.getGenres();
+
+           // Get genre tile recycler view for current view holder and its associated adapter.
+           // If valid GenreTilesAdapter was found, then populate the adapter's genresList
+           // with new list of genre strings
+           final RecyclerView.Adapter genreTilesAdapter = searchResultViewHolder.searchResultGenresRecyclerView.getAdapter();
+           if (genreTilesAdapter instanceof GenreTilesAdapter) {
+               ((GenreTilesAdapter) genreTilesAdapter).setGenresList(genresList);
+           }
+
            searchResultViewHolder.searchResultMovieTitle.setText(searchResultData.getMovieName());
         }
         else if (itemViewType == VIEW_TYPE_LOAD_MORE) {
@@ -439,12 +453,19 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public final ImageView searchResultMovieImage;
         public final ImageView searchResultWarningIcon;
         public final TextView searchResultMovieTitle;
+        public final RecyclerView searchResultGenresRecyclerView;
 
         public SearchResultViewHolder(final @NonNull View searchResultView) {
             super(searchResultView);
             this.searchResultMovieImage = searchResultView.findViewById(R.id.search_result_movie_image);
             this.searchResultWarningIcon = searchResultView.findViewById(R.id.search_result_warning_icon);
             this.searchResultMovieTitle = searchResultView.findViewById(R.id.search_result_movie_title);
+
+            // Set up empty RecyclerView for genre tiles
+            this.searchResultGenresRecyclerView = searchResultView.findViewById(R.id.genre_tiles_recycler_view);
+            this.searchResultGenresRecyclerView.setAdapter(new GenreTilesAdapter(new ArrayList<>()));
+            this.searchResultGenresRecyclerView.setLayoutManager(new LinearLayoutManager(this.searchResultGenresRecyclerView
+                    .getContext(), RecyclerView.HORIZONTAL, false));
         }
     }
 

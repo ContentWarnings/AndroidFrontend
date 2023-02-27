@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/genre_tile_background">
+
+    <ImageView
+        android:id="@+id/genre_tile_icon"
+        android:layout_width="@dimen/genre_tile_icon_width"
+        android:layout_height="@dimen/genre_tile_icon_height" />
+
+    <TextView
+        android:id="@+id/genre_tile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/genre_tile_text_size"
+        android:textColor="@color/genre_tile_name_text" />
+
+</LinearLayout>

@@ -45,4 +45,8 @@
     <dimen name="search_result_movie_image_width">62dp</dimen>
     <dimen name="search_result_movie_image_height">94dp</dimen>
     <dimen name="search_result_movie_title_text_size">21sp</dimen>
+    <dimen name="genre_tile_corner_radius">5dp</dimen>
+    <dimen name="genre_tile_icon_height">12dp</dimen>
+    <dimen name="genre_tile_icon_width">12dp</dimen>
+    <dimen name="genre_tile_text_size">14sp</dimen>
 </resources>
