@@ -66,4 +66,5 @@
     <dimen name="content_warning_tile_padding_bottom">2dp</dimen>
     <dimen name="content_warning_tile_padding_horizontal">7dp</dimen>
     <dimen name="content_warning_tile_margin_end">7dp</dimen>
+    <dimen name="no_matching_results_text_size">20sp</dimen>
 </resources>
