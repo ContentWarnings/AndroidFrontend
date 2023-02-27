@@ -42,6 +42,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private @NonNull String searchString;
 
     private final @NonNull View progressWheelView;
+    private final @NonNull View noMatchingResultsText;
 
     // Defines how transparent background images for genre rows should be
     private int genreBackgroundAlphaValue;
@@ -51,7 +52,8 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private int lastSearchPage;
     private boolean moreSearchResultsAvailable;
 
-    public SearchPageAdapter(final @NonNull List<Object> genreItems, final @NonNull View progressWheelView) {
+    public SearchPageAdapter(final @NonNull List<Object> genreItems, final @NonNull View progressWheelView,
+                             final @NonNull View noMatchingResultsText) {
         this.searchPageItems = new ArrayList<>();
         this.searchPageItems.addAll(genreItems);
 
@@ -61,6 +63,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.searchString = "";
 
         this.progressWheelView = progressWheelView;
+        this.noMatchingResultsText = noMatchingResultsText;
 
         this.lastSearchPage = -1;
         this.moreSearchResultsAvailable = false;
@@ -83,8 +86,9 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         else if (newSearchString.isEmpty()) {
             this.searchString = newSearchString;
 
-            // Make sure progress wheel is not visible anymore
+            // Make sure progress wheel and no matching results text are not visible anymore
             this.progressWheelView.setVisibility(View.GONE);
+            this.noMatchingResultsText.setVisibility(View.GONE);
 
             // Replace all current search results with genre data again to re-populate
             // screen with list of genres
@@ -106,6 +110,9 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         final int previousLen = this.searchPageItems.size();
         this.searchPageItems.clear();
         notifyItemRangeRemoved(2, previousLen);
+
+        // Make sure no matching search results text is not visible
+        this.noMatchingResultsText.setVisibility(View.GONE);
 
         // May take a second to populate search results, so display loading wheel until the
         // results are populated
@@ -134,6 +141,11 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         else if (searchResults.isEmpty()) {
             this.moreSearchResultsAvailable = false;
             this.progressWheelView.setVisibility(View.GONE);
+
+            // Make text in middle of screen visible to let user know that no matching
+            // results were found
+            this.noMatchingResultsText.setVisibility(View.VISIBLE);
+
             return;
         }
 
