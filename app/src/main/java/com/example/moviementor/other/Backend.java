@@ -30,7 +30,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class Backend {
     private static final int INVALID_MOVIE_ID = -1;
-    private static final String DATE_FORMAT_STRING = "dd-mm-yyyy";
+    private static final String DATE_FORMAT_STRING = "yyyy-mm-dd";
     private static final int NO_PAGE_SPECIFIED = -1;
 
     // Base url that will be used for all API requests

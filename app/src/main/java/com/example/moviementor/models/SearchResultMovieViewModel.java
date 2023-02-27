@@ -47,4 +47,14 @@ public class SearchResultMovieViewModel {
     public List<String> getGenres() {
         return this.genres;
     }
+
+    @Nullable
+    public Date getReleaseDate() {
+        return this.releaseDate;
+    }
+
+    @NonNull
+    public String getMovieOverview() {
+        return this.movieOverview;
+    }
 }

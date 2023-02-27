@@ -46,6 +46,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" />
 
+        <TextView
+            android:id="@+id/search_result_year_and_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/search_result_year_and_description"
+            android:textSize="@dimen/search_result_year_and_description_text_size"
+            android:lines="@integer/search_result_movie_year_and_description_lines"
+            android:alpha="0.5"
+            android:ellipsize="end" />
+
     </LinearLayout>
 
 </LinearLayout>
