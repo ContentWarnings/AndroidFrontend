@@ -42,6 +42,7 @@
     <dimen name="load_more_results_row_height">40dp</dimen>
     <dimen name="load_more_results_margin_top">5dp</dimen>
     <dimen name="no_more_search_results_text_size">25sp</dimen>
+    <dimen name="search_result_row_bottom_border_size">1dp</dimen>
     <dimen name="search_result_movie_image_width">62dp</dimen>
     <dimen name="search_result_movie_image_height">94dp</dimen>
     <dimen name="search_result_movie_title_text_size">21sp</dimen>

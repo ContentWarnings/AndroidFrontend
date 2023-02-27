@@ -28,4 +28,5 @@
     <color name="search_result_year_and_description">@color/white</color>
     <color name="content_warning_tile_text">@color/white</color>
     <color name="content_warning_tile_background">#313131</color>
+    <color name="search_result_bottom_border">#33FFFFFF</color>
 </resources>
