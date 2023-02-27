@@ -24,7 +24,10 @@ import com.example.moviementor.models.SearchResultMovieViewModel;
 import com.example.moviementor.other.Backend;
 
 import java.net.URL;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -361,6 +364,8 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
            // TODO: hide triangle warning icon by default
 
+           searchResultViewHolder.searchResultMovieTitle.setText(searchResultData.getMovieName());
+
            // Get list of genre strings
            final @NonNull List<String> genresList = searchResultData.getGenres();
 
@@ -372,7 +377,24 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                ((GenreTilesAdapter) genreTilesAdapter).setGenresList(genresList);
            }
 
-           searchResultViewHolder.searchResultMovieTitle.setText(searchResultData.getMovieName());
+           final @Nullable Date releaseDate = searchResultData.getReleaseDate();
+           final @NonNull String movieOverview = searchResultData.getMovieOverview();
+
+           String movieYearAndDescription;
+            // If no release date available, then don't include it
+           if (releaseDate == null) {
+               movieYearAndDescription = movieOverview;
+           }
+           // Otherwise just include the release date year
+           else {
+               // Date.getYear() is deprecated so convert to calendar instance and
+               // get year from this instance
+               final Calendar calendar = Calendar.getInstance();
+               calendar.setTime(releaseDate);
+               movieYearAndDescription = calendar.get(Calendar.YEAR) + " - " + movieOverview;
+           }
+
+           searchResultViewHolder.searchResultYearAndDescription.setText(movieYearAndDescription);
         }
         else if (itemViewType == VIEW_TYPE_LOAD_MORE) {
             final SearchPageAdapter.LoadMoreViewHolder loadMoreViewHolder =
@@ -454,6 +476,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public final ImageView searchResultWarningIcon;
         public final TextView searchResultMovieTitle;
         public final RecyclerView searchResultGenresRecyclerView;
+        public final TextView searchResultYearAndDescription;
 
         public SearchResultViewHolder(final @NonNull View searchResultView) {
             super(searchResultView);
@@ -466,6 +489,8 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             this.searchResultGenresRecyclerView.setAdapter(new GenreTilesAdapter(new ArrayList<>()));
             this.searchResultGenresRecyclerView.setLayoutManager(new LinearLayoutManager(this.searchResultGenresRecyclerView
                     .getContext(), RecyclerView.HORIZONTAL, false));
+
+            this.searchResultYearAndDescription = searchResultView.findViewById(R.id.search_result_year_and_description);
         }
     }
 
