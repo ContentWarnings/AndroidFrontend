@@ -15,20 +15,18 @@ public class SearchResultMovieViewModel {
     private final @Nullable Date releaseDate;
     private final @Nullable URL movieImageUrl;
     private final @NonNull String movieOverview;
-    private final int runtime;
     private final @NonNull List<String> genres;
     private final @NonNull List<String> contentWarnings;
 
     public SearchResultMovieViewModel(final int movieId, final @NonNull String movieName,
                                       final @Nullable Date releaseDate, final @Nullable URL movieImageUrl,
-                                      final @NonNull String movieOverview, final int runtime,
-                                      final @NonNull List<String> genres, final @NonNull List<String> contentWarnings) {
+                                      final @NonNull String movieOverview, final @NonNull List<String> genres,
+                                      final @NonNull List<String> contentWarnings) {
         this.movieId = movieId;
         this.movieName = movieName;
         this.releaseDate = releaseDate;
         this.movieImageUrl = movieImageUrl;
         this.movieOverview = movieOverview;
-        this.runtime = runtime;
         this.genres = genres;
         this.contentWarnings = contentWarnings;
     }

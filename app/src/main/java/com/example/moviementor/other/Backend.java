@@ -152,7 +152,6 @@ public class Backend {
                         final @NonNull String releaseDateString = searchResult.optString("release", "");
                         final @NonNull String movieImageUrlString = searchResult.optString("img", "");
                         final @NonNull String movieOverview = searchResult.optString("overview", "");
-                        final int runtime = searchResult.optInt("runtime", SearchResultMovieViewModel.MISSING_RUNTIME);
                         final @Nullable JSONArray genreJSONArray = searchResult.optJSONArray("genres");
                         final @Nullable JSONArray contentWarningsJSONArray = searchResult.optJSONArray("cw");
 
@@ -206,8 +205,7 @@ public class Backend {
 
                         final @NonNull Object searchResultViewModel =
                                 new SearchResultMovieViewModel(movieId, movieName, releaseDate,
-                                        movieImageUrl, movieOverview, runtime, genreList,
-                                        contentWarningList);
+                                        movieImageUrl, movieOverview, genreList, contentWarningList);
                         searchResultViewModels.add(searchResultViewModel);
                     }
                 }
@@ -265,7 +263,6 @@ public class Backend {
                         final @NonNull String releaseDateString = searchResult.optString("release", "");
                         final @NonNull String movieImageUrlString = searchResult.optString("img", "");
                         final @NonNull String movieOverview = searchResult.optString("overview", "");
-                        final int runtime = searchResult.optInt("runtime", SearchResultMovieViewModel.MISSING_RUNTIME);
                         final @Nullable JSONArray genreJSONArray = searchResult.optJSONArray("genres");
                         final @Nullable JSONArray contentWarningsJSONArray = searchResult.optJSONArray("cw");
 
@@ -319,7 +316,7 @@ public class Backend {
 
                         final @NonNull Object searchResultViewModel =
                                 new SearchResultMovieViewModel(movieId, movieName, releaseDate,
-                                        movieImageUrl, movieOverview, runtime, genreList,
+                                        movieImageUrl, movieOverview, genreList,
                                         contentWarningList);
                         searchResultViewModels.add(searchResultViewModel);
                     }
