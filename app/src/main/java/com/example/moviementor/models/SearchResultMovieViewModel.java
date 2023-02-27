@@ -43,4 +43,8 @@ public class SearchResultMovieViewModel {
         return this.movieName;
     }
 
+    @NonNull
+    public List<String> getGenres() {
+        return this.genres;
+    }
 }
