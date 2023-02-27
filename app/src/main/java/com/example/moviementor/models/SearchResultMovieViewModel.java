@@ -57,4 +57,9 @@ public class SearchResultMovieViewModel {
     public String getMovieOverview() {
         return this.movieOverview;
     }
+
+    @NonNull
+    public List<String> getContentWarnings() {
+        return this.contentWarnings;
+    }
 }

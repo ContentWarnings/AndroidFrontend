@@ -24,7 +24,6 @@ import com.example.moviementor.models.SearchResultMovieViewModel;
 import com.example.moviementor.other.Backend;
 
 import java.net.URL;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -374,7 +373,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
            // with new list of genre strings
            final RecyclerView.Adapter genreTilesAdapter = searchResultViewHolder.searchResultGenresRecyclerView.getAdapter();
            if (genreTilesAdapter instanceof GenreTilesAdapter) {
-               ((GenreTilesAdapter) genreTilesAdapter).setGenresList(genresList);
+               ((GenreTilesAdapter) genreTilesAdapter).setGenreList(genresList);
            }
 
            final @Nullable Date releaseDate = searchResultData.getReleaseDate();
@@ -395,6 +394,18 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
            }
 
            searchResultViewHolder.searchResultYearAndDescription.setText(movieYearAndDescription);
+
+           // Get list of content warning strings
+           final @NonNull List<String> contentWarningList = searchResultData.getContentWarnings();
+
+           // Get content warning tile recycler view for current view holder and its associated
+           // adapter. If valid ContentWarningTilesAdapter was found, then populate the adapter's
+           // contentWarningList with new list of content warning strings
+           final RecyclerView.Adapter contentWarningTilesAdapter = searchResultViewHolder
+                   .searchResultContentWarningsRecyclerView.getAdapter();
+           if (contentWarningTilesAdapter instanceof ContentWarningTilesAdapter) {
+               ((ContentWarningTilesAdapter) contentWarningTilesAdapter).setContentWarningList(contentWarningList);
+           }
         }
         else if (itemViewType == VIEW_TYPE_LOAD_MORE) {
             final SearchPageAdapter.LoadMoreViewHolder loadMoreViewHolder =
@@ -477,6 +488,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         public final TextView searchResultMovieTitle;
         public final RecyclerView searchResultGenresRecyclerView;
         public final TextView searchResultYearAndDescription;
+        public final RecyclerView searchResultContentWarningsRecyclerView;
 
         public SearchResultViewHolder(final @NonNull View searchResultView) {
             super(searchResultView);
@@ -491,6 +503,13 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     .getContext(), RecyclerView.HORIZONTAL, false));
 
             this.searchResultYearAndDescription = searchResultView.findViewById(R.id.search_result_year_and_description);
+
+            // Set up empty RecyclerView for content warning tiles
+            this.searchResultContentWarningsRecyclerView = searchResultView.
+                    findViewById(R.id.content_warning_tiles_recycler_view);
+            this.searchResultContentWarningsRecyclerView.setAdapter(new ContentWarningTilesAdapter(new ArrayList<>()));
+            this.searchResultContentWarningsRecyclerView.setLayoutManager(new LinearLayoutManager(this.searchResultContentWarningsRecyclerView
+                    .getContext(), RecyclerView.HORIZONTAL, false));
         }
     }
 
