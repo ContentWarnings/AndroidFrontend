@@ -12,13 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moviementor.R;
+import com.example.moviementor.activities.MainActivity;
 import com.example.moviementor.adapters.SearchPageAdapter;
 import com.example.moviementor.models.GenreViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchFragment extends BaseFragment {
+public class SearchFragment extends BaseFragment implements SearchPageAdapter.OnItemClickListener {
     // Static array containing data for each genre's name
     private static final String[] GENRE_NAMES = {"Action", "Adventure", "Animation", "Comedy",
             "Crime", "Documentary", "Drama", "Family", "Fantasy", "History", "Horror", "Music",
@@ -95,6 +96,9 @@ public class SearchFragment extends BaseFragment {
         // Initialize RecyclerView and its adapter
         final RecyclerView searchPageRecyclerView = requireView().findViewById(R.id.search_page_recycler_view);
         final SearchPageAdapter searchPageAdapter = new SearchPageAdapter(this.genreList, progressWheelView, noMatchingSearchResultsView);
+
+        // Attach fragment as listener to the search page RecyclerView
+        searchPageAdapter.setOnItemClickListener(this);
 
         // Give the adapter an alpha value to apply on genre background images
         final int alphaValue = getResources().getInteger(R.integer.genre_background_image_alpha);
@@ -236,5 +240,14 @@ public class SearchFragment extends BaseFragment {
         }
 
         return genreData;
+    }
+
+    // Function called by the listener attached to the child RecyclerView's adapter. Only called by
+    // listener when the filter button next to the search bar is clicked on
+    @Override
+    public void onItemClick() {
+        // Route user's request to open advanced search options to the main activity
+        final MainActivity mainActivity = (MainActivity) requireActivity();
+        mainActivity.openAdvancedSearchOptionsModal();
     }
 }
