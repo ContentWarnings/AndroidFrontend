@@ -61,7 +61,7 @@ public class FeaturedFragment extends BaseFragment implements TrendingMoviesAdap
     // Function called by the listener attached to the child RecyclerView's adapter. Only called by
     // listener when the header's search button is clicked on
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick() {
         // Route user's request to open search bar to the main activity
         final MainActivity mainActivity = (MainActivity) requireActivity();
         mainActivity.jumpToSearchBar();

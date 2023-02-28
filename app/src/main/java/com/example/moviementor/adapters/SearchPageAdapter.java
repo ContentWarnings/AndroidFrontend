@@ -44,6 +44,8 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final @NonNull View progressWheelView;
     private final @NonNull View noMatchingResultsText;
 
+    private @Nullable OnItemClickListener listener;
+
     // Defines how transparent background images for genre rows should be
     private int genreBackgroundAlphaValue;
 
@@ -65,6 +67,8 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         this.progressWheelView = progressWheelView;
         this.noMatchingResultsText = noMatchingResultsText;
+
+        this.listener = null;
 
         this.lastSearchPage = -1;
         this.moreSearchResultsAvailable = false;
@@ -490,6 +494,18 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    // Assign listener from parent fragment to this adapter
+    public void setOnItemClickListener(final @NonNull OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
+    // Define listener interface for parent fragment to use if it wants to listen to an event
+    // in the RecyclerView. Less prone to memory leaks in comparison to holding onto a reference
+    // to the parent fragment in this adapter
+    public interface OnItemClickListener {
+        void onItemClick();
+    }
+
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
         public final TextView headerTitle;
 
@@ -499,9 +515,20 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    public static class SearchBarViewHolder extends RecyclerView.ViewHolder {
+    public class SearchBarViewHolder extends RecyclerView.ViewHolder {
+        public final ImageButton filterButton;
+
         public SearchBarViewHolder(final @NonNull View searchBarView) {
             super(searchBarView);
+            this.filterButton = searchBarView.findViewById(R.id.filter_button);
+
+            // Set up click listener on the search filter button to open advanced search options
+            // modal
+            this.filterButton.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onItemClick();
+                }
+            });
         }
     }
 

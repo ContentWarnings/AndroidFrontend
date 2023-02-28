@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import com.example.moviementor.R;
 import com.example.moviementor.fragments.BaseFragment;
+import com.example.moviementor.other.AdvancedSearchOptionsModal;
 import com.example.moviementor.other.FragmentStackManager;
 
 public class MainActivity extends AppCompatActivity {
@@ -75,5 +76,11 @@ public class MainActivity extends AppCompatActivity {
     public void jumpToSearchBar() {
         fragmentStackManager.goToRootSearchTab(getSupportFragmentManager());
         fragmentStackManager.switchTab(getSupportFragmentManager(), BaseFragment.Tab.SEARCH, true);
+    }
+
+    // Open the advanced search options modal on top of the current (search) page
+    public void openAdvancedSearchOptionsModal() {
+        final AdvancedSearchOptionsModal modal = new AdvancedSearchOptionsModal();
+        modal.show(getSupportFragmentManager(), modal.getTag());
     }
 }

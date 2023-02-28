@@ -110,7 +110,7 @@ public class TrendingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     // in the RecyclerView. Less prone to memory leaks in comparison to holding onto a reference
     // to the parent fragment in this adapter
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick();
     }
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder {
@@ -126,7 +126,7 @@ public class TrendingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             // listener function if click detected and listener is currently attached
             headerSearchButton.setOnClickListener(v -> {
                 if (listener != null) {
-                    listener.onItemClick(getAdapterPosition());
+                    listener.onItemClick();
                 }
             });
         }
