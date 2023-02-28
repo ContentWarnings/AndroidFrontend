@@ -266,28 +266,31 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         else if (viewType == VIEW_TYPE_SEARCH_BAR) {
             // Inflate view from search bar layout file
-            final View searchBarView = inflater.inflate(R.layout.search_bar, parent, false);
+            final View searchRowView = inflater.inflate(R.layout.search_bar, parent, false);
+
+            // Get actual search bar inside search row
+            final SearchView searchBar = searchRowView.findViewById(R.id.search_bar);
 
             // Set a listener to open and close keyboard when search bar gains and loses focus
-            ((SearchView) searchBarView).setOnQueryTextFocusChangeListener((v, hasFocus) -> {
+            searchBar.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
                 final InputMethodManager inputMethodManager = (InputMethodManager) parent.getContext()
                         .getSystemService(Activity.INPUT_METHOD_SERVICE);
 
                 if (!hasFocus) {
-                    inputMethodManager.hideSoftInputFromWindow(searchBarView.getWindowToken(), 0);
+                    inputMethodManager.hideSoftInputFromWindow(searchBar.getWindowToken(), 0);
                 }
                 else {
                     // Newer Android versions only worked with "showSoftInput" whereas older Android
                     // versions only worked with "toggleSoftInput", so just try the first approach
                     // and if it fails to open the keyboard, then try the second one
-                    if (!inputMethodManager.showSoftInput(searchBarView, InputMethodManager.SHOW_IMPLICIT)) {
+                    if (!inputMethodManager.showSoftInput(searchBar, InputMethodManager.SHOW_IMPLICIT)) {
                         inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
                     }
                 }
             });
 
             // Return new view holder for inflated search bar
-            return new SearchPageAdapter.SearchBarViewHolder(searchBarView);
+            return new SearchPageAdapter.SearchBarViewHolder(searchRowView);
         }
         else if (viewType == VIEW_TYPE_GENRE) {
             // Inflate custom layout for singular genre
@@ -324,14 +327,17 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             headerViewHolder.headerTitle.setText(R.string.search_page_header_title);
         }
         else if (itemViewType == VIEW_TYPE_SEARCH_BAR) {
-            final SearchView searchBarView = (SearchView) viewHolder.itemView;
+            final View searchRowView = viewHolder.itemView;
+
+            // Get actual search bar inside search row
+            final SearchView searchBar = searchRowView.findViewById(R.id.search_bar);
 
             // Restore the search bar's search string when it is scrolled back onto the screen
-            searchBarView.setQuery(this.searchString, false);
+            searchBar.setQuery(this.searchString, false);
 
             // Set listener on search bar that is triggered anytime something is typed into
             // the search bar
-            searchBarView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 // Don't do anything when user presses submit since search results should already
                 // be populated
                 @Override

@@ -162,8 +162,16 @@ public class SearchFragment extends BaseFragment {
             for (int i = 0; i < childCount; i++) {
                 final View childView = searchPageRecyclerView.getChildAt(i);
 
+                // If current child view is not the search bar row, then continue
+                if (childView.getId() != R.id.search_bar_row) {
+                    continue;
+                }
+
+                // Try to get search bar reference inside of the search row
+                final View searchBarView = childView.findViewById(R.id.search_bar);
+
                 // Once search bar is found, give it focus
-                if (childView instanceof SearchView) {
+                if (searchBarView instanceof SearchView) {
                     childView.requestFocus();
                     break;
                 }
@@ -187,8 +195,16 @@ public class SearchFragment extends BaseFragment {
                         for (int i = 0; i < childCount; i++) {
                             final View childView = recyclerView.getChildAt(i);
 
+                            // If current child view is not the search bar row, then continue
+                            if (childView.getId() != R.id.search_bar_row) {
+                                continue;
+                            }
+
+                            // Try to get search bar reference inside of the search row
+                            final View searchBarView = childView.findViewById(R.id.search_bar);
+
                             // Once search bar is found, give it focus
-                            if (childView instanceof SearchView) {
+                            if (searchBarView instanceof SearchView) {
                                 childView.requestFocus();
                                 break;
                             }
