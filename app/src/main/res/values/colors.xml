@@ -30,4 +30,5 @@
     <color name="content_warning_tile_background">#313131</color>
     <color name="search_result_bottom_border">#33FFFFFF</color>
     <color name="no_matching_results_text">@color/white</color>
+    <color name="filter_icon_background">@android:color/transparent</color>
 </resources>

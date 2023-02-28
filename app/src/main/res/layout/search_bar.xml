@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.SearchView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/search_bar"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/search_bar_row"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/search_bar_background"
-    android:theme="@style/SearchBarStyle"
-    android:queryHint="@string/search_bar_hint"
-    android:searchIcon="@drawable/search_bar_magnifying_glass"
-    android:iconifiedByDefault="false"
-    android:closeIcon="@drawable/search_bar_clear_text"
-    android:imeOptions="actionSearch|flagNoExtractUi|flagNoFullscreen"
-    android:layout_marginBottom="@dimen/search_bar_margin_bottom"
-    android:clickable="true"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:orientation="horizontal">
 
-</android.widget.SearchView>
+    <android.widget.SearchView
+        android:id="@+id/search_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/search_bar_background"
+        android:theme="@style/SearchBarStyle"
+        android:queryHint="@string/search_bar_hint"
+        android:searchIcon="@drawable/search_bar_magnifying_glass"
+        android:iconifiedByDefault="false"
+        android:closeIcon="@drawable/search_bar_clear_text"
+        android:imeOptions="actionSearch|flagNoExtractUi|flagNoFullscreen"
+        android:layout_marginBottom="@dimen/search_bar_margin_bottom"
+        android:layout_marginEnd="@dimen/search_bar_margin_end"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/filter_button_margin_top"
+        android:layout_marginBottom="@dimen/filter_button_margin_bottom"
+        android:src="@drawable/filter_icon"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
+</LinearLayout>
