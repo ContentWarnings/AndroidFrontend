@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -20,12 +21,19 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
     private static final int EMPTY_GENRE_FILTER = -1;
 
     // Object that keeps track of selected search options for user
-    private final @NonNull SearchOptions searchOptions;
+    private @NonNull SearchOptions searchOptions;
 
     // Keeps track of user's currently selected genre filter in the modal
     private @Nullable SearchOptions.GenreFilter currentlySelectedGenreFilter;
 
-    public AdvancedSearchOptionsModal(final @NonNull SearchOptions searchOptions) {
+    private boolean setupModal;
+
+    // Default Constructor
+    public AdvancedSearchOptionsModal() {
+        super();
+    }
+
+    public void setSearchOptions(final @NonNull SearchOptions searchOptions) {
         this.searchOptions = searchOptions;
         this.currentlySelectedGenreFilter = null;
     }
@@ -37,6 +45,18 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
         final View advancedSearchOptionsModal = inflater.inflate(R.layout.advanced_search_options_modal,
                 container, false);
 
+        // Set this boolean flag to false since modal has not been set up yet
+        this.setupModal = false;
+
+        // If trying to redisplay modal after configuration change, don't initialize modal at all
+        if (savedInstanceState != null) {
+            return advancedSearchOptionsModal;
+        }
+
+        // Otherwise, modal was opened by the user pressing the filter button, so the modal
+        // will be properly initialized below
+        this.setupModal = true;
+
         final ImageButton closeModalButton = advancedSearchOptionsModal
                 .findViewById(R.id.close_advanced_options_menu_button);
 
@@ -44,14 +64,28 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
         // the modal
         closeModalButton.setOnClickListener(view -> dismiss());
 
-        final @IdRes int genreFilterSelectedButtonRes = getGenreFilterButtonRes(this.searchOptions.currentGenreFilterSelected());
+        setupGenreFilterButtonListeners(advancedSearchOptionsModal);
 
+        // If modal was opened with previous genre filter selected, then find the associated button
+        // for that genre filter and change it's state to selected
+        final @IdRes int genreFilterSelectedButtonRes = getGenreFilterButtonRes(this.searchOptions.currentGenreFilterSelected());
         if (genreFilterSelectedButtonRes != EMPTY_GENRE_FILTER) {
             final RadioButton genreFilterButton = advancedSearchOptionsModal.findViewById(genreFilterSelectedButtonRes);
             genreFilterButton.setChecked(true);
         }
 
-        setupGenreFilterButtonListeners(advancedSearchOptionsModal);
+        // Get the modal's footer buttons
+        final Button clearSearchOptionsButton = advancedSearchOptionsModal.findViewById(R.id.clear_search_options_button);
+        final Button applySearchOptionsButton = advancedSearchOptionsModal.findViewById(R.id.apply_search_options_button);
+
+        // Set click listener on clear button to clear all selected search options
+        clearSearchOptionsButton.setOnClickListener(view -> {
+            clearSearchOptions();
+        });
+
+        applySearchOptionsButton.setOnClickListener(view -> {
+            applySearchOptions();
+        });
 
         return advancedSearchOptionsModal;
     }
@@ -60,10 +94,36 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
     public void onStart() {
         super.onStart();
 
+        // If modal was never initialized properly then just close it
+        if (!setupModal) {
+            this.dismiss();
+        }
+
         // Bug fix to make dialog fragment open fully in landscape mode
         final BottomSheetBehavior<View> view = BottomSheetBehavior.from((View) requireView().getParent());
         view.setState(BottomSheetBehavior.STATE_EXPANDED);
         view.setMaxWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+    }
+
+    // Clears all currently selected search options in the modal
+    private void clearSearchOptions() {
+        // Get the four column radio groups for all the genre filter buttons
+        final RadioGroup genreFilterButtonsColumn1 = requireView().findViewById(R.id.genre_filter_buttons_column_1);
+        final RadioGroup genreFilterButtonsColumn2 = requireView().findViewById(R.id.genre_filter_buttons_column_2);
+        final RadioGroup genreFilterButtonsColumn3 = requireView().findViewById(R.id.genre_filter_buttons_column_3);
+        final RadioGroup genreFilterButtonsColumn4 = requireView().findViewById(R.id.genre_filter_buttons_column_4);
+
+        // Clear any selected genre filter button
+        genreFilterButtonsColumn1.clearCheck();
+        genreFilterButtonsColumn2.clearCheck();
+        genreFilterButtonsColumn3.clearCheck();
+        genreFilterButtonsColumn4.clearCheck();
+    }
+
+    // Apply currently selected search options and close this modal
+    private void applySearchOptions() {
+        searchOptions.setGenreFilter(currentlySelectedGenreFilter);
+        this.dismiss();
     }
 
     private void setupGenreFilterButtonListeners(final @NonNull View advancedSearchOptionsModal) {

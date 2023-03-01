@@ -336,4 +336,43 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/advanced_search_modal_header_divider_width"
+        android:background="@color/advanced_search_modal_header_divider"
+        android:alpha="0.5"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginVertical="@dimen/advanced_search_modal_footer_margin_vertical"
+        android:layout_marginHorizontal="@dimen/advanced_search_modal_footer_margin_horizontal">
+
+        <Button
+            android:id="@+id/clear_search_options_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:theme="@style/SelectableItemTheme"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:text="@string/clear_search_options_button"
+            android:textAllCaps="false"
+            android:textSize="@dimen/clear_search_options_button_text_size"
+            android:textColor="@color/clear_search_options_button_text" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/apply_search_options_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/apply_search_options_button_background"
+            android:paddingHorizontal="@dimen/apply_search_options_button_padding_horizontal"
+            android:text="@string/apply_search_options_button"
+            android:textAllCaps="false"
+            android:textSize="@dimen/apply_search_options_button_text_size"
+            android:textColor="@color/apply_search_options_button_text" />
+
+    </RelativeLayout>
+
 </LinearLayout>
