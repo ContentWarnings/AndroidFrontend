@@ -3,11 +3,294 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/teal_200">
+    android:background="@color/advanced_search_modal_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/advanced_search_modal_header_margin_vertical">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_marginHorizontal="@dimen/advanced_search_modal_close_icon_margin_horizontal"
+            android:src="@drawable/close_advanced_search_options_modal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/advanced_search_options_modal_header"
+            android:textSize="@dimen/advanced_search_modal_header_text_size"
+            android:textColor="@color/advanced_search_modal_header_text"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/advanced_search_modal_header_divider_width"
+        android:background="@color/advanced_search_modal_header_divider"
+        android:alpha="0.5"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BITCCHCHCHH" />
+        android:text="@string/select_genre_filter"
+        android:textSize="@dimen/select_genre_filter_text_size"
+        android:textStyle="bold"
+        android:textColor="@color/select_genre_filter_text"
+        android:layout_marginStart="@dimen/select_genre_filter_text_margin_start"
+        android:layout_marginTop="@dimen/select_genre_filter_text_margin_top"
+        android:layout_marginBottom="@dimen/select_genre_filter_text_margin_bottom" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/action_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/crime_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/fantasy_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/mystery_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/thriller_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+        </RadioGroup>
+
+        <RadioGroup
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/adventure_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/documentary_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/history_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/romance_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/war_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+        </RadioGroup>
+
+        <RadioGroup
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/animation_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/drama_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/horror_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/science_fiction_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/western_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+        </RadioGroup>
+
+        <RadioGroup
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/comedy_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/family_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/music_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/genre_filter_button_height"
+                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                android:button="@null"
+                android:background="@drawable/genre_radio_button_background"
+                android:text="@string/tv_movie_genre_text"
+                android:textSize="@dimen/genre_filter_button_text_size"
+                android:textColor="@color/search_filter_button_text"
+                android:textAlignment="center" />
+
+        </RadioGroup>
+
+    </LinearLayout>
 
 </LinearLayout>

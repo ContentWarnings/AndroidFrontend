@@ -8,4 +8,26 @@
     <string name="search_bar_hint">Search All Movies</string>
     <string name="no_more_search_results">No Results Available</string>
     <string name="no_matching_search_results">No Matching Results Found</string>
+    <string name="advanced_search_options_modal_header">Filters</string>
+    <string name="select_genre_filter">Select a genre to filter by:</string>
+
+    <string name="action_genre_text">Action</string>
+    <string name="adventure_genre_text">Adventure</string>
+    <string name="animation_genre_text">Animation</string>
+    <string name="comedy_genre_text">Comedy</string>
+    <string name="crime_genre_text">Crime</string>
+    <string name="documentary_genre_text">Documentary</string>
+    <string name="drama_genre_text">Drama</string>
+    <string name="family_genre_text">Family</string>
+    <string name="fantasy_genre_text">Fantasy</string>
+    <string name="history_genre_text">History</string>
+    <string name="horror_genre_text">Horror</string>
+    <string name="music_genre_text">Music</string>
+    <string name="mystery_genre_text">Mystery</string>
+    <string name="romance_genre_text">Romance</string>
+    <string name="science_fiction_genre_text">Sci-Fi</string>
+    <string name="tv_movie_genre_text">TV Movie</string>
+    <string name="thriller_genre_text">Thriller</string>
+    <string name="war_genre_text">War</string>
+    <string name="western_genre_text">Western</string>
 </resources>
