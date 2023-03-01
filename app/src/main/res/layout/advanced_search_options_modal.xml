@@ -58,7 +58,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal">
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/action_filter_button"
                 android:tag="Action"
                 android:layout_width="wrap_content"
@@ -71,7 +71,7 @@
                 android:textColor="@color/search_filter_button_text"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/crime_filter_button"
                 android:tag="Crime"
                 android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
                 android:textColor="@color/search_filter_button_text"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/fantasy_filter_button"
                 android:tag="Fantasy"
                 android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
                 android:textColor="@color/search_filter_button_text"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/mystery_filter_button"
                 android:tag="Mystery"
                 android:layout_width="wrap_content"
@@ -110,7 +110,7 @@
                 android:textColor="@color/search_filter_button_text"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/thriller_filter_button"
                 android:tag="Thriller"
                 android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal">
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/adventure_filter_button"
                 android:tag="Adventure"
                 android:layout_width="wrap_content"
@@ -145,7 +145,7 @@
                 android:textColor="@color/search_filter_button_text"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/documentary_filter_button"
                 android:tag="Documentary"
                 android:layout_width="wrap_content"
@@ -158,7 +158,7 @@
                 android:textColor="@color/search_filter_button_text"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/history_filter_button"
                 android:tag="History"
                 android:layout_width="wrap_content"
@@ -171,7 +171,7 @@
                 android:textColor="@color/search_filter_button_text"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/romance_filter_button"
                 android:tag="Romance"
                 android:layout_width="wrap_content"
@@ -184,7 +184,7 @@
                 android:textColor="@color/search_filter_button_text"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/war_filter_button"
                 android:tag="War"
                 android:layout_width="wrap_content"
@@ -206,7 +206,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal">
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/animation_filter_button"
                 android:tag="Animation"
                 android:layout_width="wrap_content"
@@ -219,7 +219,7 @@
                 android:textColor="@color/search_filter_button_text"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/drama_filter_button"
                 android:tag="Drama"
                 android:layout_width="wrap_content"
@@ -232,7 +232,7 @@
                 android:textColor="@color/search_filter_button_text"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/horror_filter_button"
                 android:tag="Horror"
                 android:layout_width="wrap_content"
@@ -245,7 +245,7 @@
                 android:textColor="@color/search_filter_button_text"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/science_fiction_filter_button"
                 android:tag="Science Fiction"
                 android:layout_width="wrap_content"
@@ -258,7 +258,7 @@
                 android:textColor="@color/search_filter_button_text"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/western_filter_button"
                 android:tag="Western"
                 android:layout_width="wrap_content"
@@ -280,7 +280,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal">
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/comedy_filter_button"
                 android:tag="Comedy"
                 android:layout_width="wrap_content"
@@ -293,7 +293,7 @@
                 android:textColor="@color/search_filter_button_text"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/family_filter_button"
                 android:tag="Family"
                 android:layout_width="wrap_content"
@@ -306,7 +306,7 @@
                 android:textColor="@color/search_filter_button_text"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/music_filter_button"
                 android:tag="Music"
                 android:layout_width="wrap_content"
@@ -319,7 +319,7 @@
                 android:textColor="@color/search_filter_button_text"
                 android:textAlignment="center" />
 
-            <RadioButton
+            <com.example.moviementor.other.ToggleableRadioButton
                 android:id="@+id/tv_movie_filter_button"
                 android:tag="TV Movie"
                 android:layout_width="wrap_content"
