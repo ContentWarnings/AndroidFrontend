@@ -10,6 +10,8 @@
     <string name="no_matching_search_results">No Matching Results Found</string>
     <string name="advanced_search_options_modal_header">Filters</string>
     <string name="select_genre_filter">Select a genre to filter by:</string>
+    <string name="clear_search_options_button">Clear All</string>
+    <string name="apply_search_options_button">Apply</string>
 
     <string name="action_genre_text">Action</string>
     <string name="adventure_genre_text">Adventure</string>

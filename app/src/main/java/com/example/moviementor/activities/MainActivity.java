@@ -81,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Open the advanced search options modal on top of the current (search) page
     public void openAdvancedSearchOptionsModal(final @NonNull SearchOptions searchOptions) {
-        final AdvancedSearchOptionsModal modal = new AdvancedSearchOptionsModal(searchOptions);
+        final AdvancedSearchOptionsModal modal = new AdvancedSearchOptionsModal();
+        modal.setSearchOptions(searchOptions);
         modal.show(getSupportFragmentManager(), modal.getTag());
     }
 }
