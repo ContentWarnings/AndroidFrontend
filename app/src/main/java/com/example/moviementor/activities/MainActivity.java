@@ -10,6 +10,7 @@ import com.example.moviementor.R;
 import com.example.moviementor.fragments.BaseFragment;
 import com.example.moviementor.other.AdvancedSearchOptionsModal;
 import com.example.moviementor.other.FragmentStackManager;
+import com.example.moviementor.other.SearchOptions;
 
 public class MainActivity extends AppCompatActivity {
     private final @NonNull FragmentStackManager fragmentStackManager;
@@ -79,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Open the advanced search options modal on top of the current (search) page
-    public void openAdvancedSearchOptionsModal() {
-        final AdvancedSearchOptionsModal modal = new AdvancedSearchOptionsModal();
+    public void openAdvancedSearchOptionsModal(final @NonNull SearchOptions searchOptions) {
+        final AdvancedSearchOptionsModal modal = new AdvancedSearchOptionsModal(searchOptions);
         modal.show(getSupportFragmentManager(), modal.getTag());
     }
 }
