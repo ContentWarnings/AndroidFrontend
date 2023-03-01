@@ -11,10 +11,11 @@
         android:layout_marginVertical="@dimen/advanced_search_modal_header_margin_vertical">
 
         <ImageButton
+            android:id="@+id/close_advanced_options_menu_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackgroundBorderless"
             android:layout_marginHorizontal="@dimen/advanced_search_modal_close_icon_margin_horizontal"
+            android:background="@android:color/transparent"
             android:src="@drawable/close_advanced_search_options_modal" />
 
         <TextView
