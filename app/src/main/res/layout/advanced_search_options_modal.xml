@@ -52,12 +52,15 @@
         android:orientation="horizontal">
 
         <RadioGroup
+            android:id="@+id/genre_filter_buttons_column_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal">
 
             <RadioButton
+                android:id="@+id/action_filter_button"
+                android:tag="Action"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -69,6 +72,8 @@
                 android:textAlignment="center" />
 
             <RadioButton
+                android:id="@+id/crime_filter_button"
+                android:tag="Crime"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -80,6 +85,8 @@
                 android:textAlignment="center" />
 
             <RadioButton
+                android:id="@+id/fantasy_filter_button"
+                android:tag="Fantasy"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -91,6 +98,8 @@
                 android:textAlignment="center" />
 
             <RadioButton
+                android:id="@+id/mystery_filter_button"
+                android:tag="Mystery"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -102,6 +111,8 @@
                 android:textAlignment="center" />
 
             <RadioButton
+                android:id="@+id/thriller_filter_button"
+                android:tag="Thriller"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -115,12 +126,15 @@
         </RadioGroup>
 
         <RadioGroup
+            android:id="@+id/genre_filter_buttons_column_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal">
 
             <RadioButton
+                android:id="@+id/adventure_filter_button"
+                android:tag="Adventure"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -132,6 +146,8 @@
                 android:textAlignment="center" />
 
             <RadioButton
+                android:id="@+id/documentary_filter_button"
+                android:tag="Documentary"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -143,6 +159,8 @@
                 android:textAlignment="center" />
 
             <RadioButton
+                android:id="@+id/history_filter_button"
+                android:tag="History"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -154,6 +172,8 @@
                 android:textAlignment="center" />
 
             <RadioButton
+                android:id="@+id/romance_filter_button"
+                android:tag="Romance"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -165,6 +185,8 @@
                 android:textAlignment="center" />
 
             <RadioButton
+                android:id="@+id/war_filter_button"
+                android:tag="War"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -178,12 +200,15 @@
         </RadioGroup>
 
         <RadioGroup
+            android:id="@+id/genre_filter_buttons_column_3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal">
 
             <RadioButton
+                android:id="@+id/animation_filter_button"
+                android:tag="Animation"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -195,6 +220,8 @@
                 android:textAlignment="center" />
 
             <RadioButton
+                android:id="@+id/drama_filter_button"
+                android:tag="Drama"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -206,6 +233,8 @@
                 android:textAlignment="center" />
 
             <RadioButton
+                android:id="@+id/horror_filter_button"
+                android:tag="Horror"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -217,6 +246,8 @@
                 android:textAlignment="center" />
 
             <RadioButton
+                android:id="@+id/science_fiction_filter_button"
+                android:tag="Science Fiction"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -228,6 +259,8 @@
                 android:textAlignment="center" />
 
             <RadioButton
+                android:id="@+id/western_filter_button"
+                android:tag="Western"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -241,12 +274,15 @@
         </RadioGroup>
 
         <RadioGroup
+            android:id="@+id/genre_filter_buttons_column_4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal">
 
             <RadioButton
+                android:id="@+id/comedy_filter_button"
+                android:tag="Comedy"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -258,6 +294,8 @@
                 android:textAlignment="center" />
 
             <RadioButton
+                android:id="@+id/family_filter_button"
+                android:tag="Family"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -269,6 +307,8 @@
                 android:textAlignment="center" />
 
             <RadioButton
+                android:id="@+id/music_filter_button"
+                android:tag="Music"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
@@ -280,6 +320,8 @@
                 android:textAlignment="center" />
 
             <RadioButton
+                android:id="@+id/tv_movie_filter_button"
+                android:tag="TV Movie"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/genre_filter_button_height"
                 android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"

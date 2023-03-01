@@ -15,6 +15,7 @@ import com.example.moviementor.R;
 import com.example.moviementor.activities.MainActivity;
 import com.example.moviementor.adapters.SearchPageAdapter;
 import com.example.moviementor.models.GenreViewModel;
+import com.example.moviementor.other.SearchOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -245,9 +246,9 @@ public class SearchFragment extends BaseFragment implements SearchPageAdapter.On
     // Function called by the listener attached to the child RecyclerView's adapter. Only called by
     // listener when the filter button next to the search bar is clicked on
     @Override
-    public void onItemClick() {
+    public void onItemClick(final @NonNull SearchOptions searchOptions) {
         // Route user's request to open advanced search options to the main activity
         final MainActivity mainActivity = (MainActivity) requireActivity();
-        mainActivity.openAdvancedSearchOptionsModal();
+        mainActivity.openAdvancedSearchOptionsModal(searchOptions);
     }
 }

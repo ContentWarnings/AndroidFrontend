@@ -22,6 +22,7 @@ import com.example.moviementor.R;
 import com.example.moviementor.models.GenreViewModel;
 import com.example.moviementor.models.SearchResultMovieViewModel;
 import com.example.moviementor.other.Backend;
+import com.example.moviementor.other.SearchOptions;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -55,6 +56,9 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private boolean moreSearchResultsAvailable;
     private boolean fetchingNextPage;
 
+    // Stores and manages the current filter/sort options the user has selected for searching
+    private final @NonNull SearchOptions searchOptions;
+
     public SearchPageAdapter(final @NonNull List<Object> genreItems, final @NonNull View progressWheelView,
                              final @NonNull View noMatchingResultsText) {
         this.searchPageItems = new ArrayList<>();
@@ -73,6 +77,8 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.lastSearchPage = -1;
         this.moreSearchResultsAvailable = false;
         this.fetchingNextPage = false;
+
+        this.searchOptions = new SearchOptions();
     }
 
     public void assignAlphaValueForGenreBackgroundImages(final int alphaValue) {
@@ -503,7 +509,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     // in the RecyclerView. Less prone to memory leaks in comparison to holding onto a reference
     // to the parent fragment in this adapter
     public interface OnItemClickListener {
-        void onItemClick();
+        void onItemClick(final @NonNull SearchOptions searchOptions);
     }
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
@@ -526,7 +532,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             // modal
             this.filterButton.setOnClickListener(v -> {
                 if (listener != null) {
-                    listener.onItemClick();
+                    listener.onItemClick(searchOptions);
                 }
             });
         }
