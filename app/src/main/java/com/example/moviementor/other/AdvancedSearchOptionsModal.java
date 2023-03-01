@@ -73,9 +73,9 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
         final RadioGroup genreFilterButtonsColumn3 = advancedSearchOptionsModal.findViewById(R.id.genre_filter_buttons_column_3);
         final RadioGroup genreFilterButtonsColumn4 = advancedSearchOptionsModal.findViewById(R.id.genre_filter_buttons_column_4);
 
-        // Define listener that will be applied to all RadioGroup columns
+        // Define checked change listener that will be applied to all RadioGroup columns
         final RadioGroup.OnCheckedChangeListener checkedChangeListener = (radioGroup, checkedId) -> {
-            // Genre filter button was unchecked so don't do anything
+            // Genre filter button was unchecked from clearing RadioGroup so don't do anything
             if (checkedId == -1) {
                 return;
             }
@@ -105,6 +105,17 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
                 }
                 if (radioGroup.getId() != R.id.genre_filter_buttons_column_4) {
                     genreFilterButtonsColumn4.clearCheck();
+                }
+            }
+            // RadioButton was deselected
+            else {
+                // If deselected button was deselected directly without selecting another genre
+                // filter button, then make the currentlySelectedGenreFilter equal to null since
+                // no genre filter buttons are selected anymore
+                final Object deselectedTag = radioButton.getTag();
+                if (deselectedTag instanceof String &&
+                        SearchOptions.getGenreFilter((String) deselectedTag) == currentlySelectedGenreFilter) {
+                    this.currentlySelectedGenreFilter = null;
                 }
             }
         };
