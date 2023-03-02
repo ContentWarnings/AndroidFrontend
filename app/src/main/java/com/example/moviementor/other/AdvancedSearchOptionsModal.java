@@ -1,5 +1,6 @@
 package com.example.moviementor.other;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.moviementor.R;
+import com.example.moviementor.activities.MainActivity;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -33,6 +35,7 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
         super();
     }
 
+    // Called immediately after constructor to pass data to the modal fragment
     public void setSearchOptions(final @NonNull SearchOptions searchOptions) {
         this.searchOptions = searchOptions;
         this.currentlySelectedGenreFilter = null;
@@ -120,9 +123,29 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
         genreFilterButtonsColumn4.clearCheck();
     }
 
-    // Apply currently selected search options and close this modal
+    // Apply currently selected search options (if needed) and close this modal
     private void applySearchOptions() {
-        searchOptions.setGenreFilter(currentlySelectedGenreFilter);
+        final Activity activity = getActivity();
+
+        // Get access to MainActivity
+        if (activity instanceof MainActivity) {
+            final MainActivity mainActivity = (MainActivity) activity;
+
+            // Evaluate whether or not search options were modified when user presses apply button
+            final boolean searchOptionsModified =
+                    this.currentlySelectedGenreFilter != this.searchOptions.currentGenreFilterSelected();
+
+            // If the search options were modified, then set the newly selected genre filter
+            // to the search options object held onto by the adapter
+            if (searchOptionsModified) {
+                this.searchOptions.setGenreFilter(this.currentlySelectedGenreFilter);
+
+                // Notify the search page that new search search options were selected, so that
+                // search results are re-fetched and re-populated on screen
+                mainActivity.applyNewSearchOptions();
+            }
+        }
+
         this.dismiss();
     }
 

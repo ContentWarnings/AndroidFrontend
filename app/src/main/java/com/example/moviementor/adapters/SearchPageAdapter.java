@@ -59,7 +59,8 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     // Stores and manages the current filter/sort options the user has selected for searching
     private final @NonNull SearchOptions searchOptions;
 
-    public SearchPageAdapter(final @NonNull List<Object> genreItems, final @NonNull View progressWheelView,
+    public SearchPageAdapter(final @NonNull List<Object> genreItems,
+                             final @NonNull View progressWheelView,
                              final @NonNull View noMatchingResultsText) {
         this.searchPageItems = new ArrayList<>();
         this.searchPageItems.addAll(genreItems);
@@ -68,6 +69,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.genreBackgroundAlphaValue = 0;
 
         this.searchString = "";
+        this.searchOptions = new SearchOptions();
 
         this.progressWheelView = progressWheelView;
         this.noMatchingResultsText = noMatchingResultsText;
@@ -77,8 +79,6 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.lastSearchPage = -1;
         this.moreSearchResultsAvailable = false;
         this.fetchingNextPage = false;
-
-        this.searchOptions = new SearchOptions();
     }
 
     public void assignAlphaValueForGenreBackgroundImages(final int alphaValue) {
@@ -93,9 +93,9 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (newSearchString.equals(this.searchString)) {
             return;
         }
-        // If search string was reset to empty, restore list of genres on page
-        // since there is nothing to search for
-        else if (newSearchString.isEmpty()) {
+        // If search string was reset to empty and no genre filter is currently selected, then
+        // restore list of genres on page since there is nothing to search for
+        else if (newSearchString.isEmpty() && this.searchOptions.currentGenreFilterSelected() == null) {
             this.searchString = newSearchString;
 
             // Make sure progress wheel and no matching results text are not visible anymore
@@ -136,8 +136,56 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         // results are populated
         this.progressWheelView.setVisibility(View.VISIBLE);
 
-        // Fetch search results for the new search string from the database
-        Backend.fetchSearchResults(this, this.searchString);
+        // Fetch search results for the new search string from the database. Pass a copy of the
+        // current search options so that it is not affected by changes to the adapter's search
+        // options
+        Backend.fetchSearchResults(this, this.searchString, this.searchOptions.copy());
+    }
+
+    public void onSearchOptionsChange() {
+        // If search string was already empty and the genre filter was cleared or previously empty,
+        // then restore list of genres on page since there is nothing to search for
+        if (this.searchString.isEmpty() && this.searchOptions.currentGenreFilterSelected() == null) {
+            // Make sure progress wheel and no matching results text are not visible anymore
+            this.progressWheelView.setVisibility(View.GONE);
+            this.noMatchingResultsText.setVisibility(View.GONE);
+
+            // Since search options were modified, previous requests to get new pages are voided
+            this.fetchingNextPage = false;
+
+            // Replace all current search results with genre data again to re-populate
+            // screen with list of genres
+            final int previousLen = this.searchPageItems.size();
+            this.searchPageItems.clear();
+            notifyItemRangeRemoved(2, previousLen);
+            this.searchPageItems.addAll(this.genreItems);
+            notifyItemRangeInserted(2, this.searchPageItems.size());
+
+            return;
+        }
+
+        // Can't load more search results until initial page of search results is populated
+        this.moreSearchResultsAvailable = false;
+
+        // Since search options were modified, previous requests to get new pages are voided
+        this.fetchingNextPage = false;
+
+        // Clear all items currently displayed on the search page
+        final int previousLen = this.searchPageItems.size();
+        this.searchPageItems.clear();
+        notifyItemRangeRemoved(2, previousLen);
+
+        // Make sure no matching search results text is not visible
+        this.noMatchingResultsText.setVisibility(View.GONE);
+
+        // May take a second to populate search results, so display loading wheel until the
+        // results are populated
+        this.progressWheelView.setVisibility(View.VISIBLE);
+
+        // Fetch search results for the new search options from the database. Pass a copy of the
+        // current search options so that it is not affected by changes to the adapter's search
+        // options
+        Backend.fetchSearchResults(this, this.searchString, this.searchOptions.copy());
     }
 
     public void getNextPage() {
@@ -147,14 +195,17 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         // Make RecyclerView aware that fetching next page is in progress
         this.fetchingNextPage = true;
 
-        // Fetch next page of search results from the database
-        Backend.fetchSearchResultsPage(this, this.searchString, this.lastSearchPage + 1);
+        // Fetch next page of search results from the database. Pass a copy of the current search
+        // options so that it is not affected by changes to the adapter's search options
+        Backend.fetchSearchResultsPage(this, this.searchString, this.searchOptions.copy(), this.lastSearchPage + 1);
     }
 
-    public void setSearchResults(final @NonNull List<Object> searchResults, final @NonNull String searchString) {
-        // If search results are stale since search string was recently updated, then ignore
-        // this late list of search result data coming in
-        if (!this.searchString.equals(searchString)) {
+    public void setSearchResults(final @NonNull List<Object> searchResults,
+                                 final @NonNull String searchString,
+                                 final @NonNull SearchOptions searchOptions) {
+        // If search results are stale since search string or search options were recently updated,
+        // then ignore this late list of search result data coming in
+        if (!this.searchString.equals(searchString) || !this.searchOptions.equals(searchOptions)) {
             return;
         }
         // If no search results for this string were found, make it clear that no more
@@ -179,10 +230,20 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         // About to display search result data, so hide progress wheel again
         this.progressWheelView.setVisibility(View.GONE);
 
-        // First page for this search string is being populated, so you can get the next page
-        // of search results now
+        // Just got first page of search results for current search string and search options
         this.lastSearchPage = 1;
-        this.moreSearchResultsAvailable = true;
+
+        // If search string is blank, then currently showing trending movies which does not allow
+        // for pagination. In this case, make it clear that no more pages of search results can
+        // be retrieved
+        if (this.searchString.trim().isEmpty()) {
+            this.moreSearchResultsAvailable = false;
+        }
+        // Otherwise, the first page of search results are being populated, so you can get the next
+        // page of search results now
+        else {
+            this.moreSearchResultsAvailable = true;
+        }
 
         // Notify how many new search results need to be populated on the page. Header and search
         // bar should never be updated so notify adapter of insertions starting at position 2
@@ -190,16 +251,22 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyItemRangeInserted(2, this.searchPageItems.size());
     }
 
-    // Should only get next page of search results if not displaying genres rows, if there are already
-    // search results populated on the screen, and if there are more search results available
+    // Should only get next page of search results if search string is not blank (this means that
+    // genre rows are not being shown and trending movies are not being shown since pagination is
+    // not supported for trending movies), there are search results already populated on the screen,
+    // and if there are more search results available
     public boolean shouldGetNextPage() {
-        return !this.searchString.isEmpty() && !this.searchPageItems.isEmpty() && moreSearchResultsAvailable;
+        return  !this.searchString.trim().isEmpty()
+                && !this.searchPageItems.isEmpty()
+                && moreSearchResultsAvailable;
     }
 
-    public void populateNextPage(final @NonNull List<Object> searchResults, final @NonNull String searchString) {
-        // If search string was modified while retrieving next page, then ignore
+    public void populateNextPage(final @NonNull List<Object> searchResults,
+                                 final @NonNull String searchString,
+                                 final @NonNull SearchOptions searchOptions) {
+        // If search string or search options were modified while retrieving next page, then ignore
         // the outdated page results
-        if (!this.searchString.equals(searchString)) {
+        if (!this.searchString.equals(searchString) || !this.searchOptions.equals(searchOptions)) {
             return;
         }
         // If no search results were found in the next page, return since no more
