@@ -298,4 +298,15 @@ public class FragmentStackManager {
                 commitNow();
 
     }
+
+    // Notifies the search page that new search search options were selected, so that
+    // search results are re-fetched and re-populated on screen
+    public void applyNewSearchOptions() {
+        // Make sure that search fragment is currently being displayed
+        if (currentTabOpened == Tab.SEARCH && searchTabStack.getTopFragment() instanceof SearchFragment) {
+            // Notify the search fragment of updated search options
+            final SearchFragment searchFragment = (SearchFragment) searchTabStack.getTopFragment();
+            searchFragment.applyNewSearchOptions();
+        }
+    }
 }

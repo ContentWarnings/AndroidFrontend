@@ -98,4 +98,10 @@ public class MainActivity extends AppCompatActivity {
         modal.setSearchOptions(searchOptions);
         modal.show(getSupportFragmentManager(), SEARCH_OPTIONS_MODAL_TAG);
     }
+
+    // Tell the fragment stack manager to notify the search page that new search search options were
+    // selected, so that search results are re-fetched and re-populated on screen
+    public void applyNewSearchOptions() {
+        this.fragmentStackManager.applyNewSearchOptions();
+    }
 }

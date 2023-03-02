@@ -56,12 +56,46 @@ public class Backend {
         return baseUrl + relativeUrl;
     }
 
-    private static String getRelativeSearchUrl(final @NonNull String searchString, final int page) {
-        String relativeSearchUrl = "search/?";
-        relativeSearchUrl += "q=" + searchString;
+    private static String getRelativeSearchUrl(final @NonNull String searchString,
+                                               final @NonNull SearchOptions searchOptions,
+                                               final int page) {
+        // Keeps track of whether or not any search params have been added to the relative search
+        // URL yet
+        boolean addedSearchParams = false;
 
+        String relativeSearchUrl = "search";
+
+        if (!searchString.isEmpty()) {
+            relativeSearchUrl += "/?q=" + searchString;
+            addedSearchParams = true;
+        }
         if (page != NO_PAGE_SPECIFIED) {
-            relativeSearchUrl += "&p=" + page;
+            // No search params added yet so need to add "/?" to relative search URL
+            if (!addedSearchParams) {
+                relativeSearchUrl += "/?";
+                addedSearchParams = true;
+            }
+            // Search params have already been added, so just add "&" to relative search URL
+            // so that next search param can be appended to the URL
+            else {
+                relativeSearchUrl += "&";
+            }
+
+            relativeSearchUrl += "p=" + page;
+        }
+        if (searchOptions.currentGenreFilterSelected() != null) {
+            // No search params added yet so need to add "/?" to relative search URL
+            if (!addedSearchParams) {
+                relativeSearchUrl += "/?";
+                addedSearchParams = true;
+            }
+            // Search params have already been added, so just add "&" to relative search URL
+            // so that next search param can be appended to the URL
+            else {
+                relativeSearchUrl += "&";
+            }
+
+            relativeSearchUrl += "genre=" + searchOptions.getGenreFilterName();
         }
 
         return relativeSearchUrl;
@@ -110,9 +144,11 @@ public class Backend {
         });
     }
 
-    public static void fetchSearchResults(final @NonNull SearchPageAdapter adapter, final @NonNull String searchString) {
+    public static void fetchSearchResults(final @NonNull SearchPageAdapter adapter,
+                                          final @NonNull String searchString,
+                                          final @NonNull SearchOptions searchOptions) {
         // Setup search params for search URL
-        final String searchParamsUrl = getRelativeSearchUrl(searchString, NO_PAGE_SPECIFIED);
+        final String searchParamsUrl = getRelativeSearchUrl(searchString, searchOptions, NO_PAGE_SPECIFIED);
 
         // Cancel previous search API request if it hasn't finished yet,
         // since it is now invalidated by this one
@@ -216,7 +252,7 @@ public class Backend {
 
                 // Done fetching and parsing movie search results, so populate
                 // the search page with these updated results
-                adapter.setSearchResults(searchResultViewModels, searchString);
+                adapter.setSearchResults(searchResultViewModels, searchString, searchOptions);
             }
 
             @Override
@@ -227,9 +263,12 @@ public class Backend {
         });
     }
 
-    public static void fetchSearchResultsPage(final @NonNull SearchPageAdapter adapter, final @NonNull String searchString, final int pageNum) {
+    public static void fetchSearchResultsPage(final @NonNull SearchPageAdapter adapter,
+                                              final @NonNull String searchString,
+                                              final @NonNull SearchOptions searchOptions,
+                                              final int pageNum) {
         // Setup search params for search URL
-        final String searchParamsUrl = getRelativeSearchUrl(searchString, pageNum);
+        final String searchParamsUrl = getRelativeSearchUrl(searchString, searchOptions, pageNum);
 
         // Hit search API with specified search parameters
         previousSearchRequest = client.get(getAbsoluteUrl(searchParamsUrl), new AsyncHttpResponseHandler() {
@@ -328,7 +367,7 @@ public class Backend {
 
                 // Done fetching and parsing movie search results, so add on
                 // the next page into the search results
-                adapter.populateNextPage(searchResultViewModels, searchString);
+                adapter.populateNextPage(searchResultViewModels, searchString, searchOptions);
             }
 
             @Override

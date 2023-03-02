@@ -251,4 +251,17 @@ public class SearchFragment extends BaseFragment implements SearchPageAdapter.On
         final MainActivity mainActivity = (MainActivity) requireActivity();
         mainActivity.openAdvancedSearchOptionsModal(searchOptions);
     }
+
+    // Function that tells search adapter that the search options were modified, so that new search
+    // results can be retrieved and populated in the SearchFragment's RecyclerView
+    public void applyNewSearchOptions() {
+        final RecyclerView searchPageRecyclerView = requireView().findViewById(R.id.search_page_recycler_view);
+        final RecyclerView.Adapter adapter = searchPageRecyclerView.getAdapter();
+
+        if (adapter instanceof SearchPageAdapter) {
+            // Notify SearchPageAdapter that the search options were modified
+            final SearchPageAdapter searchPageAdapter = (SearchPageAdapter) adapter;
+            searchPageAdapter.onSearchOptionsChange();
+        }
+    }
 }
