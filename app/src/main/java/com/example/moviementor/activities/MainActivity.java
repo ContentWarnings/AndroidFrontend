@@ -2,6 +2,7 @@ package com.example.moviementor.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.widget.LinearLayout;
@@ -13,6 +14,8 @@ import com.example.moviementor.other.FragmentStackManager;
 import com.example.moviementor.other.SearchOptions;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String SEARCH_OPTIONS_MODAL_TAG = "searchOptionsModal";
+
     private final @NonNull FragmentStackManager fragmentStackManager;
 
     public MainActivity() {
@@ -81,8 +84,18 @@ public class MainActivity extends AppCompatActivity {
 
     // Open the advanced search options modal on top of the current (search) page
     public void openAdvancedSearchOptionsModal(final @NonNull SearchOptions searchOptions) {
+        // Try to get search options modal if currently on screen
+        final Fragment findModal = getSupportFragmentManager()
+                .findFragmentByTag(SEARCH_OPTIONS_MODAL_TAG);
+
+        // If the search options modal was found then don't add open another modal
+        // on top of the current one
+        if (findModal != null) {
+            return;
+        }
+
         final AdvancedSearchOptionsModal modal = new AdvancedSearchOptionsModal();
         modal.setSearchOptions(searchOptions);
-        modal.show(getSupportFragmentManager(), modal.getTag());
+        modal.show(getSupportFragmentManager(), SEARCH_OPTIONS_MODAL_TAG);
     }
 }
