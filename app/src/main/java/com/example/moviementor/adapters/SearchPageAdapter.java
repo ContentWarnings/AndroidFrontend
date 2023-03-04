@@ -1,6 +1,7 @@
 package com.example.moviementor.adapters;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -143,6 +145,10 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public void onSearchOptionsChange() {
+        // Notify search row to update since search options have changed and the filter button
+        // may or may not need to toggle its active/inactive UI state
+        notifyItemChanged(1);
+
         // If search string was already empty and the genre filter was cleared or previously empty,
         // then restore list of genres on page since there is nothing to search for
         if (this.searchString.isEmpty() && this.searchOptions.currentGenreFilterSelected() == null) {
@@ -430,6 +436,25 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     return false;
                 }
             });
+
+            final ImageButton filterButton = ((SearchBarViewHolder) viewHolder).filterButton;
+            final Drawable filterImg = ResourcesCompat.getDrawable(filterButton.getResources(),
+                        R.drawable.filter_icon, null);
+
+            // If any search option is currently set by the user then give the filter button
+            // an active tint
+            if (this.searchOptions.currentGenreFilterSelected() != null
+                    || this.searchOptions.currentSortOptionSelected() != null) {
+                filterImg.setTint(ResourcesCompat
+                        .getColor(filterButton.getResources(), R.color.filter_button_active, null));
+            }
+            // Otherwise, no filters selected so give the filter button an inactive tint
+            else {
+                filterImg.setTint(ResourcesCompat
+                        .getColor(filterButton.getResources(), R.color.filter_button_inactive, null));
+            }
+
+            filterButton.setImageDrawable(filterImg);
         }
         else if (itemViewType == VIEW_TYPE_GENRE) {
             final SearchPageAdapter.GenreViewHolder genreViewHolder = (SearchPageAdapter.GenreViewHolder) viewHolder;

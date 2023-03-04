@@ -48,4 +48,6 @@
     <color name="clear_search_options_button_text">@color/white</color>
     <color name="apply_search_options_button_background">#7E57C2</color>
     <color name="apply_search_options_button_text">@color/white</color>
+    <color name="filter_button_inactive">@color/white</color>
+    <color name="filter_button_active">@color/purple_200</color>
 </resources>
