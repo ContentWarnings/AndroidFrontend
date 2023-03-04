@@ -116,6 +116,66 @@ public class SearchOptions {
         }
     }
 
+    // Returns name of sort option for the sort option enum currently selected. If no sort enum
+    // is selected, then "relevance_ascending" is returned as the default sort
+    @NonNull
+    public String getSortOptionName() {
+        if (this.sortOption == SortOption.RELEVANCE_DESCENDING) {
+            return "default_descending";
+        }
+        else if (this.sortOption == SortOption.TITLE_ASCENDING) {
+            return "title_ascending";
+        }
+        else if (this.sortOption == SortOption.TITLE_DESCENDING) {
+            return "title_descending";
+        }
+        else if (this.sortOption == SortOption.RELEASE_DATE_ASCENDING) {
+            return "release_ascending";
+        }
+        else if (this.sortOption == SortOption.RELEASE_DATE_DESCENDING) {
+            return "release_descending";
+        }
+        else if (this.sortOption == SortOption.RATING_ASCENDING) {
+            return "rating_ascending";
+        }
+        else if (this.sortOption == SortOption.RATING_DESCENDING) {
+            return "rating_descending";
+        }
+        else if (this.sortOption == SortOption.MPA_RATING_ASCENDING) {
+            return "mpa_ascending";
+        }
+        else if (this.sortOption == SortOption.MPA_RATING_DESCENDING) {
+            return "mpa_descending";
+        }
+        else if (this.sortOption == SortOption.OVERVIEW_ASCENDING) {
+            return "overview_ascending";
+        }
+        else if (this.sortOption == SortOption.OVERVIEW_DESCENDING) {
+            return "overview_descending";
+        }
+        else if (this.sortOption == SortOption.RUNTIME_ASCENDING) {
+            return "runtime_ascending";
+        }
+        else if (this.sortOption == SortOption.RUNTIME_DESCENDING) {
+            return "runtime_descending";
+        }
+        else if (this.sortOption == SortOption.GENRES_ASCENDING) {
+            return "genres_ascending";
+        }
+        else if (this.sortOption == SortOption.GENRES_DESCENDING) {
+            return "genres_descending";
+        }
+        else if (this.sortOption == SortOption.CONTENT_WARNING_ASCENDING) {
+            return "cw_ascending";
+        }
+        else if (this.sortOption == SortOption.CONTENT_WARNING_DESCENDING) {
+            return "cw_descending";
+        }
+        else {
+            return "default_ascending";
+        }
+    }
+
     // Helper function that returns genre filter enum from a genre's name
     public static @Nullable GenreFilter getGenreFilter(final @NonNull String genreName) {
         switch (genreName) {

@@ -97,6 +97,19 @@ public class Backend {
 
             relativeSearchUrl += "genre=" + searchOptions.getGenreFilterName();
         }
+        if (searchOptions.currentSortOptionSelected() != null) {
+            // No search params added yet so need to add "/?" to relative search URL
+            if (!addedSearchParams) {
+                relativeSearchUrl += "/?";
+            }
+            // Search params have already been added, so just add "&" to relative search URL
+            // so that next search param can be appended to the URL
+            else {
+                relativeSearchUrl += "&";
+            }
+
+            relativeSearchUrl += "sort=" + searchOptions.getSortOptionName();
+        }
 
         return relativeSearchUrl;
     }
