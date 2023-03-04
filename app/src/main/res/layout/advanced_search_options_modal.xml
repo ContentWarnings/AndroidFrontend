@@ -31,315 +31,498 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/advanced_search_modal_header_divider_width"
-        android:background="@color/advanced_search_modal_header_divider"
+        android:layout_height="@dimen/advanced_search_modal_divider_width"
+        android:background="@color/advanced_search_modal_divider"
         android:alpha="0.5"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/select_genre_filter"
-        android:textSize="@dimen/select_genre_filter_text_size"
-        android:textStyle="bold"
-        android:textColor="@color/select_genre_filter_text"
-        android:layout_marginStart="@dimen/select_genre_filter_text_margin_start"
-        android:layout_marginTop="@dimen/select_genre_filter_text_margin_top"
-        android:layout_marginBottom="@dimen/select_genre_filter_text_margin_bottom" />
-
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <RadioGroup
-            android:id="@+id/genre_filter_buttons_column_1"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal">
+            android:orientation="vertical">
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/action_filter_button"
-                android:tag="Action"
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/action_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+                android:layout_height="wrap_content"
+                android:text="@string/select_genre_filter"
+                android:textSize="@dimen/select_genre_filter_text_size"
+                android:textStyle="bold"
+                android:textColor="@color/select_genre_filter_text"
+                android:layout_marginStart="@dimen/select_genre_filter_text_margin_start"
+                android:layout_marginTop="@dimen/select_genre_filter_text_margin_top"
+                android:layout_marginBottom="@dimen/select_genre_filter_text_margin_bottom" />
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/crime_filter_button"
-                android:tag="Crime"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/genre_filter_buttons_column_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal">
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/action_filter_button"
+                        android:tag="Action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/action_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/crime_filter_button"
+                        android:tag="Crime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/crime_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/fantasy_filter_button"
+                        android:tag="Fantasy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/fantasy_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/mystery_filter_button"
+                        android:tag="Mystery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/mystery_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/thriller_filter_button"
+                        android:tag="Thriller"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/thriller_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                </RadioGroup>
+
+                <RadioGroup
+                    android:id="@+id/genre_filter_buttons_column_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal">
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/adventure_filter_button"
+                        android:tag="Adventure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/adventure_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/documentary_filter_button"
+                        android:tag="Documentary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/documentary_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/history_filter_button"
+                        android:tag="History"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/history_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/romance_filter_button"
+                        android:tag="Romance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/romance_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/war_filter_button"
+                        android:tag="War"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/war_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                </RadioGroup>
+
+                <RadioGroup
+                    android:id="@+id/genre_filter_buttons_column_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal">
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/animation_filter_button"
+                        android:tag="Animation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/animation_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/drama_filter_button"
+                        android:tag="Drama"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/drama_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/horror_filter_button"
+                        android:tag="Horror"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/horror_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/science_fiction_filter_button"
+                        android:tag="Science Fiction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/science_fiction_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/western_filter_button"
+                        android:tag="Western"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/western_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                </RadioGroup>
+
+                <RadioGroup
+                    android:id="@+id/genre_filter_buttons_column_4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal">
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/comedy_filter_button"
+                        android:tag="Comedy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/comedy_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/family_filter_button"
+                        android:tag="Family"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/family_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/music_filter_button"
+                        android:tag="Music"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/music_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                    <com.example.moviementor.other.ToggleableRadioButton
+                        android:id="@+id/tv_movie_filter_button"
+                        android:tag="TV Movie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/genre_filter_button_height"
+                        android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
+                        android:button="@null"
+                        android:background="@drawable/genre_radio_button_background"
+                        android:text="@string/tv_movie_genre_text"
+                        android:textSize="@dimen/genre_filter_button_text_size"
+                        android:textColor="@color/search_filter_button_text"
+                        android:textAlignment="center" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/advanced_search_modal_divider_width"
+                android:background="@color/advanced_search_modal_divider"
+                android:layout_marginHorizontal="@dimen/advanced_search_modal_middle_divider_margin_horizontal"
+                android:layout_marginVertical="@dimen/advanced_search_modal_middle_divider_margin_vertical"
+                android:alpha="0.5"/>
+
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/crime_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/select_sort_option_margin_start"
+                android:text="@string/select_sort_option"
+                android:textSize="@dimen/select_sort_option_text_size"
+                android:textStyle="bold"
+                android:textColor="@color/select_sort_option_text" />
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/fantasy_filter_button"
-                android:tag="Fantasy"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/fantasy_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/sort_option_button_group_margin_start"
+                android:orientation="vertical">
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/mystery_filter_button"
-                android:tag="Mystery"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/mystery_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/relevance_ascending_text"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/thriller_filter_button"
-                android:tag="Thriller"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/thriller_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/relevance_descending_text"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-        </RadioGroup>
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/title_ascending_text"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-        <RadioGroup
-            android:id="@+id/genre_filter_buttons_column_2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal">
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/title_descending_text"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/adventure_filter_button"
-                android:tag="Adventure"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/adventure_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/release_date_ascending_text"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/documentary_filter_button"
-                android:tag="Documentary"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/documentary_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/release_date_descending_text"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/history_filter_button"
-                android:tag="History"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/history_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/rating_ascending_text"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/romance_filter_button"
-                android:tag="Romance"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/romance_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/rating_descending_text"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/war_filter_button"
-                android:tag="War"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/war_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/mpa_rating_ascending_text"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-        </RadioGroup>
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/mpa_rating_descending_text"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-        <RadioGroup
-            android:id="@+id/genre_filter_buttons_column_3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal">
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/overview_ascending_text"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/animation_filter_button"
-                android:tag="Animation"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/animation_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/overview_descending_text"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/drama_filter_button"
-                android:tag="Drama"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/drama_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/runtime_ascending"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/horror_filter_button"
-                android:tag="Horror"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/horror_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/runtime_descending"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/science_fiction_filter_button"
-                android:tag="Science Fiction"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/science_fiction_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/genres_ascending"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/western_filter_button"
-                android:tag="Western"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/western_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/genres_descending"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-        </RadioGroup>
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/content_warning_ascending"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-        <RadioGroup
-            android:id="@+id/genre_filter_buttons_column_4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_horizontal">
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/sort_option_button_circle"
+                    android:text="@string/content_warning_descending"
+                    android:textSize="@dimen/sort_option_button_text_size"
+                    android:textColor="@color/sort_option_button_text" />
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/comedy_filter_button"
-                android:tag="Comedy"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/comedy_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+            </RadioGroup>
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/family_filter_button"
-                android:tag="Family"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/family_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
+        </LinearLayout>
 
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/music_filter_button"
-                android:tag="Music"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/music_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
-
-            <com.example.moviementor.other.ToggleableRadioButton
-                android:id="@+id/tv_movie_filter_button"
-                android:tag="TV Movie"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/genre_filter_button_height"
-                android:layout_marginVertical="@dimen/genre_filter_button_margin_vertical"
-                android:button="@null"
-                android:background="@drawable/genre_radio_button_background"
-                android:text="@string/tv_movie_genre_text"
-                android:textSize="@dimen/genre_filter_button_text_size"
-                android:textColor="@color/search_filter_button_text"
-                android:textAlignment="center" />
-
-        </RadioGroup>
-
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/advanced_search_modal_header_divider_width"
-        android:background="@color/advanced_search_modal_header_divider"
+        android:layout_height="@dimen/advanced_search_modal_divider_width"
+        android:background="@color/advanced_search_modal_divider"
         android:alpha="0.5"/>
 
     <RelativeLayout

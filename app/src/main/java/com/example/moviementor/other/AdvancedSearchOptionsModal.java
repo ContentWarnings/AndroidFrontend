@@ -2,6 +2,7 @@ package com.example.moviementor.other;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
     private static final int EMPTY_GENRE_FILTER = -1;
+    private static final double MODAL_PERCENT_HEIGHT_PARENT = 0.8;
 
     // Object that keeps track of selected search options for user
     private @NonNull SearchOptions searchOptions;
@@ -106,6 +108,11 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
         final BottomSheetBehavior<View> view = BottomSheetBehavior.from((View) requireView().getParent());
         view.setState(BottomSheetBehavior.STATE_EXPANDED);
         view.setMaxWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+
+        // Sets the max height of the dialog fragment to a percentage of the total screen height
+        final DisplayMetrics displayMetrics = new DisplayMetrics();
+        requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        view.setMaxHeight((int) (displayMetrics.heightPixels * MODAL_PERCENT_HEIGHT_PARENT));
     }
 
     // Clears all currently selected search options in the modal

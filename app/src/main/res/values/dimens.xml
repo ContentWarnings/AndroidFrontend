@@ -73,7 +73,7 @@
     <dimen name="advanced_search_modal_header_text_size">16sp</dimen>
     <dimen name="advanced_search_modal_header_margin_vertical">12dp</dimen>
     <dimen name="advanced_search_modal_close_icon_margin_horizontal">20dp</dimen>
-    <dimen name="advanced_search_modal_header_divider_width">1dp</dimen>
+    <dimen name="advanced_search_modal_divider_width">1dp</dimen>
     <dimen name="select_genre_filter_text_size">18sp</dimen>
     <dimen name="select_genre_filter_text_margin_start">20dp</dimen>
     <dimen name="select_genre_filter_text_margin_top">16dp</dimen>
@@ -84,6 +84,12 @@
     <dimen name="genre_filter_button_margin_vertical">5dp</dimen>
     <dimen name="genre_filter_button_corner_radius">5dp</dimen>
     <dimen name="genre_filter_button_border_width">1dp</dimen>
+    <dimen name="advanced_search_modal_middle_divider_margin_horizontal">20dp</dimen>
+    <dimen name="advanced_search_modal_middle_divider_margin_vertical">20dp</dimen>
+    <dimen name="select_sort_option_text_size">18sp</dimen>
+    <dimen name="select_sort_option_margin_start">20dp</dimen>
+    <dimen name="sort_option_button_group_margin_start">20dp</dimen>
+    <dimen name="sort_option_button_text_size">14sp</dimen>
     <dimen name="advanced_search_modal_footer_margin_vertical">15dp</dimen>
     <dimen name="advanced_search_modal_footer_margin_horizontal">18dp</dimen>
     <dimen name="clear_search_options_button_text_size">16sp</dimen>
