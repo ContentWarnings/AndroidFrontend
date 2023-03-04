@@ -2,7 +2,6 @@ package com.example.moviementor.adapters;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -472,7 +471,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             genreViewHolder.genreItemView.getBackground().setAlpha(genreBackgroundAlphaValue);
 
             // Setup a click listener on genre item view that detects when genre row/button has been
-            // clicked on, so that the appropriate genre's results can be displayed
+            // clicked on, so that the selected genre's results can be displayed
             genreViewHolder.itemView.setOnClickListener(view -> {
                 // Get text being displayed on the genre row that was clicked on
                 final TextView genreRowTextClicked = view.findViewById(R.id.genre_name);
