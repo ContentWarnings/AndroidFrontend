@@ -34,7 +34,7 @@
     <color name="filter_icon_background">@android:color/transparent</color>
     <color name="advanced_search_modal_background">#313131</color>
     <color name="advanced_search_modal_header_text">@color/white</color>
-    <color name="advanced_search_modal_header_divider">@color/white</color>
+    <color name="advanced_search_modal_divider">@color/white</color>
     <color name="select_genre_filter_text">@color/white</color>
     <color name="search_filter_button_unchecked">#606060</color>
     <color name="search_filter_button_checked_start_gradient">#A075E5</color>
@@ -42,6 +42,9 @@
     <color name="search_filter_button_text">@color/white</color>
     <color name="genre_filter_button_unchecked_border">@color/black</color>
     <color name="genre_filter_button_checked_border">@color/black</color>
+    <color name="select_sort_option_text">@color/white</color>
+    <color name="sort_option_button_text">@color/white</color>
+    <color name="sort_option_button_circle">#B085F5</color>
     <color name="clear_search_options_button_text">@color/white</color>
     <color name="apply_search_options_button_background">#7E57C2</color>
     <color name="apply_search_options_button_text">@color/white</color>
