@@ -10,7 +10,7 @@ public class SearchOptions {
         THRILLER, WAR, WESTERN
     }
 
-    // Default is Relevance Ascending which is represented by a null (none) search option value
+    // Default is Relevance Ascending which is represented by a null (none) sort option value
     public static enum SortOption {
         RELEVANCE_DESCENDING, TITLE_ASCENDING, TITLE_DESCENDING, RELEASE_DATE_ASCENDING,
         RELEASE_DATE_DESCENDING, RATING_ASCENDING, RATING_DESCENDING, MPA_RATING_ASCENDING,
@@ -159,6 +159,46 @@ public class SearchOptions {
                 return GenreFilter.WESTERN;
             default:
                 return null;
+        }
+    }
+
+    // Helper function that returns sort option enum from a sort option's string
+    public static @Nullable SortOption getSortOption(final @NonNull String sortOption) {
+        switch (sortOption) {
+            case "Relevance Ascending":
+                return null;
+            case "Relevance Descending":
+                return SortOption.RELEVANCE_DESCENDING;
+            case "Title Ascending":
+                return SortOption.TITLE_ASCENDING;
+            case "Title Descending":
+                return SortOption.TITLE_DESCENDING;
+            case "Release Date Ascending":
+                return SortOption.RELEASE_DATE_ASCENDING;
+            case "Release Date Descending":
+                return SortOption.RELEASE_DATE_DESCENDING;
+            case "Rating Ascending":
+                return SortOption.RATING_ASCENDING;
+            case "Rating Descending":
+                return SortOption.RATING_DESCENDING;
+            case "Mpa Rating Ascending":
+                return SortOption.MPA_RATING_ASCENDING;
+            case "Overview Ascending":
+                return SortOption.OVERVIEW_ASCENDING;
+            case "Overview Descending":
+                return SortOption.OVERVIEW_DESCENDING;
+            case "Runtime Ascending":
+                return SortOption.RUNTIME_ASCENDING;
+            case "Runtime Descending":
+                return SortOption.RUNTIME_DESCENDING;
+            case "Genres Ascending":
+                return SortOption.GENRES_ASCENDING;
+            case "Genres Descending":
+                return SortOption.GENRES_DESCENDING;
+            case "Content Warnings Ascending":
+                return SortOption.CONTENT_WARNING_ASCENDING;
+            default:
+                return SortOption.CONTENT_WARNING_DESCENDING;
         }
     }
 

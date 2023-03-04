@@ -30,6 +30,9 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
     // Keeps track of user's currently selected genre filter in the modal
     private @Nullable SearchOptions.GenreFilter currentlySelectedGenreFilter;
 
+    // Keeps track of user's currently selected sort option in the modal
+    private @Nullable SearchOptions.SortOption currentlySelectedSortOption;
+
     private boolean setupModal;
 
     // Default Constructor
@@ -41,6 +44,7 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
     public void setSearchOptions(final @NonNull SearchOptions searchOptions) {
         this.searchOptions = searchOptions;
         this.currentlySelectedGenreFilter = null;
+        this.currentlySelectedSortOption = null;
     }
 
     @Override
@@ -70,6 +74,7 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
         closeModalButton.setOnClickListener(view -> dismiss());
 
         setupGenreFilterButtonListeners(advancedSearchOptionsModal);
+        setupSortOptionButtonListeners(advancedSearchOptionsModal);
 
         // If modal was opened with previous genre filter selected, then find the associated button
         // for that genre filter and change it's state to selected
@@ -78,6 +83,14 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
             final RadioButton genreFilterButton = advancedSearchOptionsModal.findViewById(genreFilterSelectedButtonRes);
             genreFilterButton.setChecked(true);
         }
+
+        // If modal was opened with previous sort option selected, then find the associated button
+        // for that sort option and change it's state to selected. If no sort option was previously
+        // selected, then just set the default "relevance_ascending" sort option button's state to
+        // selected
+        final @IdRes int sortOptionSelectedButtonRes = getSortOptionButtonRes(this.searchOptions.currentSortOptionSelected());
+        final RadioButton sortOptionButton = advancedSearchOptionsModal.findViewById(sortOptionSelectedButtonRes);
+        sortOptionButton.setChecked(true);
 
         // Get the modal's footer buttons
         final Button clearSearchOptionsButton = advancedSearchOptionsModal.findViewById(R.id.clear_search_options_button);
@@ -128,6 +141,19 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
         genreFilterButtonsColumn2.clearCheck();
         genreFilterButtonsColumn3.clearCheck();
         genreFilterButtonsColumn4.clearCheck();
+
+        // Make sure currently selected genre filter is set to null
+        this.currentlySelectedGenreFilter = null;
+
+        // Get the radio group containing all the sort option buttons
+        final RadioGroup sortOptionButtons = requireView().findViewById(R.id.sort_option_radio_group);
+
+        // Select the default sort option button
+        final RadioButton defaultSortOptionButton = requireView().findViewById(R.id.relevance_ascending_button);
+        defaultSortOptionButton.setChecked(true);
+
+        // Make sure currently selected sort option is set to null
+        this.currentlySelectedSortOption = null;
     }
 
     // Apply currently selected search options (if needed) and close this modal
@@ -140,12 +166,14 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
 
             // Evaluate whether or not search options were modified when user presses apply button
             final boolean searchOptionsModified =
-                    this.currentlySelectedGenreFilter != this.searchOptions.currentGenreFilterSelected();
+                    this.currentlySelectedGenreFilter != this.searchOptions.currentGenreFilterSelected()
+                    || this.currentlySelectedSortOption != this.searchOptions.currentSortOptionSelected();
 
-            // If the search options were modified, then set the newly selected genre filter
-            // to the search options object held onto by the adapter
+            // If the search options were modified, then set the newly selected genre filter and/or
+            // sort option to the search options object held onto by the adapter
             if (searchOptionsModified) {
                 this.searchOptions.setGenreFilter(this.currentlySelectedGenreFilter);
+                this.searchOptions.setSortOption(this.currentlySelectedSortOption);
 
                 // Notify the search page that new search search options were selected, so that
                 // search results are re-fetched and re-populated on screen
@@ -217,6 +245,32 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
         genreFilterButtonsColumn4.setOnCheckedChangeListener(checkedChangeListener);
     }
 
+    private void setupSortOptionButtonListeners(final @NonNull View advancedSearchOptionsModal) {
+        // Get the radio group containing all the sort option buttons
+        final RadioGroup sortOptionButtons = advancedSearchOptionsModal.findViewById(R.id.sort_option_radio_group);
+
+        // Apply checked change listener to the sort option buttons
+        sortOptionButtons.setOnCheckedChangeListener((radioGroup, checkedId) -> {
+            // Sort option button was unchecked from clearing RadioGroup so don't do anything
+            if (checkedId == -1) {
+                return;
+            }
+
+            // Get the RadioButton whose checked state was modified
+            final RadioButton radioButton = radioGroup.findViewById(checkedId);
+
+            // If radio button in this group was checked then update the currently selected sort
+            // option to the corresponding sort option of this button
+            if (radioButton.isChecked()) {
+                final Object sortOptionTag = radioButton.getTag();
+
+                if (sortOptionTag instanceof String) {
+                    this.currentlySelectedSortOption = SearchOptions.getSortOption((String) sortOptionTag);
+                }
+            }
+        });
+    }
+
     // Helper function to get RadioButton resource for a specific genre filter
     @IdRes
     private int getGenreFilterButtonRes(final @Nullable SearchOptions.GenreFilter genreFilter) {
@@ -280,6 +334,67 @@ public class AdvancedSearchOptionsModal extends BottomSheetDialogFragment {
         // No genre filters selected
         else {
             return EMPTY_GENRE_FILTER;
+        }
+    }
+
+    // Helper function to get RadioButton resource for a specific sort option
+    @IdRes
+    private int getSortOptionButtonRes(final @Nullable SearchOptions.SortOption sortOption) {
+        // If no sort option was previously selected, then just use the default
+        // "relevance_ascending" sort option button
+        if (sortOption == null) {
+            return R.id.relevance_ascending_button;
+        }
+        else if (sortOption == SearchOptions.SortOption.RELEVANCE_DESCENDING) {
+            return R.id.relevance_descending_button;
+        }
+        else if (sortOption == SearchOptions.SortOption.TITLE_ASCENDING) {
+            return R.id.title_ascending_button;
+        }
+        else if (sortOption == SearchOptions.SortOption.TITLE_DESCENDING) {
+            return R.id.title_descending_button;
+        }
+        else if (sortOption == SearchOptions.SortOption.RELEASE_DATE_ASCENDING) {
+            return R.id.release_date_ascending_button;
+        }
+        else if (sortOption == SearchOptions.SortOption.RELEASE_DATE_DESCENDING) {
+            return R.id.release_date_descending_button;
+        }
+        else if (sortOption == SearchOptions.SortOption.RATING_ASCENDING) {
+            return R.id.rating_ascending_button;
+        }
+        else if (sortOption == SearchOptions.SortOption.RATING_DESCENDING) {
+            return R.id.rating_descending_button;
+        }
+        else if (sortOption == SearchOptions.SortOption.MPA_RATING_ASCENDING) {
+            return R.id.mpa_rating_ascending_button;
+        }
+        else if (sortOption == SearchOptions.SortOption.MPA_RATING_DESCENDING) {
+            return R.id.mpa_rating_descending_button;
+        }
+        else if (sortOption == SearchOptions.SortOption.OVERVIEW_ASCENDING) {
+            return R.id.overview_ascending_button;
+        }
+        else if (sortOption == SearchOptions.SortOption.OVERVIEW_DESCENDING) {
+            return R.id.overview_descending_button;
+        }
+        else if (sortOption == SearchOptions.SortOption.RUNTIME_ASCENDING) {
+            return R.id.runtime_ascending_button;
+        }
+        else if (sortOption == SearchOptions.SortOption.RUNTIME_DESCENDING) {
+            return R.id.runtime_descending_button;
+        }
+        else if (sortOption == SearchOptions.SortOption.GENRES_ASCENDING) {
+            return R.id.genres_ascending_button;
+        }
+        else if (sortOption == SearchOptions.SortOption.GENRES_DESCENDING) {
+            return R.id.genres_descending_button;
+        }
+        else if (sortOption == SearchOptions.SortOption.CONTENT_WARNING_ASCENDING) {
+            return R.id.content_warnings_ascending_button;
+        }
+        else {
+            return R.id.content_warnings_descending_button;
         }
     }
 }
