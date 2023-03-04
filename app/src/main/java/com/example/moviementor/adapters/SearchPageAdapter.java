@@ -2,6 +2,7 @@ package com.example.moviementor.adapters;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -469,6 +470,22 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             // Make this background image partly transparent
             genreViewHolder.genreItemView.getBackground().setAlpha(genreBackgroundAlphaValue);
+
+            // Setup a click listener on genre item view that detects when genre row/button has been
+            // clicked on, so that the appropriate genre's results can be displayed
+            genreViewHolder.itemView.setOnClickListener(view -> {
+                // Get text being displayed on the genre row that was clicked on
+                final TextView genreRowTextClicked = view.findViewById(R.id.genre_name);
+                final String nameOfGenreRowClicked = (String) genreRowTextClicked.getText();
+
+                // Set new genre filter that was selected
+                final SearchOptions.GenreFilter selectedGenreFilter = SearchOptions
+                        .getGenreFilter(nameOfGenreRowClicked);
+                this.searchOptions.setGenreFilter(selectedGenreFilter);
+
+                // Adapter should now get results for the selected genre filter
+                onSearchOptionsChange();
+            });
         }
         else if (itemViewType == VIEW_TYPE_SEARCH_RESULT) {
             final SearchPageAdapter.SearchResultViewHolder searchResultViewHolder =
