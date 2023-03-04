@@ -364,12 +364,15 @@
                 android:textColor="@color/select_sort_option_text" />
 
             <RadioGroup
+                android:id="@+id/sort_option_radio_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/sort_option_button_group_margin_start"
                 android:orientation="vertical">
 
                 <RadioButton
+                    android:id="@+id/relevance_ascending_button"
+                    android:tag="Relevance Ascending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -378,6 +381,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/relevance_descending_button"
+                    android:tag="Relevance Descending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -386,6 +391,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/title_ascending_button"
+                    android:tag="Title Ascending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -394,6 +401,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/title_descending_button"
+                    android:tag="Title Descending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -402,6 +411,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/release_date_ascending_button"
+                    android:tag="Release Date Ascending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -410,6 +421,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/release_date_descending_button"
+                    android:tag="Release Date Descending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -418,6 +431,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/rating_ascending_button"
+                    android:tag="Rating Ascending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -426,6 +441,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/rating_descending_button"
+                    android:tag="Rating Descending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -434,6 +451,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/mpa_rating_ascending_button"
+                    android:tag="Mpa Rating Ascending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -442,6 +461,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/mpa_rating_descending_button"
+                    android:tag="Mpa Rating Descending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -450,6 +471,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/overview_ascending_button"
+                    android:tag="Overview Ascending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -458,6 +481,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/overview_descending_button"
+                    android:tag="Overview Descending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -466,6 +491,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/runtime_ascending_button"
+                    android:tag="Runtime Ascending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -474,6 +501,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/runtime_descending_button"
+                    android:tag="Runtime Descending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -482,6 +511,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/genres_ascending_button"
+                    android:tag="Genres Ascending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -490,6 +521,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/genres_descending_button"
+                    android:tag="Genres Descending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -498,6 +531,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/content_warnings_ascending_button"
+                    android:tag="Content Warnings Ascending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
@@ -506,6 +541,8 @@
                     android:textColor="@color/sort_option_button_text" />
 
                 <RadioButton
+                    android:id="@+id/content_warnings_descending_button"
+                    android:tag="Content Warnings Descending"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/sort_option_button_circle"
