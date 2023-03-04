@@ -10,23 +10,44 @@ public class SearchOptions {
         THRILLER, WAR, WESTERN
     }
 
+    // Default is Relevance Ascending which is represented by a null (none) search option value
+    public static enum SortOption {
+        RELEVANCE_DESCENDING, TITLE_ASCENDING, TITLE_DESCENDING, RELEASE_DATE_ASCENDING,
+        RELEASE_DATE_DESCENDING, RATING_ASCENDING, RATING_DESCENDING, MPA_RATING_ASCENDING,
+        MPA_RATING_DESCENDING, OVERVIEW_ASCENDING, OVERVIEW_DESCENDING, RUNTIME_ASCENDING,
+        RUNTIME_DESCENDING, GENRES_ASCENDING, GENRES_DESCENDING, CONTENT_WARNING_ASCENDING,
+        CONTENT_WARNING_DESCENDING
+    }
+
     private @Nullable GenreFilter genreFilter;
+    private @Nullable SortOption sortOption;
 
     // Start out with no search options selected
     public SearchOptions() {
         this.genreFilter = null;
+        this.sortOption = null;
     }
 
-    private SearchOptions(final @Nullable GenreFilter genreFilter) {
+    private SearchOptions(final @Nullable GenreFilter genreFilter,
+                          final @Nullable SortOption sortOption) {
         this.genreFilter = genreFilter;
+        this.sortOption = sortOption;
     }
 
     public void setGenreFilter(final @Nullable GenreFilter newGenreFilter) {
         this.genreFilter = newGenreFilter;
     }
 
+    public void setSortOption(final @Nullable SortOption newSortOption) {
+        this.sortOption = newSortOption;
+    }
+
     public @Nullable GenreFilter currentGenreFilterSelected() {
         return this.genreFilter;
+    }
+
+    public @Nullable SortOption currentSortOptionSelected() {
+        return this.sortOption;
     }
 
     // Returns name of genre for the genre filter enum currently selected. If no filter enum
@@ -144,7 +165,7 @@ public class SearchOptions {
     // Returns an identical copy of this search options object
     @NonNull
     public SearchOptions copy() {
-        return new SearchOptions(this.genreFilter);
+        return new SearchOptions(this.genreFilter, this.sortOption);
     }
 
     @Override
@@ -153,6 +174,9 @@ public class SearchOptions {
             return false;
         }
 
-        return this.currentGenreFilterSelected() == ((SearchOptions) other).currentGenreFilterSelected();
+        final SearchOptions otherOptions = (SearchOptions) other;
+
+        return this.currentGenreFilterSelected() == otherOptions.currentGenreFilterSelected()
+                && this.currentSortOptionSelected() == otherOptions.currentSortOptionSelected();
     }
 }
