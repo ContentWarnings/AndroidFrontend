@@ -41,11 +41,15 @@ public class SearchFragment extends BaseFragment implements SearchPageAdapter.On
     // Search bar is always displayed as second item in RecyclerView
     private static final int SEARCH_BAR_POSITION = 1;
 
+    // Holds onto the adapter for the search page's RecyclerView
+    private @Nullable SearchPageAdapter searchPageAdapter;
+
     private final @NonNull List<Object> genreList;
     private boolean shouldJumpToSearchBar;
 
     public SearchFragment() {
         super(R.layout.search_fragment, Tab.SEARCH);
+        this.searchPageAdapter = null;
         this.genreList = createGenreList();
         this.shouldJumpToSearchBar = false;
     }
@@ -96,17 +100,24 @@ public class SearchFragment extends BaseFragment implements SearchPageAdapter.On
 
         // Initialize RecyclerView and its adapter
         final RecyclerView searchPageRecyclerView = requireView().findViewById(R.id.search_page_recycler_view);
-        final SearchPageAdapter searchPageAdapter = new SearchPageAdapter(this.genreList, progressWheelView, noMatchingSearchResultsView);
 
-        // Attach fragment as listener to the search page RecyclerView
-        searchPageAdapter.setOnItemClickListener(this);
+        // If search page adapter has not been setup for this fragment yet, then create and
+        // initialize it
+        if (this.searchPageAdapter == null) {
+            this.searchPageAdapter = new SearchPageAdapter(this.genreList);
 
-        // Give the adapter an alpha value to apply on genre background images
-        final int alphaValue = getResources().getInteger(R.integer.genre_background_image_alpha);
-        searchPageAdapter.assignAlphaValueForGenreBackgroundImages(alphaValue);
+            // Attach fragment as listener to the search page RecyclerView
+            this.searchPageAdapter.setOnItemClickListener(this);
+
+            // Give the adapter an alpha value to apply on genre background images
+            final int alphaValue = getResources().getInteger(R.integer.genre_background_image_alpha);
+            this.searchPageAdapter.assignAlphaValueForGenreBackgroundImages(alphaValue);
+        }
+
+        this.searchPageAdapter.assignUtilityViews(progressWheelView, noMatchingSearchResultsView);
 
         // Bind the adapter and a Linear Layout Manager to the RecyclerView
-        searchPageRecyclerView.setAdapter(searchPageAdapter);
+        searchPageRecyclerView.setAdapter(this.searchPageAdapter);
         searchPageRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         // Add a scroll listener to RecyclerView that gets next page of search results if user
@@ -157,8 +168,22 @@ public class SearchFragment extends BaseFragment implements SearchPageAdapter.On
         int firstFullyVisiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition();
         int lastFullyVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition();
 
+        // SearchFragment is still in the process of being shown
+        if (firstFullyVisiblePosition == RecyclerView.NO_POSITION && lastFullyVisiblePosition == RecyclerView.NO_POSITION) {
+            // Add listener that triggers once search fragment is attached to the view hierarchy
+            searchPageRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    // Remove this listener immediately to avoid multiple calls
+                    searchPageRecyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                    // Search fragment is rendered, so now try to open search bar again
+                    jumpToSearchBar();
+                }
+            });
+        }
         // Search bar is being displayed fully in the RecyclerView right now
-        if (SEARCH_BAR_POSITION >= firstFullyVisiblePosition && SEARCH_BAR_POSITION <= lastFullyVisiblePosition) {
+        else if (SEARCH_BAR_POSITION >= firstFullyVisiblePosition && SEARCH_BAR_POSITION <= lastFullyVisiblePosition) {
             int childCount = searchPageRecyclerView.getChildCount();
 
             // Iterate through all items currently being displayed in the RecyclerView until
@@ -186,7 +211,6 @@ public class SearchFragment extends BaseFragment implements SearchPageAdapter.On
         else {
             // Need to scroll to position of search bar before it can gain focus
             searchPageRecyclerView.smoothScrollToPosition(SEARCH_BAR_POSITION);
-
             // Attach listener to open search bar once scrolling stops
             searchPageRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 public void onScrollStateChanged(final @NonNull RecyclerView recyclerView, final int state) {
@@ -246,7 +270,7 @@ public class SearchFragment extends BaseFragment implements SearchPageAdapter.On
     // Function called by the listener attached to the child RecyclerView's adapter. Only called by
     // listener when the filter button next to the search bar is clicked on
     @Override
-    public void onItemClick(final @NonNull SearchOptions searchOptions) {
+    public void onFilterButtonClick(final @NonNull SearchOptions searchOptions) {
         // Route user's request to open advanced search options to the main activity
         final MainActivity mainActivity = (MainActivity) requireActivity();
         mainActivity.openAdvancedSearchOptionsModal(searchOptions);
@@ -263,5 +287,11 @@ public class SearchFragment extends BaseFragment implements SearchPageAdapter.On
             final SearchPageAdapter searchPageAdapter = (SearchPageAdapter) adapter;
             searchPageAdapter.onSearchOptionsChange();
         }
+    }
+
+    @Override
+    public void onSearchResultClick(final int movieId) {
+        final MainActivity mainActivity = (MainActivity) requireActivity();
+        mainActivity.openMoviePage(movieId);
     }
 }

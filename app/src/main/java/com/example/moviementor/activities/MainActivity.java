@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.example.moviementor.R;
 import com.example.moviementor.fragments.BaseFragment;
+import com.example.moviementor.fragments.MovieFragment;
 import com.example.moviementor.other.AdvancedSearchOptionsModal;
 import com.example.moviementor.other.FragmentStackManager;
 import com.example.moviementor.other.SearchOptions;
@@ -103,5 +104,12 @@ public class MainActivity extends AppCompatActivity {
     // selected, so that search results are re-fetched and re-populated on screen
     public void applyNewSearchOptions() {
         this.fragmentStackManager.applyNewSearchOptions();
+    }
+
+    // Get fragment stack manager to open selected movie page in current tab
+    public void openMoviePage(final int movieId) {
+        final MovieFragment movieFragment = new MovieFragment();
+        movieFragment.assignMovie(movieId);
+        this.fragmentStackManager.openNewPage(getSupportFragmentManager(), movieFragment);
     }
 }
