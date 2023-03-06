@@ -44,8 +44,8 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private @NonNull String searchString;
 
-    private final @NonNull View progressWheelView;
-    private final @NonNull View noMatchingResultsText;
+    private @NonNull View progressWheelView;
+    private @NonNull View noMatchingResultsText;
 
     private @Nullable OnItemClickListener listener;
 
@@ -61,9 +61,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     // Stores and manages the current filter/sort options the user has selected for searching
     private final @NonNull SearchOptions searchOptions;
 
-    public SearchPageAdapter(final @NonNull List<Object> genreItems,
-                             final @NonNull View progressWheelView,
-                             final @NonNull View noMatchingResultsText) {
+    public SearchPageAdapter(final @NonNull List<Object> genreItems) {
         this.searchPageItems = new ArrayList<>();
         this.searchPageItems.addAll(genreItems);
 
@@ -73,14 +71,17 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.searchString = "";
         this.searchOptions = new SearchOptions();
 
-        this.progressWheelView = progressWheelView;
-        this.noMatchingResultsText = noMatchingResultsText;
-
         this.listener = null;
 
         this.lastSearchPage = -1;
         this.moreSearchResultsAvailable = false;
         this.fetchingNextPage = false;
+    }
+
+    public void assignUtilityViews(final @NonNull View progressWheelView,
+                                   final @NonNull View noMatchingResultsText) {
+        this.progressWheelView = progressWheelView;
+        this.noMatchingResultsText = noMatchingResultsText;
     }
 
     public void assignAlphaValueForGenreBackgroundImages(final int alphaValue) {
@@ -557,6 +558,13 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
            if (contentWarningTilesAdapter instanceof ContentWarningTilesAdapter) {
                ((ContentWarningTilesAdapter) contentWarningTilesAdapter).setContentWarningList(contentWarningList);
            }
+
+            // Setup click listener to open this movie's full page if clicked on
+            searchResultViewHolder.itemView.setOnClickListener(view -> {
+                if (this.listener != null) {
+                    listener.onSearchResultClick(-1);
+                }
+            });
         }
         else if (itemViewType == VIEW_TYPE_LOAD_MORE) {
             final SearchPageAdapter.LoadMoreViewHolder loadMoreViewHolder =
@@ -617,7 +625,8 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     // in the RecyclerView. Less prone to memory leaks in comparison to holding onto a reference
     // to the parent fragment in this adapter
     public interface OnItemClickListener {
-        void onItemClick(final @NonNull SearchOptions searchOptions);
+        void onFilterButtonClick(final @NonNull SearchOptions searchOptions);
+        void onSearchResultClick(final int movieId);
     }
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {
@@ -640,7 +649,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             // modal
             this.filterButton.setOnClickListener(v -> {
                 if (listener != null) {
-                    listener.onItemClick(searchOptions);
+                    listener.onFilterButtonClick(searchOptions);
                 }
             });
         }

@@ -16,12 +16,16 @@ import com.example.moviementor.models.TrendingMovieViewModel;
 import com.example.moviementor.other.Backend;
 import com.example.moviementor.other.SpanSizeLookupWithHeader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FeaturedFragment extends BaseFragment implements TrendingMoviesAdapter.OnItemClickListener {
+    // Holds onto the adapter for the trending page's RecyclerView
+    private @Nullable TrendingMoviesAdapter trendingMoviesAdapter;
 
     public FeaturedFragment() {
         super(R.layout.featured_fragment, Tab.FEATURED);
+        this.trendingMoviesAdapter = null;
     }
 
     @Override
@@ -32,8 +36,17 @@ public class FeaturedFragment extends BaseFragment implements TrendingMoviesAdap
         final ProgressBar loadingProgressWheel = view.findViewById(R.id.loading_circle);
         loadingProgressWheel.bringToFront();
 
-        // Fetch currently trending movies from the database
-        Backend.fetchTrendingMovies(this);
+        // If trending movies adapter has already been created, then setup the trending page
+        // with this adapter and its list of trending movies
+        if (this.trendingMoviesAdapter != null) {
+            createAndPopulateTrendingMoviesList(new ArrayList<>());
+        }
+        // Otherwise, need to get trending movies from API before setting up the trending movies
+        // list
+        else {
+            // Fetch currently trending movies from the database
+            Backend.fetchTrendingMovies(this);
+        }
     }
 
     public void createAndPopulateTrendingMoviesList(final @NonNull List<TrendingMovieViewModel> trendingMoviesData) {
@@ -42,13 +55,17 @@ public class FeaturedFragment extends BaseFragment implements TrendingMoviesAdap
 
         // Initialize RecyclerView and its adapter
         final RecyclerView trendingMoviesRecyclerView = requireView().findViewById(R.id.trending_movies_recycler_view);
-        final TrendingMoviesAdapter trendingMoviesAdapter = new TrendingMoviesAdapter(trendingMoviesData);
 
-        // Attach fragment as listener to the trending movies RecyclerView
-        trendingMoviesAdapter.setOnItemClickListener(this);
+        // If trending movies adapter has not been setup for this fragment yet, then create it
+        if (this.trendingMoviesAdapter == null) {
+            this.trendingMoviesAdapter = new TrendingMoviesAdapter(trendingMoviesData);
+
+            // Attach fragment as listener to the trending movies RecyclerView
+            this.trendingMoviesAdapter.setOnItemClickListener(this);
+        }
 
         // Bind the adapter and a Grid Layout Manager to the RecyclerView
-        trendingMoviesRecyclerView.setAdapter(trendingMoviesAdapter);
+        trendingMoviesRecyclerView.setAdapter(this.trendingMoviesAdapter);
         final GridLayoutManager layoutManager = new GridLayoutManager(requireContext(), numColumns);
         layoutManager.setSpanSizeLookup(new SpanSizeLookupWithHeader(numColumns));
         trendingMoviesRecyclerView.setLayoutManager(layoutManager);
@@ -61,9 +78,18 @@ public class FeaturedFragment extends BaseFragment implements TrendingMoviesAdap
     // Function called by the listener attached to the child RecyclerView's adapter. Only called by
     // listener when the header's search button is clicked on
     @Override
-    public void onItemClick() {
+    public void onHeaderSearchButtonClick() {
         // Route user's request to open search bar to the main activity
         final MainActivity mainActivity = (MainActivity) requireActivity();
         mainActivity.jumpToSearchBar();
+    }
+
+    // Function called by the listener attached to the child RecyclerView's adapter when a trending
+    // movie item is clicked on
+    @Override
+    public void onMovieItemClick(final int movieId) {
+        // Route user's request to open movie page to the main activity
+        final MainActivity mainActivity = (MainActivity) requireActivity();
+        mainActivity.openMoviePage(movieId);
     }
 }

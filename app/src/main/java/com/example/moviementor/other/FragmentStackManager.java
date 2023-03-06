@@ -210,6 +210,7 @@ public class FragmentStackManager {
     // Used to open a new page/fragment from the current tab
     public void openNewPage(final @NonNull FragmentManager fragmentManager,
                             final @NonNull BaseFragment fragment) {
+        fragment.assignParentTab(currentTabOpened);
         openNewPage(fragmentManager, fragment, currentTabOpened);
     }
 
@@ -292,9 +293,11 @@ public class FragmentStackManager {
             return;
         }
 
-        // Load the starting fragment back into the search tab
+        // Load the starting fragment back into the search tab and hide it initially, so that
+        // it can be shown again when ready
         fragmentManager.beginTransaction().remove(currentFragmentInSearchTab).
                 add(R.id.fragment_container, startingSearchFragment, TAG_SEARCH_FRAGMENT).
+                hide(startingSearchFragment).
                 commitNow();
 
     }

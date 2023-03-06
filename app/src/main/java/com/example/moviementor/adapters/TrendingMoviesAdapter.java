@@ -85,6 +85,13 @@ public class TrendingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             itemViewHolder.trendingMovieName.setText(movieData.getMovieName());
             Glide.with(itemViewHolder.trendingMovieImage.getContext())
                     .load(movieData.getMovieImageUrl()).into(itemViewHolder.trendingMovieImage);
+
+            // Setup click listener to open this movie's full page if clicked on
+            itemViewHolder.itemView.setOnClickListener(view -> {
+                if (this.listener != null) {
+                    listener.onMovieItemClick(-1);
+                }
+            });
         }
     }
 
@@ -110,7 +117,8 @@ public class TrendingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     // in the RecyclerView. Less prone to memory leaks in comparison to holding onto a reference
     // to the parent fragment in this adapter
     public interface OnItemClickListener {
-        void onItemClick();
+        void onHeaderSearchButtonClick();
+        void onMovieItemClick(final int movieId);
     }
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder {
@@ -126,7 +134,7 @@ public class TrendingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             // listener function if click detected and listener is currently attached
             headerSearchButton.setOnClickListener(v -> {
                 if (listener != null) {
-                    listener.onItemClick();
+                    listener.onHeaderSearchButtonClick();
                 }
             });
         }

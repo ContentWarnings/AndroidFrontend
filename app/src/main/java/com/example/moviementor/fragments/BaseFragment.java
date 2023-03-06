@@ -11,19 +11,21 @@ import androidx.fragment.app.Fragment;
 
 import com.example.moviementor.R;
 
+import java.util.List;
+
 public class BaseFragment extends Fragment {
     public enum Tab {
         FEATURED,
         SEARCH,
-        SETTINGS;
+        SETTINGS
     }
 
     private final static String IS_HIDDEN_KEY = "IS_HIDDEN";
 
     private boolean isHidden = true;
-    private Tab parentTab;
+    private @Nullable Tab parentTab;
 
-    public BaseFragment(final int layoutResId, final Tab parentTab) {
+    public BaseFragment(final int layoutResId, final @Nullable Tab parentTab) {
         super(layoutResId);
         this.parentTab = parentTab;
     }
@@ -83,9 +85,14 @@ public class BaseFragment extends Fragment {
         else if (this.parentTab == Tab.SEARCH) {
             footerIcon = requireActivity().findViewById(R.id.search_icon);
         }
-        else {
+        else if (this.parentTab == Tab.SETTINGS) {
             footerIcon = requireActivity().findViewById(R.id.settings_icon);
         }
+        // Return since don't know which tab this fragment is in
+        else {
+            return;
+        }
+
         final GradientDrawable gradientDrawable = (GradientDrawable) footerIcon.getBackground();
 
         // If this footer icon is selected, change its background color to purple
