@@ -100,10 +100,12 @@ public class TrendingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         .into(itemViewHolder.trendingMovieImage);
             }
 
+            final int movieId = movieData.getMovieId();
+
             // Setup click listener to open this movie's full page if clicked on
             itemViewHolder.itemView.setOnClickListener(view -> {
                 if (this.listener != null) {
-                    listener.onMovieItemClick(-1);
+                    listener.onMovieItemClick(movieId);
                 }
             });
         }
