@@ -559,10 +559,12 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                ((ContentWarningTilesAdapter) contentWarningTilesAdapter).setContentWarningList(contentWarningList);
            }
 
+           final int movieId = searchResultData.getMovieId();
+
             // Setup click listener to open this movie's full page if clicked on
             searchResultViewHolder.itemView.setOnClickListener(view -> {
                 if (this.listener != null) {
-                    listener.onSearchResultClick(-1);
+                    listener.onSearchResultClick(movieId);
                 }
             });
         }

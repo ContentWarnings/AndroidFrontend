@@ -31,6 +31,10 @@ public class SearchResultMovieViewModel {
         this.contentWarnings = contentWarnings;
     }
 
+    public int getMovieId() {
+        return this.movieId;
+    }
+
     @Nullable
     public URL getMovieImageUrl() {
         return this.movieImageUrl;
