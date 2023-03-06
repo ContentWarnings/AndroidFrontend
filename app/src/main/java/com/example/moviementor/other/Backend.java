@@ -133,10 +133,27 @@ public class Backend {
                             continue;
                         }
 
-                        final @NonNull String movieTitle = searchResult.optString("title", "");
-                        final @NonNull String movieImageUrl = searchResult.optString("img", "");
+                        final int movieId = searchResult.optInt("id", INVALID_MOVIE_ID);
 
-                        final TrendingMovieViewModel movieData = new TrendingMovieViewModel(movieTitle, movieImageUrl);
+                        // Can not find movie's id, so move onto next result
+                        if (movieId == INVALID_MOVIE_ID) {
+                            continue;
+                        }
+
+                        final @NonNull String movieTitle = searchResult.optString("title", "");
+                        final @NonNull String movieImageUrlString = searchResult.optString("img", "");
+
+                        // Try making URL object and default to null if unsuccessful
+                        @Nullable URL movieImageUrl;
+                        try {
+                            movieImageUrl = new URL(movieImageUrlString);
+                        }
+                        catch(final MalformedURLException e) {
+                            movieImageUrl = null;
+                        }
+
+                        final TrendingMovieViewModel movieData = new
+                                TrendingMovieViewModel(movieId, movieTitle, movieImageUrl);
                         trendingMoviesList.add(movieData);
                     }
                 }
