@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.moviementor.R;
+import com.example.moviementor.models.MovieViewModel;
+import com.example.moviementor.other.Backend;
 
 public class MovieFragment extends BaseFragment {
     private static final String STORED_MOVIE_ID_KEY = "STORED_MOVIE_ID";
@@ -21,10 +23,6 @@ public class MovieFragment extends BaseFragment {
         this.movieId = movieId;
     }
 
-    public int getMovieId() {
-        return this.movieId;
-    }
-
     @Override
     public void onViewCreated(final @NonNull View view, final @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -33,11 +31,24 @@ public class MovieFragment extends BaseFragment {
         if (savedInstanceState != null) {
             this.movieId = savedInstanceState.getInt(STORED_MOVIE_ID_KEY);
         }
+
+        // Fetch movie's data from API to populate the page
+        Backend.fetchMovie(this, this.movieId);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(STORED_MOVIE_ID_KEY, this.movieId);
+    }
+
+    public void populateMoviePage(final @Nullable MovieViewModel movieData) {
+        // If movie was not found or JSON returned for movie was invalid, then don't populate
+        // this movie page
+        if (movieData == null) {
+            return;
+        }
+
+        // TODO: populate movie page with this movie's data
     }
 }
