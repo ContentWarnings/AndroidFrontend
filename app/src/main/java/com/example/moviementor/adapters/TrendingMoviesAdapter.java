@@ -101,11 +101,12 @@ public class TrendingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
 
             final int movieId = movieData.getMovieId();
+            final @NonNull String movieName = movieData.getMovieName();
 
             // Setup click listener to open this movie's full page if clicked on
             itemViewHolder.itemView.setOnClickListener(view -> {
                 if (this.listener != null) {
-                    this.listener.onMovieItemClick(movieId);
+                    this.listener.onMovieItemClick(movieId, movieName);
                 }
             });
         }
@@ -134,7 +135,7 @@ public class TrendingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     // to the parent fragment in this adapter
     public interface OnItemClickListener {
         void onHeaderSearchButtonClick();
-        void onMovieItemClick(final int movieId);
+        void onMovieItemClick(final int movieId, final @NonNull String movieName);
     }
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder {

@@ -107,9 +107,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Get fragment stack manager to open selected movie page in current tab
-    public void openMoviePage(final int movieId) {
+    public void openMoviePage(final int movieId, final @NonNull String movieName) {
         final MovieFragment movieFragment = new MovieFragment();
-        movieFragment.assignMovie(movieId);
+        movieFragment.assignMovie(movieId, movieName);
         this.fragmentStackManager.openNewPage(getSupportFragmentManager(), movieFragment);
     }
 }
