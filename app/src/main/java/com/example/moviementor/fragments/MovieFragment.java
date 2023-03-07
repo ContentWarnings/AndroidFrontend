@@ -1,22 +1,29 @@
 package com.example.moviementor.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.example.moviementor.R;
+import com.example.moviementor.adapters.GenreTilesAdapter;
 import com.example.moviementor.models.MovieViewModel;
 import com.example.moviementor.other.Backend;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class MovieFragment extends BaseFragment {
@@ -121,6 +128,32 @@ public class MovieFragment extends BaseFragment {
             final TextView movieDateAndRuntimeText = requireView()
                     .findViewById(R.id.movie_page_date_and_runtime_text);
             movieDateAndRuntimeText.setText(dateAndRuntimeString);
+        }
+
+        final List<String> genres = movieData.getGenres();
+        final LinearLayout genreTilesList = requireView().findViewById(R.id.movie_page_genre_tiles_list);
+
+        // Create LayoutInflater to inflate genre tile views
+        final LayoutInflater inflater = LayoutInflater.from(requireContext());
+
+        // Create genre tile for each of this movie's listed genres and append it to the genre tile
+        // list located in the upper right column of the page
+        for (final @NonNull String genreName : genres) {
+            // Get resource of icon for this genre
+            final @DrawableRes int genreIconRes = GenreTilesAdapter.getGenreIconRes(genreName);
+
+            // Inflate custom layout for singular genre tile
+            final View genreTileView = inflater.inflate(R.layout.genre_tile_expanded, genreTilesList, false);
+
+            final ImageView genreTileIcon = genreTileView.findViewById(R.id.genre_tile_icon);
+            final TextView genreTileName = genreTileView.findViewById(R.id.genre_tile_name);
+
+            // Populate this genre tile with the current genre's name and associated icon
+            genreTileIcon.setImageResource(genreIconRes);
+            genreTileName.setText(genreName);
+
+            // Append this genre tile to the list of genre tiles on the movie page
+            genreTilesList.addView(genreTileView);
         }
 
         // TODO: populate movie page with this movie's data

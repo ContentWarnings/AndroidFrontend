@@ -79,7 +79,7 @@ public class GenreTilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     // Returns associated genre icon's resource id for the genre name passed in. If genre name does
     // not match any of the choices, then default dot icon's id is returned
     @DrawableRes
-    private int getGenreIconRes(final @NonNull String genreName) {
+    public static int getGenreIconRes(final @NonNull String genreName) {
         switch (genreName) {
             case "Action":
                 return R.drawable.action_icon;

@@ -131,6 +131,13 @@
                         android:textSize="@dimen/movie_page_date_and_runtime_text_size"
                         android:alpha="0.5" />
 
+                    <LinearLayout
+                        android:id="@+id/movie_page_genre_tiles_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginVertical="@dimen/movie_page_genre_tile_list_margin_vertical" />
+
                 </LinearLayout>
 
             </LinearLayout>
