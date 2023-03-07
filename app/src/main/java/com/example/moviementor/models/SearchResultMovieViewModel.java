@@ -8,8 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 public class SearchResultMovieViewModel {
-    public static final int MISSING_RUNTIME = -1;
-
     private final int movieId;
     private final @NonNull String movieName;
     private final @Nullable Date releaseDate;

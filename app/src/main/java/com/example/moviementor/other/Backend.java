@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 
 import com.example.moviementor.adapters.SearchPageAdapter;
 import com.example.moviementor.fragments.FeaturedFragment;
+import com.example.moviementor.fragments.MovieFragment;
+import com.example.moviementor.models.MovieViewModel;
 import com.example.moviementor.models.SearchResultMovieViewModel;
 import com.example.moviementor.models.TrendingMovieViewModel;
 import com.loopj.android.http.AsyncHttpClient;
@@ -404,6 +406,240 @@ public class Backend {
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.e("Backend: ", error.toString());
                 // TODO: Upon failure set search page to display error message
+            }
+        });
+    }
+
+    public static void fetchMovie(final @NonNull MovieFragment movieFragment, final int movieId) {
+        // Setup URL to get movie
+        final String fetchMovieUrl = getAbsoluteUrl("movie") + "/" + movieId;
+
+        // Hit API to get movie with specified movie's id as a parameter
+        client.get(fetchMovieUrl, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                // Object that will store all the parsed movie's data
+                @Nullable MovieViewModel movieViewModel = null;
+
+                try {
+                    final JSONObject movieResult = new JSONObject(new String(responseBody));
+
+                    final int movieId = movieResult.optInt("id", INVALID_MOVIE_ID);
+
+                    // Can not find movie's id, so move onto next result
+                    if (movieId == INVALID_MOVIE_ID) {
+                        throw new JSONException("No movie data found when fetching movie's data");
+                    }
+
+                    final @NonNull String movieTitle = movieResult.optString("title", "");
+                    final @NonNull String movieImageUrlString = movieResult.optString("img", "");
+                    final @NonNull String releaseDateString = movieResult.optString("release", "");
+                    final int movieRuntime = movieResult.optInt("runtime", MovieViewModel.MISSING_RUNTIME);
+                    final @NonNull String movieOverview = movieResult.optString("overview", "");
+                    final double movieRating = movieResult.optDouble("rating", MovieViewModel.MISSING_RATING);
+                    final @NonNull String movieMpaRating = movieResult.optString("mpa", "");
+                    final @Nullable JSONArray genreJSONArray = movieResult.optJSONArray("genres");
+                    final @Nullable JSONObject streamingInfo = movieResult.optJSONObject("streaming_info");
+                    final @Nullable JSONArray contentWarningsJSONArray = movieResult.optJSONArray("cw");
+
+                    // Try making URL object and default to null if unsuccessful
+                    @Nullable URL movieImageUrl;
+                    try {
+                        movieImageUrl = new URL(movieImageUrlString);
+                    }
+                    catch(final MalformedURLException e) {
+                        movieImageUrl = null;
+                    }
+
+                    // Used to parse through date string returned from the backend
+                    final SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT_STRING, Locale.US);
+
+                    // Try parsing date string and default to null if unsuccessful
+                    @Nullable Date releaseDate;
+                    try {
+                        releaseDate = formatter.parse(releaseDateString);
+                    }
+                    catch (final ParseException e) {
+                        releaseDate = null;
+                    }
+
+                    // Parse through genre strings and add valid genres to the list
+                    final @NonNull List<String> genreList = new ArrayList<>();
+                    if (genreJSONArray != null) {
+                        for (int i = 0; i < genreJSONArray.length(); i++) {
+                            final @Nullable String genre = genreJSONArray.optString(i, null);
+
+                            // Skip over any invalid strings in the genres array
+                            if (genre == null) {
+                                continue;
+                            }
+
+                            genreList.add(genre);
+                        }
+                    }
+
+                    // Initialize empty list of streaming providers available for this movie
+                    final List<StreamingProvider> streamingProviders = new ArrayList<>();
+
+                    if (streamingInfo != null) {
+                        final @Nullable JSONArray streamingProvidersJSONArray = streamingInfo
+                                .optJSONArray("providers");
+
+                        if (streamingProvidersJSONArray != null) {
+                            // Parse through each streaming provider in the JSON array and add each
+                            // valid provider to the list for this movie
+                            for (int i = 0; i < streamingProvidersJSONArray.length(); i++) {
+                                final @Nullable JSONArray streamingProviderJSON =
+                                        streamingProvidersJSONArray.optJSONArray(i);
+
+                                // If invalid streaming provider is found, then skip over it
+                                if (streamingProviderJSON == null) {
+                                    continue;
+                                }
+
+                                // Split JSON for provider into two strings
+                                final @NonNull String providerString = streamingProviderJSON
+                                        .optString(0, "");
+                                final @NonNull String providerImageUrlString = streamingProviderJSON
+                                        .optString(1, "");
+
+                                // If provider's name or option is not mentioned, then skip to next
+                                // provider available for this movie
+                                if (providerString.isEmpty()) {
+                                    continue;
+                                }
+
+                                // Split first string for provider entry into the provider's name
+                                // and option
+                                final String[] providerNameAndOption = providerString
+                                        .split(StreamingProvider.PROVIDER_NAME_OPTION_SEPARATOR);
+
+                                // If provider name and option were not found, then continue to next
+                                // provider entry available
+                                if (providerNameAndOption.length != 2) {
+                                    continue;
+                                }
+
+                                final @NonNull String providerName = providerNameAndOption[0];
+                                final @NonNull String providerOptionString = providerNameAndOption[1];
+
+                                // Convert provider option string into one of three options allowed:
+                                // buy, rent, or stream
+                                final @Nullable StreamingProvider.ProviderOption providerOption =
+                                        StreamingProvider.getProviderOption(providerOptionString);
+
+                                // If provider option string was not one of three options allowed,
+                                // then continue to next provider entry available
+                                if (providerOption == null) {
+                                    continue;
+                                }
+
+                                // Try making URL object for the provider's image and default to
+                                // null if unsuccessful
+                                @Nullable URL providerImageUrl;
+                                try {
+                                    providerImageUrl = new URL(providerImageUrlString);
+                                }
+                                catch(final MalformedURLException e) {
+                                    providerImageUrl = null;
+                                }
+
+                                final StreamingProvider streamingProvider = new
+                                        StreamingProvider(providerName, providerOption, providerImageUrl);
+                                streamingProviders.add(streamingProvider);
+                            }
+                        }
+                    }
+
+                    final List<ContentWarning> contentWarnings = new ArrayList<>();
+
+                    if (contentWarningsJSONArray != null) {
+                        for (int i = 0; i < contentWarningsJSONArray.length(); i++) {
+                            final @Nullable JSONObject contentWarningJSONObject = contentWarningsJSONArray
+                                    .optJSONObject(i);
+
+                            // If invalid content warning JSON object was found, then skip over it
+                            if (contentWarningJSONObject == null) {
+                                continue;
+                            }
+
+                            final @NonNull String cwId = contentWarningJSONObject
+                                    .optString("id", "");
+
+                            // If no id was found for this content warning, then skip over it
+                            if (cwId.isEmpty()) {
+                                continue;
+                            }
+
+                            final @NonNull String cwName = contentWarningJSONObject
+                                    .optString("name", "");
+
+                            // If no name was found for this content warning, then skip over it
+                            // since there's no content warning name to display
+                            if (cwName.isEmpty()) {
+                                continue;
+                            }
+
+                            final @NonNull String cwDescription = contentWarningJSONObject
+                                    .optString("desc", "");
+
+                            final List<TimeStamp> cwTimestamps = new ArrayList<>();
+
+                            final @Nullable JSONArray timestampJSONArray = contentWarningJSONObject
+                                    .optJSONArray("time");
+                            if (timestampJSONArray != null) {
+                                for (int j = 0; j < timestampJSONArray.length(); j++) {
+                                    final @Nullable JSONArray timestampJSON = timestampJSONArray
+                                            .optJSONArray(j);
+
+                                    // If invalid timestamp is found, then skip over it
+                                    if (timestampJSON == null || timestampJSON.length() != 2) {
+                                        continue;
+                                    }
+
+                                    final int startTime = timestampJSON
+                                            .optInt(0, TimeStamp.MISSING_TIME);
+                                    final int endTime = timestampJSON
+                                            .optInt(1, TimeStamp.MISSING_TIME);
+
+                                    // If either the start or end time is missing or if the start
+                                    // time occurs after the end time, then skip over this timestamp
+                                    // since it is invalid
+                                    if (startTime == TimeStamp.MISSING_TIME ||
+                                        endTime == TimeStamp.MISSING_TIME ||
+                                        startTime > endTime) {
+                                        continue;
+                                    }
+
+                                    final @NonNull TimeStamp timeStamp =
+                                            new TimeStamp(startTime, endTime);
+                                    cwTimestamps.add(timeStamp);
+                                }
+                            }
+
+                            final ContentWarning contentWarning = new
+                                    ContentWarning(cwId, cwName, cwDescription, cwTimestamps);
+                            contentWarnings.add(contentWarning);
+                        }
+                    }
+
+                    movieViewModel = new MovieViewModel(movieId, movieTitle,
+                            releaseDate, movieImageUrl, movieOverview, genreList, streamingProviders, contentWarnings);
+                }
+                catch (final JSONException e) {
+                    Log.e("Backend: ", e.toString());
+                    // TODO: Upon failure set movie page view to an error screen with a reload button
+                }
+
+                // Done fetching and parsing movie's data, so populate the movie display
+                // page with this movie's data
+                movieFragment.populateMoviePage(movieViewModel);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.e("Backend: ", error.toString());
+                // TODO: Upon failure set movie page view to an error screen with a reload button
             }
         });
     }
