@@ -50,4 +50,7 @@
     <color name="apply_search_options_button_text">@color/white</color>
     <color name="filter_button_inactive">@color/white</color>
     <color name="filter_button_active">@color/purple_200</color>
+    <color name="back_button_icon">#7E57C2</color>
+    <color name="movie_page_title_text">@color/white</color>
+    <color name="movie_page_header_divider">@color/white</color>
 </resources>
