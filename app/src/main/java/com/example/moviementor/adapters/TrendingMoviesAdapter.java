@@ -105,7 +105,7 @@ public class TrendingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             // Setup click listener to open this movie's full page if clicked on
             itemViewHolder.itemView.setOnClickListener(view -> {
                 if (this.listener != null) {
-                    listener.onMovieItemClick(movieId);
+                    this.listener.onMovieItemClick(movieId);
                 }
             });
         }
