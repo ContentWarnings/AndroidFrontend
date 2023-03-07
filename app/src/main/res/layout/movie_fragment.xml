@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/page_background" >
+    android:background="@color/page_background">
 
     <LinearLayout
+        android:id="@+id/movie_page_header_and_warning_banner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -89,5 +91,36 @@
         </LinearLayout>
 
     </LinearLayout>
+    
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/movie_page_header_and_warning_banner">
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/movie_page_content_margin_top"
+            android:layout_marginBottom="@dimen/movie_page_content_margin_bottom">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/movie_page_image"
+                    android:layout_width="@dimen/movie_page_image_width"
+                    android:layout_height="@dimen/movie_page_image_height"
+                    android:layout_marginStart="@dimen/movie_page_image_margin_start"
+                    android:layout_marginEnd="@dimen/movie_page_image_margin_end"
+                    app:shapeAppearanceOverlay="@style/roundedCornersMovieImage" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+        
+    </ScrollView>
 
 </RelativeLayout>

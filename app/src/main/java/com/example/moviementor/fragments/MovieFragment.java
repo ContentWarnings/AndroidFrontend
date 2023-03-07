@@ -3,14 +3,18 @@ package com.example.moviementor.fragments;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.example.moviementor.R;
 import com.example.moviementor.models.MovieViewModel;
 import com.example.moviementor.other.Backend;
+
+import java.net.URL;
 
 public class MovieFragment extends BaseFragment {
     private static final String STORED_MOVIE_ID_KEY = "STORED_MOVIE_ID";
@@ -74,6 +78,22 @@ public class MovieFragment extends BaseFragment {
         if (!this.movieName.equals(movieData.getMovieName())) {
             final TextView moviePageTitle = requireView().findViewById(R.id.movie_page_title);
             moviePageTitle.setText(movieData.getMovieName());
+        }
+
+        final @Nullable URL movieImageUrl = movieData.getMovieImageUrl();
+        final ImageView moviePageImage = requireView().findViewById(R.id.movie_page_image);
+
+        // If movie's image url is null (not available), then load the no image found placeholder
+        // into the movie image for this page
+        if (movieImageUrl == null) {
+            Glide.with(requireContext()).load(R.drawable.no_image_placeholder).into(moviePageImage);
+        }
+        // Load movie's image from non-null url, but if error is encountered then just use the no
+        // image found placeholder
+        else {
+            Glide.with(requireContext()).load(movieImageUrl.toString())
+                    .error(R.drawable.no_image_placeholder)
+                    .into(moviePageImage);
         }
 
         // TODO: populate movie page with this movie's data
