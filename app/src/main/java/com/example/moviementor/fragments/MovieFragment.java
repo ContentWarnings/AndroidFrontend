@@ -15,6 +15,9 @@ import com.example.moviementor.models.MovieViewModel;
 import com.example.moviementor.other.Backend;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MovieFragment extends BaseFragment {
     private static final String STORED_MOVIE_ID_KEY = "STORED_MOVIE_ID";
@@ -96,6 +99,48 @@ public class MovieFragment extends BaseFragment {
                     .into(moviePageImage);
         }
 
+        final @Nullable Date releaseDate = movieData.getReleaseDate();
+        final int runtime = movieData.getMovieRuntime();
+
+        // If both release date and runtime are missing, then don't bother displaying
+        // text for either
+        if (releaseDate != null || runtime != MovieViewModel.MISSING_RUNTIME) {
+            String dateAndRuntimeString = "";
+
+            if (releaseDate != null) {
+                dateAndRuntimeString += getDateString(releaseDate);
+            }
+            if (runtime != MovieViewModel.MISSING_RUNTIME) {
+                // Add new lines if displaying both release date and runtime
+                if (releaseDate != null) {
+                    dateAndRuntimeString += '\n';
+                }
+                dateAndRuntimeString += getRuntimeString(runtime);
+            }
+
+            final TextView movieDateAndRuntimeText = requireView()
+                    .findViewById(R.id.movie_page_date_and_runtime_text);
+            movieDateAndRuntimeText.setText(dateAndRuntimeString);
+        }
+
         // TODO: populate movie page with this movie's data
+    }
+
+    // Helper function to parse Java date objects into desired format for displaying on the
+    // movie page
+    @NonNull
+    private String getDateString(final @NonNull Date date) {
+        final SimpleDateFormat releaseDateTextFormat =
+                new SimpleDateFormat("MMMM d, y", Locale.US);
+        return releaseDateTextFormat.format(date);
+    }
+
+    // Helper function to get desired text format for displaying movie runtimes on the movie page
+    @NonNull
+    private String getRuntimeString(final int runtime) {
+        final int runtimeHours = runtime / 60;
+        final int runtimeMins = runtime % 60;
+
+        return runtimeHours + "h " + runtimeMins + "m";
     }
 }
