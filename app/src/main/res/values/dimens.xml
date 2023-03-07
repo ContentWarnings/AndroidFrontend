@@ -105,4 +105,12 @@
     <dimen name="movie_page_title_padding_horizontal">30dp</dimen>
     <dimen name="movie_page_title_margin_horizontal">@dimen/back_button_icon_width</dimen>
     <dimen name="movie_page_header_divider_height">1dp</dimen>
+    <dimen name="movie_page_warning_banner_padding_vertical">12dp</dimen>
+    <dimen name="movie_page_warning_banner_padding_start">19dp</dimen>
+    <dimen name="movie_page_warning_banner_padding_end">14dp</dimen>
+    <dimen name="movie_page_warning_banner_triangle_icon_width">36.79dp</dimen>
+    <dimen name="movie_page_warning_banner_triangle_icon_height">35.39dp</dimen>
+    <dimen name="movie_page_warning_banner_triangle_icon_margin_end">15.21dp</dimen>
+    <dimen name="movie_page_warning_banner_line_1_text_size">24sp</dimen>
+    <dimen name="movie_page_warning_banner_line_2_text_size">14.16sp</dimen>
 </resources>
