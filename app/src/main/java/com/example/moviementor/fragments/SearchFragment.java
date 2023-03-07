@@ -290,8 +290,8 @@ public class SearchFragment extends BaseFragment implements SearchPageAdapter.On
     }
 
     @Override
-    public void onSearchResultClick(final int movieId) {
+    public void onSearchResultClick(final int movieId, final @NonNull String movieName) {
         final MainActivity mainActivity = (MainActivity) requireActivity();
-        mainActivity.openMoviePage(movieId);
+        mainActivity.openMoviePage(movieId, movieName);
     }
 }

@@ -560,11 +560,12 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
            }
 
            final int movieId = searchResultData.getMovieId();
+           final @NonNull String movieName = searchResultData.getMovieName();
 
             // Setup click listener to open this movie's full page if clicked on
             searchResultViewHolder.itemView.setOnClickListener(view -> {
                 if (this.listener != null) {
-                    listener.onSearchResultClick(movieId);
+                    listener.onSearchResultClick(movieId, movieName);
                 }
             });
         }
@@ -628,7 +629,7 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     // to the parent fragment in this adapter
     public interface OnItemClickListener {
         void onFilterButtonClick(final @NonNull SearchOptions searchOptions);
-        void onSearchResultClick(final int movieId);
+        void onSearchResultClick(final int movieId, final @NonNull String movieName);
     }
 
     public static class HeaderViewHolder extends RecyclerView.ViewHolder {

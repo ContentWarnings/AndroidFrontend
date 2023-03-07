@@ -87,9 +87,9 @@ public class FeaturedFragment extends BaseFragment implements TrendingMoviesAdap
     // Function called by the listener attached to the child RecyclerView's adapter when a trending
     // movie item is clicked on
     @Override
-    public void onMovieItemClick(final int movieId) {
+    public void onMovieItemClick(final int movieId, final @NonNull String movieName) {
         // Route user's request to open movie page to the main activity
         final MainActivity mainActivity = (MainActivity) requireActivity();
-        mainActivity.openMoviePage(movieId);
+        mainActivity.openMoviePage(movieId, movieName);
     }
 }
