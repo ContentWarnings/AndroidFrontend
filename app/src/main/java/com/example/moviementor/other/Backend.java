@@ -623,8 +623,9 @@ public class Backend {
                         }
                     }
 
-                    movieViewModel = new MovieViewModel(movieId, movieTitle,
-                            releaseDate, movieImageUrl, movieOverview, genreList, streamingProviders, contentWarnings);
+                    movieViewModel = new MovieViewModel(movieId, movieTitle, releaseDate,
+                            movieRuntime, movieImageUrl, movieOverview, genreList,
+                            streamingProviders, contentWarnings);
                 }
                 catch (final JSONException e) {
                     Log.e("Backend: ", e.toString());

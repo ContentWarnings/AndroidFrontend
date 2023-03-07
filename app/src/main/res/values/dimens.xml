@@ -119,4 +119,6 @@
     <dimen name="movie_page_image_width">170dp</dimen>
     <dimen name="movie_page_image_margin_start">25dp</dimen>
     <dimen name="movie_page_image_margin_end">17dp</dimen>
+    <dimen name="movie_page_info_column_margin_end">27dp</dimen>
+    <dimen name="movie_page_date_and_runtime_text_size">18sp</dimen>
 </resources>

@@ -117,6 +117,22 @@
                     android:layout_marginEnd="@dimen/movie_page_image_margin_end"
                     app:shapeAppearanceOverlay="@style/roundedCornersMovieImage" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="@dimen/movie_page_info_column_margin_end">
+
+                    <TextView
+                        android:id="@+id/movie_page_date_and_runtime_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/movie_page_date_and_runtime_text"
+                        android:textSize="@dimen/movie_page_date_and_runtime_text_size"
+                        android:alpha="0.5" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
