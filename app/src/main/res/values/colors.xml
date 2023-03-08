@@ -59,4 +59,6 @@
     <color name="streaming_provider_option_text">@color/white</color>
     <color name="mpa_rating_text">@color/white</color>
     <color name="mpa_rating_description_text">@color/white</color>
+    <color name="movie_page_summary_header">@color/white</color>
+    <color name="movie_page_summary">@color/white</color>
 </resources>

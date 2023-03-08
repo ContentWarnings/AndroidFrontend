@@ -15,6 +15,7 @@
     <string name="apply_search_options_button">Apply</string>
     <string name="movie_page_warning_banner_line_1">Proceed with caution.</string>
     <string name="movie_page_warning_banner_line_2">This contains material you previously flagged.</string>
+    <string name="movie_page_summary_header">Summary</string>
 
     <string name="action_genre_text">Action</string>
     <string name="adventure_genre_text">Adventure</string>
