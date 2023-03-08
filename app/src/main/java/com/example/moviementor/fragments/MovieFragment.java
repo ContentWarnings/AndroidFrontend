@@ -30,11 +30,14 @@ public class MovieFragment extends BaseFragment {
     private static final String STORED_MOVIE_ID_KEY = "STORED_MOVIE_ID";
     private static final String STORED_MOVIE_NAME_KEY = "STORED_MOVIE_NAME";
 
+    private static final int UNASSIGNED_MOVIE = -1;
+
     private int movieId;
     private @NonNull String movieName;
 
     public MovieFragment() {
         super(R.layout.movie_fragment, null);
+        this.movieId = UNASSIGNED_MOVIE;
     }
 
     // Called right after constructor when MovieFragment is created to give page initial data
@@ -76,10 +79,23 @@ public class MovieFragment extends BaseFragment {
         outState.putString(STORED_MOVIE_NAME_KEY, this.movieName);
     }
 
+    // When movie fragment is removed from view hierarchy, unassign its movie id, so that outdated
+    // movie data fetched from the API does not try to populate page anymore
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        this.movieId = UNASSIGNED_MOVIE;
+    }
+
     public void populateMoviePage(final @Nullable MovieViewModel movieData) {
         // If movie was not found or JSON returned for movie was invalid, then don't populate
         // this movie page
         if (movieData == null) {
+            return;
+        }
+        // If movie fragment has been removed from view hierarchy before movie's data reaches here
+        // to populate the page, then ignore this outdated movie data
+        else if (this.movieId == UNASSIGNED_MOVIE) {
             return;
         }
 
