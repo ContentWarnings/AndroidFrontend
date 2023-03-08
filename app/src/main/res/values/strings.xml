@@ -54,4 +54,11 @@
     <string name="genres_descending">Genres Descending</string>
     <string name="content_warning_ascending">Content Warnings Ascending</string>
     <string name="content_warning_descending">Content Warnings Descending</string>
+
+    <string name="mpa_g_rating">General Audiences</string>
+    <string name="mpa_pg_rating">Parental Guidance Suggested</string>
+    <string name="mpa_pg_13_rating">Parents Strongly Cautioned</string>
+    <string name="mpa_r_rating">Restricted</string>
+    <string name="mpa_nc_17_rating">Adults Only</string>
+    <string name="mpa_nr_rating">Not Rated</string>
 </resources>
