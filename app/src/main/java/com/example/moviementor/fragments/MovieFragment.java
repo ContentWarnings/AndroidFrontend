@@ -229,6 +229,14 @@ public class MovieFragment extends BaseFragment {
             mpaRatingBox.setBackground(mpaBoxBackground);
         }
 
+        // Make summary header visible
+        final TextView moviePageSummaryHeader = requireView().findViewById(R.id.movie_page_summary_header);
+        moviePageSummaryHeader.setVisibility(View.VISIBLE);
+
+        // Fill movie's summary on the page
+        final TextView moviePageSummary = requireView().findViewById(R.id.movie_page_summary);
+        moviePageSummary.setText(movieData.getMovieOverview());
+
         // TODO: populate movie page with this movie's data
     }
 
