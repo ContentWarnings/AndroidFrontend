@@ -138,6 +138,17 @@
                         android:orientation="vertical"
                         android:layout_marginVertical="@dimen/movie_page_genre_tile_list_margin_vertical" />
 
+                    <RatingBar
+                        android:id="@+id/movie_page_rating_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/rating_bar_height"
+                        android:numStars="@integer/num_rating_stars"
+                        android:stepSize="0.01"
+                        android:secondaryProgressTint="@android:color/transparent"
+                        android:isIndicator="true"
+                        style="@style/CustomRatingBar"
+                        android:visibility="gone" />
+
                 </LinearLayout>
 
             </LinearLayout>

@@ -8,4 +8,7 @@
         <item name="android:editTextColor">@color/search_bar_edit_text</item>
         <item name="android:textColorHint">@color/search_bar_hidden_text</item>
     </style>
+    <style name="CustomRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/rating_stars</item>
+    </style>
 </resources>

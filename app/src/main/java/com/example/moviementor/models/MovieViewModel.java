@@ -20,6 +20,8 @@ public class MovieViewModel {
     private final int movieRuntime;
     private final @Nullable URL movieImageUrl;
     private final @NonNull String movieOverview;
+    private final double movieRating;
+    private final @NonNull String movieMpaRating;
     private final @NonNull List<String> genres;
     private final @NonNull List<StreamingProvider> streamingProviders;
     private final @NonNull List<ContentWarning> contentWarnings;
@@ -27,6 +29,7 @@ public class MovieViewModel {
     public MovieViewModel(final int movieId, final @NonNull String movieName,
                           final @Nullable Date releaseDate, final int movieRuntime,
                           final @Nullable URL movieImageUrl, final @NonNull String movieOverview,
+                          final double movieRating, final @NonNull String movieMpaRating,
                           final @NonNull List<String> genres,
                           final @NonNull List<StreamingProvider> streamingProviders,
                           final @NonNull List<ContentWarning> contentWarnings) {
@@ -36,6 +39,8 @@ public class MovieViewModel {
         this.movieRuntime = movieRuntime;
         this.movieImageUrl = movieImageUrl;
         this.movieOverview = movieOverview;
+        this.movieRating = movieRating;
+        this.movieMpaRating = movieMpaRating;
         this.genres = genres;
         this.streamingProviders = streamingProviders;
         this.contentWarnings = contentWarnings;
@@ -67,6 +72,15 @@ public class MovieViewModel {
     @NonNull
     public String getMovieOverview() {
         return this.movieOverview;
+    }
+
+    public double getMovieRating() {
+        return this.movieRating;
+    }
+
+    @NonNull
+    public String getMovieMpaRating() {
+        return this.movieMpaRating;
     }
 
     @NonNull

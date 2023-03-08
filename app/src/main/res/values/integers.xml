@@ -5,4 +5,5 @@
     <integer name="genre_background_image_alpha">64</integer>
     <integer name="search_result_movie_title_lines">1</integer>
     <integer name="search_result_movie_year_and_description_lines">3</integer>
+    <integer name="num_rating_stars">5</integer>
 </resources>

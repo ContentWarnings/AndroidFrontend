@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.DrawableRes;
@@ -170,6 +171,24 @@ public class MovieFragment extends BaseFragment {
 
             // Append this genre tile to the list of genre tiles on the movie page
             genreTilesList.addView(genreTileView);
+        }
+
+        final double movieRating = movieData.getMovieRating();
+
+        // Display rating bar for movie only if rating value is available. Upcoming movies in TMDB
+        // have a rating value of 0, so don't show rating bar for these movies either
+        if (movieRating != MovieViewModel.MISSING_RATING && movieRating != 0) {
+            final RatingBar movieRatingBar = requireView().findViewById(R.id.movie_page_rating_bar);
+
+            // Original movie rating is out of 10 so convert to out of five so that five star
+            // rating bar can be used
+            final double movieFiveStarRating = movieRating / 2.0;
+
+            // Fill rating stars for this movie
+            movieRatingBar.setRating((float) movieFiveStarRating);
+
+            // Make rating bar visible now that it has been set up
+            movieRatingBar.setVisibility(View.VISIBLE);
         }
 
         // TODO: populate movie page with this movie's data
