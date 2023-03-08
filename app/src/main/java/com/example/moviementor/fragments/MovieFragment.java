@@ -14,10 +14,13 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.moviementor.R;
 import com.example.moviementor.adapters.GenreTilesAdapter;
+import com.example.moviementor.adapters.StreamingProvidersAdapter;
 import com.example.moviementor.models.MovieViewModel;
 import com.example.moviementor.other.Backend;
 
@@ -190,6 +193,19 @@ public class MovieFragment extends BaseFragment {
             // Make rating bar visible now that it has been set up
             movieRatingBar.setVisibility(View.VISIBLE);
         }
+
+        // Setup empty RecyclerView for streaming providers
+        final RecyclerView streamingProvidersRecyclerView = requireView()
+                .findViewById(R.id.movie_page_streaming_providers_recycler_view);
+
+        // Setup adapter for RecyclerView with movie's list of streaming providers
+        final StreamingProvidersAdapter streamingProvidersAdapter =
+                new StreamingProvidersAdapter(movieData.getStreamingProviders());
+
+        // Set RecyclerView's adapter and layout manager
+        streamingProvidersRecyclerView.setAdapter(streamingProvidersAdapter);
+        streamingProvidersRecyclerView.setLayoutManager(
+                new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));
 
         // TODO: populate movie page with this movie's data
     }

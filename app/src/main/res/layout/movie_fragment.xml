@@ -153,6 +153,13 @@
 
             </LinearLayout>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/movie_page_streaming_providers_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/streaming_providers_recycler_view_margin_top" />
+
         </LinearLayout>
         
     </ScrollView>
