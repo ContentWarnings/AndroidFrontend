@@ -58,4 +58,18 @@ public class StreamingProvider {
                 return null;
         }
     }
+
+    // Helper function that returns text for provider's content viewing option
+    @NonNull
+    public String getProviderOptionString() {
+        if (this.providerOption == ProviderOption.BUY) {
+            return "Buy";
+        }
+        else if (this.providerOption == ProviderOption.RENT) {
+            return "Rent";
+        }
+        else {
+            return "Stream";
+        }
+    }
 }

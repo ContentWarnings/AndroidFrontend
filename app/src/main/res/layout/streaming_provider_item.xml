@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:layout_marginHorizontal="@dimen/streaming_provider_item_margin_horizontal">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/streaming_provider_image"
+        android:layout_width="@dimen/streaming_provider_image_width"
+        android:layout_height="@dimen/streaming_provider_image_height"
+        app:shapeAppearanceOverlay="@style/roundedCornersStreamingProviderImage" />
+
+    <TextView
+        android:id="@+id/streaming_provider_option"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/streaming_provider_option_text"
+        android:textSize="@dimen/streaming_provider_option_text_size" />
+
+</LinearLayout>
