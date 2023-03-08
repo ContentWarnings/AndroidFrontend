@@ -119,11 +119,12 @@
     <dimen name="movie_page_image_width">170dp</dimen>
     <dimen name="movie_page_image_margin_start">25dp</dimen>
     <dimen name="movie_page_image_margin_end">17dp</dimen>
-    <dimen name="movie_page_info_column_margin_end">27dp</dimen>
+    <dimen name="movie_page_info_column_margin_end">23dp</dimen>
     <dimen name="movie_page_date_and_runtime_text_size">18sp</dimen>
     <dimen name="movie_page_genre_tile_list_margin_vertical">5dp</dimen>
     <dimen name="genre_tile_expanded_margin_vertical">3dp</dimen>
     <dimen name="genre_tile_expanded_text_size">16.33sp</dimen>
     <dimen name="genre_tile_expanded_icon_margin_end">7.33dp</dimen>
     <dimen name="genre_tile_expanded_padding_vertical">1.5dp</dimen>
+    <dimen name="rating_bar_height">24dp</dimen>
 </resources>

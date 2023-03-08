@@ -32,7 +32,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class Backend {
     private static final int INVALID_MOVIE_ID = -1;
-    private static final String DATE_FORMAT_STRING = "yyyy-mm-dd";
+    private static final String DATE_FORMAT_STRING = "yyyy-MM-dd";
     private static final int NO_PAGE_SPECIFIED = -1;
 
     // Base url that will be used for all API requests
@@ -624,8 +624,8 @@ public class Backend {
                     }
 
                     movieViewModel = new MovieViewModel(movieId, movieTitle, releaseDate,
-                            movieRuntime, movieImageUrl, movieOverview, genreList,
-                            streamingProviders, contentWarnings);
+                            movieRuntime, movieImageUrl, movieOverview, movieRating, movieMpaRating,
+                            genreList, streamingProviders, contentWarnings);
                 }
                 catch (final JSONException e) {
                     Log.e("Backend: ", e.toString());
