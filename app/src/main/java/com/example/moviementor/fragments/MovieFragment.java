@@ -1,6 +1,9 @@
 package com.example.moviementor.fragments;
 
+import android.annotation.SuppressLint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -207,6 +211,24 @@ public class MovieFragment extends BaseFragment {
         streamingProvidersRecyclerView.setLayoutManager(
                 new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));
 
+        final @NonNull String movieMpaRating = movieData.getMovieMpaRating();
+
+        // Display mpa rating for movie only if its available
+        if (!movieMpaRating.isEmpty() && !movieMpaRating.equals(MovieViewModel.MISSSING_MPA_RATING)) {
+            final @NonNull String mpaRatingDescription = getMpaRatingDescription(movieMpaRating);
+
+            final TextView mpaRatingBox = requireView().findViewById(R.id.mpa_rating_box);
+            final TextView mpaRatingDescriptionText = requireView().findViewById(R.id.mpa_rating_description);
+
+            // Populate movie's mpa rating and its associated description on the page
+            mpaRatingBox.setText(movieMpaRating);
+            mpaRatingDescriptionText.setText(mpaRatingDescription);
+
+            // Set the box background around MPA rating
+            final Drawable mpaBoxBackground = ContextCompat.getDrawable(requireContext(), R.drawable.mpa_rating_box_background);
+            mpaRatingBox.setBackground(mpaBoxBackground);
+        }
+
         // TODO: populate movie page with this movie's data
     }
 
@@ -226,5 +248,26 @@ public class MovieFragment extends BaseFragment {
         final int runtimeMins = runtime % 60;
 
         return runtimeHours + "h " + runtimeMins + "m";
+    }
+
+    // Helper function to get brief description for each mpa rating category
+    @NonNull
+    private String getMpaRatingDescription(final @NonNull String mpaRating) {
+        getResources().getString(R.string.home_page_header_title);
+
+        switch (mpaRating) {
+            case "G":
+                return getResources().getString(R.string.mpa_g_rating);
+            case "PG":
+                return getResources().getString(R.string.mpa_pg_rating);
+            case "PG-13":
+                return getResources().getString(R.string.mpa_pg_13_rating);
+            case "R":
+                return getResources().getString(R.string.mpa_r_rating);
+            case "NC-17":
+                return getResources().getString(R.string.mpa_nc_17_rating);
+            default:
+                return getResources().getString(R.string.mpa_nr_rating);
+        }
     }
 }

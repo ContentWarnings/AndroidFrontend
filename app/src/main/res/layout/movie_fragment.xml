@@ -160,6 +160,35 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="@dimen/streaming_providers_recycler_view_margin_top" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/mpa_rating_row_margin_top"
+                android:layout_marginBottom="@dimen/mpa_rating_row_margin_bottom">
+
+                <TextView
+                    android:id="@+id/mpa_rating_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/mpa_rating_text_size"
+                    android:textColor="@color/mpa_rating_text"
+                    android:textStyle="bold"
+                    android:paddingVertical="@dimen/mpa_rating_box_padding_vertical"
+                    android:paddingHorizontal="@dimen/mpa_rating_box_padding_horizontal"
+                    android:layout_marginStart="@dimen/mpa_rating_box_margin_start"
+                    android:layout_marginEnd="@dimen/mpa_rating_box_margin_end" />
+
+                <TextView
+                    android:id="@+id/mpa_rating_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/mpa_rating_description_text_size"
+                    android:textColor="@color/mpa_rating_description_text" />
+
+            </LinearLayout>
+
         </LinearLayout>
         
     </ScrollView>

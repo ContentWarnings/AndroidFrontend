@@ -132,4 +132,13 @@
     <dimen name="streaming_provider_image_height">60dp</dimen>
     <dimen name="streaming_provider_image_width">60dp</dimen>
     <dimen name="streaming_provider_option_text_size">16sp</dimen>
+    <dimen name="mpa_rating_row_margin_top">22dp</dimen>
+    <dimen name="mpa_rating_row_margin_bottom">18dp</dimen>
+    <dimen name="mpa_rating_text_size">28.16sp</dimen>
+    <dimen name="mpa_rating_description_text_size">21sp</dimen>
+    <dimen name="mpa_rating_box_border_width">2dp</dimen>
+    <dimen name="mpa_rating_box_padding_vertical">6dp</dimen>
+    <dimen name="mpa_rating_box_padding_horizontal">14dp</dimen>
+    <dimen name="mpa_rating_box_margin_start">27dp</dimen>
+    <dimen name="mpa_rating_box_margin_end">14dp</dimen>
 </resources>

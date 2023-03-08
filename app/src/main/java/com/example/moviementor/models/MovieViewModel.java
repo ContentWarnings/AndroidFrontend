@@ -13,6 +13,7 @@ import java.util.List;
 public class MovieViewModel {
     public static final int MISSING_RUNTIME = -1;
     public static final double MISSING_RATING = -1.0;
+    public static final String MISSSING_MPA_RATING = "Unknown";
 
     private final int movieId;
     private final @NonNull String movieName;
