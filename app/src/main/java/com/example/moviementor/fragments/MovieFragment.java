@@ -1,20 +1,17 @@
 package com.example.moviementor.fragments;
 
-import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.DrawableRes;
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -27,6 +24,8 @@ import com.example.moviementor.adapters.GenreTilesAdapter;
 import com.example.moviementor.adapters.StreamingProvidersAdapter;
 import com.example.moviementor.models.MovieViewModel;
 import com.example.moviementor.other.Backend;
+import com.example.moviementor.other.ContentWarning;
+import com.example.moviementor.other.TimeStamp;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -106,6 +105,10 @@ public class MovieFragment extends BaseFragment {
         else if (this.movieId == UNASSIGNED_MOVIE) {
             return;
         }
+
+        // Hide loading progress wheel since movie data is ready ro populate the page
+        final ProgressBar loadingProgressWheel = requireView().findViewById(R.id.loading_circle);
+        loadingProgressWheel.setVisibility(View.GONE);
 
         // If movie's name fetched from API is different from movie name initially passed to the
         // movie page, then set header title of the page to the new movie's name
@@ -237,7 +240,58 @@ public class MovieFragment extends BaseFragment {
         final TextView moviePageSummary = requireView().findViewById(R.id.movie_page_summary);
         moviePageSummary.setText(movieData.getMovieOverview());
 
-        // TODO: populate movie page with this movie's data
+        // Make content warnings header visible
+        final TextView moviePageContentWarningsHeader = requireView().findViewById(R.id.movie_page_content_warnings_header);
+        moviePageContentWarningsHeader.setVisibility(View.VISIBLE);
+
+        final List<ContentWarning> contentWarnings = movieData.getContentWarnings();
+        final LinearLayout contentWarningsList = requireView().findViewById(R.id.movie_page_content_warnings_list);
+
+        // Create a content warning row for each of this movie's reported content warnings and
+        // append each to the content warning list located at the bottom of the page
+        for (final @NonNull ContentWarning contentWarning : contentWarnings) {
+            // Inflate custom layout for singular content warning item
+            final View contentWarningItemView = inflater.inflate(R.layout.content_warning_item, contentWarningsList, false);
+
+            final TextView contentWarningName = contentWarningItemView
+                    .findViewById(R.id.content_warning_item_name);
+            final TextView contentWarningTimestamp = contentWarningItemView
+                    .findViewById(R.id.content_warning_item_timestamp);
+
+            contentWarningName.setText(contentWarning.getContentWarningName());
+
+            // If single content warning has multiple timestamps reported, then just display
+            // text that this content warning occurs multiple times in the movie
+            if (contentWarning.getTimestampList().size() > 1) {
+                contentWarningTimestamp.setText(
+                        getString(R.string.content_warning_item_multiple_timestamps));
+            }
+            // Content warning only has one timestamp, so display this timestamp
+            // in the content warning item
+            else if (contentWarning.getTimestampList().size() == 1) {
+                // Get first and only timestamp for content warning
+                final TimeStamp cwTimestamp = contentWarning.getTimestampList().get(0);
+
+                // Convert timestamp into string of format "hh:mm - hh:mm"
+                final String timestampString = cwTimestamp.getStartTimeString() + " - "
+                        + cwTimestamp.getEndTimeString();
+
+                contentWarningTimestamp.setText(timestampString);
+            }
+            // Don't display anything for timestamp text if content warning does not have any
+            // reported
+
+            // Append this content warning item to the list of content warnings at the bottom
+            // of the movie page
+            contentWarningsList.addView(contentWarningItemView);
+        }
+
+        // If no content warnings are reported for this movie currently, then display
+        // text that explains so
+        if (contentWarnings.isEmpty()) {
+            final TextView noContentWarningsText = requireView().findViewById(R.id.no_content_warnings_found);
+            noContentWarningsText.setVisibility(View.VISIBLE);
+        }
     }
 
     // Helper function to parse Java date objects into desired format for displaying on the

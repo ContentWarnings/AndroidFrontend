@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     android:background="@color/page_background">
 
+    <ProgressBar
+        android:id="@+id/loading_circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyle"
+        android:indeterminateTint="@color/white"
+        android:layout_centerInParent="true" />
+
     <LinearLayout
         android:id="@+id/movie_page_header_and_warning_banner"
         android:layout_width="match_parent"
@@ -92,7 +100,7 @@
 
     </LinearLayout>
     
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/movie_page_header_and_warning_banner">
@@ -210,8 +218,41 @@
                 android:layout_marginStart="@dimen/summary_text_size"
                 android:layout_marginTop="@dimen/summary_margin_top" />
 
+            <TextView
+                android:id="@+id/movie_page_content_warnings_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="@string/movie_page_content_warnings_header"
+                android:textStyle="bold"
+                android:textSize="@dimen/content_warnings_header_text_size"
+                android:textColor="@color/movie_page_content_warnings_header"
+                android:layout_marginTop="@dimen/content_warnings_header_margin_top"
+                android:layout_marginStart="@dimen/content_warnings_header_margin_start"/>
+
+            <LinearLayout
+                android:id="@+id/movie_page_content_warnings_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="@dimen/movie_page_content_warnings_list_margin_horizontal"
+                android:layout_marginTop="@dimen/content_warnings_list_margin_top" >
+
+                <TextView
+                    android:id="@+id/no_content_warnings_found"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:visibility="gone"
+                    android:text="@string/movie_page_no_content_warnings"
+                    android:textSize="@dimen/no_content_warnings_text_size"
+                    android:textColor="@color/movie_page_no_content_warnings_text" />
+
+            </LinearLayout>
+
         </LinearLayout>
         
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>
