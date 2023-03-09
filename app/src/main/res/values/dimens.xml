@@ -146,4 +146,21 @@
     <dimen name="summary_text_size">21sp</dimen>
     <dimen name="summary_margin_start">19dp</dimen>
     <dimen name="summary_margin_top">2dp</dimen>
+    <dimen name="content_warnings_header_text_size">32sp</dimen>
+    <dimen name="content_warnings_header_margin_start">19dp</dimen>
+    <dimen name="content_warnings_header_margin_top">15dp</dimen>
+    <dimen name="content_warnings_list_margin_top">14dp</dimen>
+    <dimen name="movie_page_content_warnings_list_margin_horizontal">20dp</dimen>
+    <dimen name="no_content_warnings_text_size">21sp</dimen>
+    <dimen name="content_warning_item_height">55dp</dimen>
+    <dimen name="content_warning_item_margin_bottom">10dp</dimen>
+    <dimen name="content_warning_item_corner_radius">8dp</dimen>
+    <dimen name="content_warning_item_warning_icon_corner_radius">12dp</dimen>
+    <dimen name="content_warning_item_warning_icon_margin_start">7dp</dimen>
+    <dimen name="content_warning_item_warning_icon_margin_end">-14dp</dimen>
+    <dimen name="content_warning_item_warning_icon_padding">7dp</dimen>
+    <dimen name="content_warning_item_name_text_size">19sp</dimen>
+    <dimen name="content_warning_item_name_margin_start">23dp</dimen>
+    <dimen name="content_warning_item_timestamp_text_size">18sp</dimen>
+    <dimen name="content_warning_item_timestamp_margin_start">5dp</dimen>
 </resources>

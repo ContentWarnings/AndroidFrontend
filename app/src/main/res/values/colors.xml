@@ -61,4 +61,10 @@
     <color name="mpa_rating_description_text">@color/white</color>
     <color name="movie_page_summary_header">@color/white</color>
     <color name="movie_page_summary">@color/white</color>
+    <color name="movie_page_content_warnings_header">@color/white</color>
+    <color name="movie_page_no_content_warnings_text">@color/white</color>
+    <color name="movie_page_content_warning_item_background">#313131</color>
+    <color name="movie_page_content_warning_item_warning_icon_background">#1976D2</color>
+    <color name="movie_page_content_warning_item_name_text">@color/white</color>
+    <color name="movie_page_content_warning_item_timestamp_text">@color/white</color>
 </resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/content_warning_item_height"
+    android:background="@drawable/content_warning_item_background"
+    android:layout_marginBottom="@dimen/content_warning_item_margin_bottom">
+
+    <ImageView
+        android:id="@+id/content_warning_item_warning_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="@dimen/content_warning_item_warning_icon_margin_start"
+        android:layout_marginEnd="@dimen/content_warning_item_warning_icon_margin_end"
+        android:padding="@dimen/content_warning_item_warning_icon_padding"
+        android:src="@drawable/warning_triangle"
+        android:background="@drawable/content_warning_item_warning_icon_background"/>
+
+    <TextView
+        android:id="@+id/content_warning_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/content_warning_item_timestamp"
+        android:layout_toEndOf="@id/content_warning_item_warning_icon"
+        android:layout_marginStart="@dimen/content_warning_item_name_margin_start"
+        android:textColor="@color/movie_page_content_warning_item_name_text"
+        android:textSize="@dimen/content_warning_item_name_text_size" />
+
+    <TextView
+        android:id="@+id/content_warning_item_timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/content_warning_item_timestamp_margin_start"
+        android:textSize="@dimen/content_warning_item_timestamp_text_size"
+        android:textColor="@color/movie_page_content_warning_item_timestamp_text"
+        android:alpha="0.5"
+        android:layout_toStartOf="@id/content_warning_item_arrow" />
+
+    <ImageView
+        android:id="@+id/content_warning_item_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:src="@drawable/arrow_right"
+        android:layout_alignParentEnd="true" />
+
+
+</RelativeLayout>
