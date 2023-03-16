@@ -1,5 +1,7 @@
 package com.example.moviementor.adapters;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -17,9 +20,12 @@ import java.util.List;
 
 public class StreamingProvidersAdapter extends RecyclerView.Adapter<StreamingProvidersAdapter.StreamingProviderViewHolder> {
     private final @NonNull List<StreamingProvider> streamingProviders;
+    private final @Nullable Uri streamingUri;
 
-    public StreamingProvidersAdapter(final @NonNull List<StreamingProvider> streamingProviders) {
+    public StreamingProvidersAdapter(final @NonNull List<StreamingProvider> streamingProviders,
+                                     final @Nullable Uri streamingUri) {
         this.streamingProviders = streamingProviders;
+        this.streamingUri = streamingUri;
     }
 
     @Override
@@ -55,6 +61,17 @@ public class StreamingProvidersAdapter extends RecyclerView.Adapter<StreamingPro
         }
 
         viewHolder.streamingProviderOption.setText(streamingProvider.getProviderOptionString());
+
+        if (this.streamingUri != null) {
+            // Setup click listener on the provider's image to open the movie's
+            // corresponding TMDB streaming page if clicked on
+            viewHolder.streamingProviderImage.setOnClickListener(view -> {
+                // Launch activity to open streaming page in the browser
+                final Intent streamingPageIntent = new Intent(Intent.ACTION_VIEW, this.streamingUri);
+                viewHolder.streamingProviderImage.getContext().startActivity(streamingPageIntent);
+            });
+
+        }
     }
 
     // Returns the total number of streaming provider options for this movie
