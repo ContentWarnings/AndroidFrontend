@@ -215,7 +215,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/movie_page_summary"
                 android:textSize="@dimen/summary_text_size"
-                android:layout_marginStart="@dimen/summary_text_size"
+                android:layout_marginStart="@dimen/summary_margin_start"
+                android:layout_marginEnd="@dimen/summary_margin_end"
                 android:layout_marginTop="@dimen/summary_margin_top" />
 
             <TextView
