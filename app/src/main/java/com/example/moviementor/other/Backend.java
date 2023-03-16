@@ -1,5 +1,6 @@
 package com.example.moviementor.other;
 
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -481,6 +482,10 @@ public class Backend {
                     // Initialize empty list of streaming providers available for this movie
                     final List<StreamingProvider> streamingProviders = new ArrayList<>();
 
+                    // Set streaming providers' link to null initially in case it cannot be
+                    // retrieved
+                    @Nullable Uri streamingUri = null;
+
                     if (streamingInfo != null) {
                         final @Nullable JSONArray streamingProvidersJSONArray = streamingInfo
                                 .optJSONArray("providers");
@@ -548,6 +553,20 @@ public class Backend {
                                         StreamingProvider(providerName, providerOption, providerImageUrl);
                                 streamingProviders.add(streamingProvider);
                             }
+                        }
+
+                        final @NonNull String streamingUrlString = streamingInfo.optString("tmdb_link", "");
+
+                        // Try making streaming Uri object and default to null if unsuccessful
+                        try {
+                            // First, validated that the url string is valid
+                            final URL streamingUrl = new URL(streamingUrlString);
+
+                            // If valid, make a uri from the string
+                            streamingUri = Uri.parse(streamingUrlString);
+                        }
+                        catch(final MalformedURLException e) {
+                            streamingUri = null;
                         }
                     }
 
@@ -625,7 +644,7 @@ public class Backend {
 
                     movieViewModel = new MovieViewModel(movieId, movieTitle, releaseDate,
                             movieRuntime, movieImageUrl, movieOverview, movieRating, movieMpaRating,
-                            genreList, streamingProviders, contentWarnings);
+                            genreList, streamingProviders, streamingUri, contentWarnings);
                 }
                 catch (final JSONException e) {
                     Log.e("Backend: ", e.toString());

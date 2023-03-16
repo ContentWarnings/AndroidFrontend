@@ -1,5 +1,7 @@
 package com.example.moviementor.models;
 
+import android.net.Uri;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -25,6 +27,7 @@ public class MovieViewModel {
     private final @NonNull String movieMpaRating;
     private final @NonNull List<String> genres;
     private final @NonNull List<StreamingProvider> streamingProviders;
+    private final @Nullable Uri streamingUri;
     private final @NonNull List<ContentWarning> contentWarnings;
 
     public MovieViewModel(final int movieId, final @NonNull String movieName,
@@ -33,6 +36,7 @@ public class MovieViewModel {
                           final double movieRating, final @NonNull String movieMpaRating,
                           final @NonNull List<String> genres,
                           final @NonNull List<StreamingProvider> streamingProviders,
+                          final @Nullable Uri streamingUri,
                           final @NonNull List<ContentWarning> contentWarnings) {
         this.movieId = movieId;
         this.movieName = movieName;
@@ -44,6 +48,7 @@ public class MovieViewModel {
         this.movieMpaRating = movieMpaRating;
         this.genres = genres;
         this.streamingProviders = streamingProviders;
+        this.streamingUri = streamingUri;
         this.contentWarnings = contentWarnings;
     }
 
@@ -92,6 +97,11 @@ public class MovieViewModel {
     @NonNull
     public List<StreamingProvider> getStreamingProviders() {
         return this.streamingProviders;
+    }
+
+    @Nullable
+    public Uri getStreamingUri() {
+        return this.streamingUri;
     }
 
     @NonNull

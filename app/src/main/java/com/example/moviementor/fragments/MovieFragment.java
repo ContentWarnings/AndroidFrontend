@@ -205,9 +205,11 @@ public class MovieFragment extends BaseFragment {
         final RecyclerView streamingProvidersRecyclerView = requireView()
                 .findViewById(R.id.movie_page_streaming_providers_recycler_view);
 
-        // Setup adapter for RecyclerView with movie's list of streaming providers
+        // Setup adapter for RecyclerView with movie's list of streaming providers and the
+        // streaming link
         final StreamingProvidersAdapter streamingProvidersAdapter =
-                new StreamingProvidersAdapter(movieData.getStreamingProviders());
+                new StreamingProvidersAdapter(movieData.getStreamingProviders(),
+                        movieData.getStreamingUri());
 
         // Set RecyclerView's adapter and layout manager
         streamingProvidersRecyclerView.setAdapter(streamingProvidersAdapter);
