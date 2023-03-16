@@ -240,10 +240,10 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         // Just got first page of search results for current search string and search options
         this.lastSearchPage = 1;
 
-        // If search string is blank, then currently showing trending movies which does not allow
-        // for pagination. In this case, make it clear that no more pages of search results can
-        // be retrieved
-        if (this.searchString.trim().isEmpty()) {
+        // If search string is blank and no genre filter is selected, then currently showing
+        // trending movies which does not allow for pagination. In this case, make it clear that
+        // no more pages of search results can be retrieved
+        if (this.searchString.trim().isEmpty() && this.searchOptions.currentGenreFilterSelected() == null) {
             this.moreSearchResultsAvailable = false;
         }
         // Otherwise, the first page of search results are being populated, so you can get the next
@@ -258,12 +258,14 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyItemRangeInserted(2, this.searchPageItems.size());
     }
 
-    // Should only get next page of search results if search string is not blank (this means that
+    // Should only get next page of search results if search is not empty (this means that
     // genre rows are not being shown and trending movies are not being shown since pagination is
     // not supported for trending movies), there are search results already populated on the screen,
-    // and if there are more search results available
+    // and if there are more search results available. Search is not empty if search string is not
+    // blank and/or a genre filter is selected
     public boolean shouldGetNextPage() {
-        return  !this.searchString.trim().isEmpty()
+        return  (!this.searchString.trim().isEmpty() ||
+                  this.searchOptions.currentGenreFilterSelected() != null)
                 && !this.searchPageItems.isEmpty()
                 && moreSearchResultsAvailable;
     }
