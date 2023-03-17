@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 
 import com.example.moviementor.R;
+import com.example.moviementor.fragments.AboutFragment;
 import com.example.moviementor.fragments.BaseFragment;
 import com.example.moviementor.fragments.MovieFragment;
 import com.example.moviementor.other.AdvancedSearchOptionsModal;
@@ -111,5 +112,11 @@ public class MainActivity extends AppCompatActivity {
         final MovieFragment movieFragment = new MovieFragment();
         movieFragment.assignMovie(movieId, movieName);
         this.fragmentStackManager.openNewPage(getSupportFragmentManager(), movieFragment);
+    }
+
+    // Get fragment stack manager to open about page in settings tab
+    public void openAboutPage() {
+        final AboutFragment aboutFragment = new AboutFragment();
+        this.fragmentStackManager.openNewPage(getSupportFragmentManager(), aboutFragment);
     }
 }

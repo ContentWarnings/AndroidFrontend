@@ -3,6 +3,7 @@ package com.example.moviementor.fragments;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,16 @@ public class SettingsFragment extends BaseFragment {
         headerSearchButton.setOnClickListener(v -> {
             final MainActivity mainActivity = (MainActivity) requireActivity();
             mainActivity.jumpToSearchBar();
+        });
+
+        final LinearLayout contentWarningsSettingsRow = requireView()
+                .findViewById(R.id.content_warnings_settings_row);
+        final LinearLayout aboutSettingsRow = requireView().findViewById(R.id.about_settings_row);
+
+        // Setup click listener to open about page when about row is clicked on
+        aboutSettingsRow.setOnClickListener(view -> {
+            final MainActivity mainActivity = (MainActivity) requireActivity();
+            mainActivity.openAboutPage();
         });
     }
 }

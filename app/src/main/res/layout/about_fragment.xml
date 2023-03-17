@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/about_page_header_margin_top"
+            android:layout_marginBottom="@dimen/about_page_header_margin_bottom"
+            android:layout_marginStart="@dimen/about_page_header_margin_start"
+            android:layout_marginEnd="@dimen/about_page_header_margin_end">
+
+            <ImageButton
+                android:id="@+id/about_page_back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/back_button"
+                android:theme="@style/SelectableItemTheme"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_marginEnd="@dimen/about_page_back_button_margin_end" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/about_page_back_button"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/about_page_title"
+                android:textColor="@color/about_page_title_text"
+                android:textSize="@dimen/movie_page_title_text_size" />
+
+            <ImageButton
+                android:id="@+id/about_page_header_search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/header_search_magnifying_glass">
+            </ImageButton>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/about_page_tmdb_attribution"
+            android:textColor="@color/about_page_tmdb_attribution_text"
+            android:textSize="@dimen/about_page_tmdb_attribution_text_size" />
+
+        <TextView
+            android:tag="DELETE LATER"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="I'm not sure what else goes on this page\n(DELETE LATER)"
+            android:textColor="#FFFF00"
+            android:textSize="32sp"
+            android:layout_marginTop="180dp"
+            android:layout_marginHorizontal="15dp"/>
+
+    </LinearLayout>
+
+</ScrollView>
