@@ -20,6 +20,8 @@
     <string name="movie_page_content_warnings_header">Content Warnings</string>
     <string name="movie_page_no_content_warnings">No Content Warnings Reported</string>
     <string name="content_warning_item_multiple_timestamps">Multiple\nInstances</string>
+    <string name="settings_row_content_warnings">Content Warnings</string>
+    <string name="settings_row_about">About</string>
 
     <string name="action_genre_text">Action</string>
     <string name="adventure_genre_text">Adventure</string>

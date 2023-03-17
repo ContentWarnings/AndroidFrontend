@@ -164,4 +164,11 @@
     <dimen name="content_warning_item_name_margin_start">23dp</dimen>
     <dimen name="content_warning_item_timestamp_text_size">18sp</dimen>
     <dimen name="content_warning_item_timestamp_margin_start">5dp</dimen>
+    <dimen name="settings_row_divider_width">1dp</dimen>
+    <dimen name="settings_row_divider_margin_horizontal">24dp</dimen>
+    <dimen name="settings_row_primary_text_size">21sp</dimen>
+    <dimen name="main_settings_row_margin_start">41dp</dimen>
+    <dimen name="main_settings_row_icon_margin_end">18dp</dimen>
+    <dimen name="main_settings_row_margin_top">10dp</dimen>
+    <dimen name="main_settings_row_margin_bottom">16dp</dimen>
 </resources>

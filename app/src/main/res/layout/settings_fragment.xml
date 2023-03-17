@@ -12,6 +12,62 @@
         <include android:id="@+id/settings_header"
             layout="@layout/header" />
 
+        <LinearLayout
+            android:id="@+id/content_warnings_settings_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/main_settings_row_margin_top"
+            android:layout_marginBottom="@dimen/main_settings_row_margin_bottom"
+            android:layout_marginStart="@dimen/main_settings_row_margin_start">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/settings_content_warnings_row_icon"
+                android:layout_marginEnd="@dimen/main_settings_row_icon_margin_end" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_row_content_warnings"
+                android:textSize="@dimen/settings_row_primary_text_size"
+                android:textColor="@color/settings_row_text" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/settings_row_divider_width"
+            android:background="@color/settings_row_divider"
+            android:layout_marginHorizontal="@dimen/settings_row_divider_margin_horizontal" />
+
+        <LinearLayout
+            android:id="@+id/about_settings_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/main_settings_row_margin_top"
+            android:layout_marginBottom="@dimen/main_settings_row_margin_bottom"
+            android:layout_marginStart="@dimen/main_settings_row_margin_start">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/settings_about_row_icon"
+                android:layout_marginEnd="@dimen/main_settings_row_icon_margin_end" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_row_about"
+                android:textSize="@dimen/settings_row_primary_text_size"
+                android:textColor="@color/settings_row_text" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>

@@ -67,4 +67,6 @@
     <color name="movie_page_content_warning_item_warning_icon_background">#1976D2</color>
     <color name="movie_page_content_warning_item_name_text">@color/white</color>
     <color name="movie_page_content_warning_item_timestamp_text">@color/white</color>
+    <color name="settings_row_divider">#44FFFFFF</color>
+    <color name="settings_row_text">@color/white</color>
 </resources>
