@@ -69,4 +69,6 @@
     <color name="movie_page_content_warning_item_timestamp_text">@color/white</color>
     <color name="settings_row_divider">#44FFFFFF</color>
     <color name="settings_row_text">@color/white</color>
+    <color name="about_page_title_text">@color/white</color>
+    <color name="about_page_tmdb_attribution_text">@color/white</color>
 </resources>

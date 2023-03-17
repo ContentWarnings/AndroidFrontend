@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/page_background">
@@ -18,9 +19,10 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/main_settings_row_margin_top"
-            android:layout_marginBottom="@dimen/main_settings_row_margin_bottom"
-            android:layout_marginStart="@dimen/main_settings_row_margin_start">
+            android:paddingTop="@dimen/main_settings_row_padding_top"
+            android:paddingBottom="@dimen/main_settings_row_padding_bottom"
+            android:paddingStart="@dimen/main_settings_row_padding_start"
+            tools:ignore="RtlSymmetry">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -49,9 +51,10 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="@dimen/main_settings_row_margin_top"
-            android:layout_marginBottom="@dimen/main_settings_row_margin_bottom"
-            android:layout_marginStart="@dimen/main_settings_row_margin_start">
+            android:paddingTop="@dimen/main_settings_row_padding_top"
+            android:paddingBottom="@dimen/main_settings_row_padding_bottom"
+            android:paddingStart="@dimen/main_settings_row_padding_start"
+            tools:ignore="RtlSymmetry">
 
             <ImageView
                 android:layout_width="wrap_content"
