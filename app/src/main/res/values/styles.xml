@@ -15,4 +15,9 @@
     <style name="CustomRatingBar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/rating_stars</item>
     </style>
+    <style name="ToggleSwitch" parent="">
+        <item name="colorControlActivated">@color/purple_200</item>
+        <item name="colorSwitchThumbNormal">#756F79</item>
+        <item name="android:colorForeground">#E2D7E4</item>
+    </style>
 </resources>

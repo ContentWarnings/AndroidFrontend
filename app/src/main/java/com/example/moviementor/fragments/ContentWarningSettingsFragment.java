@@ -3,6 +3,7 @@ package com.example.moviementor.fragments;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -90,5 +91,10 @@ public class ContentWarningSettingsFragment extends BaseFragment {
         final TextView contentWarningDescriptionText = requireView()
                 .findViewById(R.id.content_warning_description);
         contentWarningDescriptionText.setText(contentWarningDescription);
+
+        // Make the rest of the items on the page visible
+        final LinearLayout contentWarningSettingsPageOptions = requireView()
+                .findViewById(R.id.content_warning_settings_page_options);
+        contentWarningSettingsPageOptions.setVisibility(View.VISIBLE);
     }
 }

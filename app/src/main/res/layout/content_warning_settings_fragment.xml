@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/page_background">
 
     <ProgressBar
@@ -50,14 +51,106 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/content_warning_description"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/content_warning_settings_page_options"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/content_warning_description_text_size"
-                android:textColor="@color/content_warning_description_text"
-                android:layout_marginStart="@dimen/content_warning_description_text_margin_start"
-                android:layout_marginEnd="@dimen/content_warning_description_text_margin_end" />
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginStart="@dimen/content_warning_settings_page_margin_start"
+                android:layout_marginEnd="@dimen/content_warning_settings_page_margin_end">
+
+                <TextView
+                    android:id="@+id/content_warning_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/content_warning_description_text_size"
+                    android:textColor="@color/content_warning_description_text"
+                    android:layout_marginBottom="@dimen/content_warning_description_text_margin_bottom" />
+
+                <LinearLayout
+                    android:id="@+id/show_content_warning_toggle_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/content_warning_settings_page_show_content_warning_toggle_row_margin_bottom">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/show_content_warning"
+                        android:textColor="@color/content_warning_settings_page_text"
+                        android:textSize="@dimen/content_warning_settings_page_option_header_text_size" />
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:scaleX="1.2"
+                            android:scaleY="1.2"
+                            android:theme="@style/ToggleSwitch" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/show_content_warning_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/show_content_warning_description"
+                    android:textColor="@color/content_warning_settings_page_text"
+                    android:textSize="@dimen/content_warning_settings_page_option_description_text_size"
+                    android:layout_marginBottom="@dimen/content_warning_settings_page_show_content_warning_description_margin_bottom" />
+
+                <LinearLayout
+                    android:id="@+id/display_warning_toggle_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="@dimen/content_warning_settings_page_display_warning_toggle_row_margin_bottom">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/display_warning"
+                        android:textColor="@color/content_warning_settings_page_text"
+                        android:textSize="@dimen/content_warning_settings_page_option_header_text_size" />
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:scaleX="1.2"
+                            android:scaleY="1.2"
+                            android:theme="@style/ToggleSwitch" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/display_warning_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/display_warning_description"
+                    android:textColor="@color/content_warning_settings_page_text"
+                    android:textSize="@dimen/content_warning_settings_page_option_description_text_size"
+                    android:layout_marginBottom="@dimen/content_warning_settings_page_display_warning_description_margin_bottom" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
