@@ -113,12 +113,20 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
             // TODO: Display user's visibility status of the cw instead of just always defaulting to show
             itemViewHolder.contentWarningVisibility.setText("Show");
 
+            // Setup click listener to open this content warning's full settings page if clicked on
+            itemViewHolder.itemView.setOnClickListener(view -> {
+                if (this.listener != null) {
+                    this.listener.onContentWarningRowClick(contentWarningName);
+                }
+            });
+
             // If this is the last content warning row, then hide the bottom divider since there is
             // no content warning row that will be displayed below
             if (position == this.contentWarningNames.size()) {
-                final View contentWarningDivider = viewHolder.itemView
-                        .findViewById(R.id.content_warning_divider);
-                contentWarningDivider.setVisibility(View.GONE);
+                itemViewHolder.contentWarningDivider.setVisibility(View.GONE);
+            }
+            else {
+                itemViewHolder.contentWarningDivider.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -134,6 +142,7 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
     public interface OnItemClickListener {
         void onHeaderBackButtonClick();
         void onHeaderSearchButtonClick();
+        void onContentWarningRowClick(final @NonNull String contentWarningName);
     }
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder {
@@ -166,11 +175,13 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         public final TextView contentWarningName;
         public final TextView contentWarningVisibility;
+        public final View contentWarningDivider;
 
         public ItemViewHolder(final @NonNull View contentWarningItemView) {
             super(contentWarningItemView);
             this.contentWarningName = contentWarningItemView.findViewById(R.id.content_warning_name);
             this.contentWarningVisibility = contentWarningItemView.findViewById(R.id.content_warning_visibility);
+            this.contentWarningDivider = contentWarningItemView.findViewById(R.id.content_warning_divider);
         }
     }
 }

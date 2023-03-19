@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/page_background">
 
     <ProgressBar
         android:id="@+id/loading_circle"
@@ -11,10 +12,10 @@
         android:indeterminateTint="@color/loading_circle"
         android:layout_centerInParent="true" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/content_warnings_settings_recycler_view"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/page_background"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    </LinearLayout>
 
 </RelativeLayout>
