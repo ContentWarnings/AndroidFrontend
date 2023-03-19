@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingTop="@dimen/content_warnings_page_header_padding_top"
+    android:paddingBottom="@dimen/content_warnings_page_header_padding_bottom"
+    android:layout_marginStart="@dimen/content_warnings_page_header_margin_start"
+    android:layout_marginEnd="@dimen/content_warnings_page_header_margin_end">
+
+    <ImageButton
+        android:id="@+id/content_warnings_page_back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back_button"
+        android:theme="@style/SelectableItemTheme"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_marginEnd="@dimen/content_warnings_page_back_button_margin_end" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/content_warnings_page_title"
+        android:textColor="@color/content_warnings_page_title_text"
+        android:textSize="@dimen/content_warnings_page_title_text_size" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <ImageButton
+            android:id="@+id/content_warnings_page_header_search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/header_search_magnifying_glass" />
+
+    </RelativeLayout>
+
+</LinearLayout>
