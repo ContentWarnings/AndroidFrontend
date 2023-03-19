@@ -106,7 +106,7 @@ public class MovieFragment extends BaseFragment {
             return;
         }
 
-        // Hide loading progress wheel since movie data is ready ro populate the page
+        // Hide loading progress wheel since movie data is ready to populate the page
         final ProgressBar loadingProgressWheel = requireView().findViewById(R.id.loading_circle);
         loadingProgressWheel.setVisibility(View.GONE);
 

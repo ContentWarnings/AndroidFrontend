@@ -191,4 +191,13 @@
     <dimen name="content_warning_settings_row_name_margin_bottom">2dp</dimen>
     <dimen name="content_warning_settings_row_visibility_margin_start">36dp</dimen>
     <dimen name="content_warning_settings_row_visibility_margin_bottom">10dp</dimen>
+    <dimen name="content_warning_settings_page_header_margin_start">29dp</dimen>
+    <dimen name="content_warning_settings_page_header_margin_end">33dp</dimen>
+    <dimen name="content_warning_settings_page_header_margin_top">18dp</dimen>
+    <dimen name="content_warning_settings_page_header_margin_bottom">15dp</dimen>
+    <dimen name="content_warning_settings_page_back_button_margin_end">14dp</dimen>
+    <dimen name="content_warning_settings_page_title_text_size">24sp</dimen>
+    <dimen name="content_warning_description_text_size">16sp</dimen>
+    <dimen name="content_warning_description_text_margin_start">24sp</dimen>
+    <dimen name="content_warning_description_text_margin_end">33sp</dimen>
 </resources>

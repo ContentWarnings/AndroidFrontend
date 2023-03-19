@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.moviementor.adapters.SearchPageAdapter;
+import com.example.moviementor.fragments.ContentWarningSettingsFragment;
 import com.example.moviementor.fragments.ContentWarningsFragment;
 import com.example.moviementor.fragments.FeaturedFragment;
 import com.example.moviementor.fragments.MovieFragment;
@@ -690,7 +691,7 @@ public class Backend {
                 }
                 catch (final JSONException e) {
                     Log.e("Backend: ", e.toString());
-                    // TODO: Upon failure set search page to display error message
+                    // TODO: Upon failure set content warnings page to display error message
                 }
 
                 // Done fetching and parsing content warning names so populate the content warnings
@@ -702,6 +703,45 @@ public class Backend {
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.e("Backend: ", error.toString());
                 // TODO: Upon failure set content warnings page view to an error screen with a reload button
+            }
+        });
+    }
+
+    public static void fetchContentWarningDescription(
+            final @NonNull ContentWarningSettingsFragment contentWarningSettingsFragment,
+            final @Nullable String contentWarningName) {
+        if (contentWarningName == null) {
+            return;
+        }
+
+        // Setup URL to get content warning's corresponding description
+        final String fetchContentWarningDescriptionUrl = getAbsoluteUrl("descriptions") +
+                "?name=" + contentWarningName;
+
+        // Hit API to get list of all available content warning names
+        client.get(fetchContentWarningDescriptionUrl, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                @Nullable String contentWarningDescription = null;
+
+                try {
+                    final JSONObject contentWarningDescriptionObj = new JSONObject(new String(responseBody));
+                    contentWarningDescription = contentWarningDescriptionObj.optString("response");
+                }
+                catch (final JSONException e) {
+                    Log.e("Backend: ", e.toString());
+                    // TODO: Upon failure set content warning settings page to display error message
+                }
+
+                // Done fetching content warning's description so populate the content warning's
+                // settings page now
+                contentWarningSettingsFragment.setupContentWarningSettingsPage(contentWarningDescription);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.e("Backend: ", error.toString());
+                // TODO: Upon failure set content warning settings page view to an error screen with a reload button
             }
         });
     }

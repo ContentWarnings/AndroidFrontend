@@ -12,10 +12,55 @@
         android:indeterminateTint="@color/loading_circle"
         android:layout_centerInParent="true" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    </LinearLayout>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/content_warning_settings_page_header_margin_top"
+                android:layout_marginBottom="@dimen/content_warning_settings_page_header_margin_bottom"
+                android:layout_marginStart="@dimen/content_warning_settings_page_header_margin_start"
+                android:layout_marginEnd="@dimen/content_warning_settings_page_header_margin_end" >
+
+                <ImageButton
+                    android:id="@+id/content_warning_settings_page_back_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/back_button"
+                    android:theme="@style/SelectableItemTheme"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:layout_marginEnd="@dimen/content_warning_settings_page_back_button_margin_end" />
+
+                <TextView
+                    android:id="@+id/content_warning_settings_page_header_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/content_warning_settings_page_title_text"
+                    android:textSize="@dimen/content_warning_settings_page_title_text_size" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/content_warning_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/content_warning_description_text_size"
+                android:textColor="@color/content_warning_description_text"
+                android:layout_marginStart="@dimen/content_warning_description_text_margin_start"
+                android:layout_marginEnd="@dimen/content_warning_description_text_margin_end" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
