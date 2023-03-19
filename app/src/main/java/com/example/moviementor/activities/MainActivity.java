@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import com.example.moviementor.R;
 import com.example.moviementor.fragments.AboutFragment;
 import com.example.moviementor.fragments.BaseFragment;
+import com.example.moviementor.fragments.ContentWarningsFragment;
 import com.example.moviementor.fragments.MovieFragment;
 import com.example.moviementor.other.AdvancedSearchOptionsModal;
 import com.example.moviementor.other.FragmentStackManager;
@@ -112,6 +113,12 @@ public class MainActivity extends AppCompatActivity {
         final MovieFragment movieFragment = new MovieFragment();
         movieFragment.assignMovie(movieId, movieName);
         this.fragmentStackManager.openNewPage(getSupportFragmentManager(), movieFragment);
+    }
+
+    // Get fragment stack manager to open content warnings page in settings tab
+    public void openContentWarningsPage() {
+        final ContentWarningsFragment contentWarningsFragment = new ContentWarningsFragment();
+        this.fragmentStackManager.openNewPage(getSupportFragmentManager(), contentWarningsFragment);
     }
 
     // Get fragment stack manager to open about page in settings tab

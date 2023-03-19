@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="content_warning_names">
+        <item>Alcohol</item>
+        <item>Amputation</item>
+        <item>Anaphylaxis</item>
+    </string-array>
+
+    <string-array name="content_warning_descriptions">
+        <item>Themes relating to alcohol use or abuse.</item>
+        <item>Themes relating to arms, legs, or other appendages being amputated.</item>
+        <item>Themes relating to severe allergies or other causes of anaphylaxis.</item>
+    </string-array>
+</resources>

@@ -35,7 +35,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/about_page_title"
                 android:textColor="@color/about_page_title_text"
-                android:textSize="@dimen/movie_page_title_text_size" />
+                android:textSize="@dimen/about_page_title_text_size" />
 
             <ImageButton
                 android:id="@+id/about_page_header_search_button"

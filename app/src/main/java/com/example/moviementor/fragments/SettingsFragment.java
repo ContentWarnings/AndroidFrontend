@@ -43,6 +43,13 @@ public class SettingsFragment extends BaseFragment {
                 .findViewById(R.id.content_warnings_settings_row);
         final LinearLayout aboutSettingsRow = requireView().findViewById(R.id.about_settings_row);
 
+        // Setup click listener to open content warnings page when content warnings row is
+        // clicked on
+        contentWarningsSettingsRow.setOnClickListener(view -> {
+            final MainActivity mainActivity = (MainActivity) requireActivity();
+            mainActivity.openContentWarningsPage();
+        });
+
         // Setup click listener to open about page when about row is clicked on
         aboutSettingsRow.setOnClickListener(view -> {
             final MainActivity mainActivity = (MainActivity) requireActivity();

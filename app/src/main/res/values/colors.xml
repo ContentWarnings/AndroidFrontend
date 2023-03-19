@@ -71,4 +71,6 @@
     <color name="settings_row_text">@color/white</color>
     <color name="about_page_title_text">@color/white</color>
     <color name="about_page_tmdb_attribution_text">@color/white</color>
+    <color name="content_warnings_page_title_text">@color/white</color>
+    <color name="content_warning_settings_row_text">@color/white</color>
 </resources>
