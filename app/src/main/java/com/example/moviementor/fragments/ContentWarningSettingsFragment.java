@@ -2,11 +2,15 @@ package com.example.moviementor.fragments;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.moviementor.R;
+import com.example.moviementor.other.Backend;
 
 public class ContentWarningSettingsFragment extends BaseFragment {
     private static final String STORED_CONTENT_WARNING_NAME_KEY = "CONTENT_WARNING_NAME";
@@ -32,6 +36,22 @@ public class ContentWarningSettingsFragment extends BaseFragment {
         if (savedInstanceState != null) {
             this.contentWarningName = savedInstanceState.getString(STORED_CONTENT_WARNING_NAME_KEY);
         }
+
+        // Setup back button in header
+        final ImageButton backButton = requireView()
+                .findViewById(R.id.content_warning_settings_page_back_button);
+        backButton.setOnClickListener(viewBackButton -> {
+            requireActivity().onBackPressed();
+        });
+
+        // Set header's title initially while content warning's data is being fetched
+        // and the rest of the page is waiting to be populated
+        final TextView cwSettingsPageTitle = requireView()
+                .findViewById(R.id.content_warning_settings_page_header_title);
+        cwSettingsPageTitle.setText(this.contentWarningName);
+
+        // Fetch movie's data from API to populate the page
+        Backend.fetchContentWarningDescription(this, this.contentWarningName);
     }
 
     @Override
@@ -47,5 +67,28 @@ public class ContentWarningSettingsFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         this.contentWarningName = null;
+    }
+
+    public void setupContentWarningSettingsPage(final @Nullable String contentWarningDescription) {
+        // If description was not found or JSON returned for content warning was invalid, then don't
+        // populate content warning's settings page
+        if (contentWarningDescription == null) {
+            return;
+        }
+        // If this fragment has been removed from view hierarchy before content warning's
+        // description was retrieved to populate the page, then ignore this outdated content
+        // warning data
+        else if (this.contentWarningName == null) {
+            return;
+        }
+
+        // Hide loading progress wheel since page is ready to be populated
+        final ProgressBar loadingProgressWheel = requireView().findViewById(R.id.loading_circle);
+        loadingProgressWheel.setVisibility(View.GONE);
+
+        // Populate the content warning's description text
+        final TextView contentWarningDescriptionText = requireView()
+                .findViewById(R.id.content_warning_description);
+        contentWarningDescriptionText.setText(contentWarningDescription);
     }
 }
