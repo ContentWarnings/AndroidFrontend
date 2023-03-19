@@ -27,6 +27,7 @@
         android:layout_marginBottom="@dimen/content_warning_settings_row_visibility_margin_bottom" />
     
     <View
+        android:id="@+id/content_warning_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/settings_row_divider_width"
         android:background="@color/settings_row_divider"
