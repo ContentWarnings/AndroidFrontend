@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.moviementor.adapters.SearchPageAdapter;
+import com.example.moviementor.fragments.ContentWarningsFragment;
 import com.example.moviementor.fragments.FeaturedFragment;
 import com.example.moviementor.fragments.MovieFragment;
 import com.example.moviementor.models.MovieViewModel;
@@ -660,6 +661,47 @@ public class Backend {
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.e("Backend: ", error.toString());
                 // TODO: Upon failure set movie page view to an error screen with a reload button
+            }
+        });
+    }
+
+    public static void fetchContentWarningNames(final @NonNull ContentWarningsFragment contentWarningsFragment) {
+        // Setup URL to get list of content warning names
+        final String fetchContentWarningNamesUrl = getAbsoluteUrl("names");
+
+        // Hit API to get list of all available content warning names
+        client.get(fetchContentWarningNamesUrl, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                final @NonNull List<String> contentWarningNamesList = new ArrayList<>();
+
+                try {
+                    final JSONArray contentWarningNames = new JSONObject(new String(responseBody))
+                            .getJSONArray("cws");
+
+                    for (int i = 0; i < contentWarningNames.length(); i++) {
+                        final String contentWarningName = contentWarningNames.optString(i);
+
+                        // If a valid content warning name is found then add it to th final list
+                        if (contentWarningName != null) {
+                            contentWarningNamesList.add(contentWarningName);
+                        }
+                    }
+                }
+                catch (final JSONException e) {
+                    Log.e("Backend: ", e.toString());
+                    // TODO: Upon failure set search page to display error message
+                }
+
+                // Done fetching and parsing content warning names so populate the content warnings
+                // settings page now
+                contentWarningsFragment.setupContentWarningsPage(contentWarningNamesList);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.e("Backend: ", error.toString());
+                // TODO: Upon failure set content warnings page view to an error screen with a reload button
             }
         });
     }

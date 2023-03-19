@@ -3,9 +3,9 @@ package com.example.moviementor.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,26 +14,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moviementor.R;
 
+import java.util.List;
+
 public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_HEADER = 1;
     private static final int VIEW_TYPE_ITEM = 2;
 
-    private final @NonNull String[] contentWarningNames;
-    private final @NonNull String[] contentWarningDescription;
+    private final @NonNull List<String> contentWarningNames;
 
     private @Nullable OnItemClickListener listener;
 
-    public ContentWarningsSettingsAdapter(final @NonNull String[] contentWarningNames,
-                                          final @NonNull String[] contentWarningDescriptions) {
+    public ContentWarningsSettingsAdapter(final @NonNull List<String> contentWarningNames) {
         this.contentWarningNames = contentWarningNames;
-        this.contentWarningDescription = contentWarningDescriptions;
         this.listener = null;
     }
 
     // Returns the total number of content warnings list plus 1 for the header
     @Override
     public int getItemCount() {
-        return this.contentWarningNames.length + 1;
+        return this.contentWarningNames.size() + 1;
     }
 
     // Returns whether view is of type header or content warning item.
@@ -53,7 +52,7 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
                     parent, false);
 
             // Get the current layout parameters from the parent RecyclerView
-            final FrameLayout.LayoutParams rvParams = (FrameLayout.LayoutParams) parent.
+            final RelativeLayout.LayoutParams rvParams = (RelativeLayout.LayoutParams) parent.
                     findViewById(R.id.content_warnings_settings_recycler_view).getLayoutParams();
 
             // Get the left and right margin from the RecyclerView's layout parameters
@@ -106,7 +105,7 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
             final ItemViewHolder itemViewHolder = (ItemViewHolder) viewHolder;
 
             // Get the current content warning to display
-            final @NonNull String contentWarningName = this.contentWarningNames[position - 1];
+            final @NonNull String contentWarningName = this.contentWarningNames.get(position - 1);
 
             // Bind this content warning name to the row's first line of text
             itemViewHolder.contentWarningName.setText(contentWarningName);

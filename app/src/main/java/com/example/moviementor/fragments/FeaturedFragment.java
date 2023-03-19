@@ -53,7 +53,6 @@ public class FeaturedFragment extends BaseFragment implements TrendingMoviesAdap
         // Get number of columns that grid will render
         final int numColumns = getResources().getInteger(R.integer.num_trending_list_columns);
 
-        // Initialize RecyclerView and its adapter
         final RecyclerView trendingMoviesRecyclerView = requireView().findViewById(R.id.trending_movies_recycler_view);
 
         // If trending movies adapter has not been setup for this fragment yet, then create it
