@@ -112,6 +112,14 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
 
             // TODO: Display user's visibility status of the cw instead of just always defaulting to show
             itemViewHolder.contentWarningVisibility.setText("Show");
+
+            // If this is the last content warning row, then hide the bottom divider since there is
+            // no content warning row that will be displayed below
+            if (position == this.contentWarningNames.size()) {
+                final View contentWarningDivider = viewHolder.itemView
+                        .findViewById(R.id.content_warning_divider);
+                contentWarningDivider.setVisibility(View.GONE);
+            }
         }
     }
 
