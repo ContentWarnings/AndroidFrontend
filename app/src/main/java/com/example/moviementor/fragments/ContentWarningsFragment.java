@@ -85,4 +85,13 @@ public class ContentWarningsFragment extends BaseFragment implements ContentWarn
         final MainActivity mainActivity = (MainActivity) requireActivity();
         mainActivity.onBackPressed();
     }
+
+    // Function called by the listener attached to the child RecyclerView's adapter. Only called by
+    // listener when a content warning row is clicked on
+    @Override
+    public void onContentWarningRowClick(final @NonNull String contentWarningName) {
+        // Route user's request to open content warning page to the main activity
+        final MainActivity mainActivity = (MainActivity) requireActivity();
+        mainActivity.openContentWarningSettingsPage(contentWarningName);
+    }
 }

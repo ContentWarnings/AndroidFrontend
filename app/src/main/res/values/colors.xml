@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="ripple_color">@color/white</color>
+    <color name="loading_circle">@color/white</color>
     <color name="header_background">@color/black</color>
     <color name="header_title">@color/white</color>
     <color name="footer_background">#313131</color>
