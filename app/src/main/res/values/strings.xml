@@ -25,6 +25,10 @@
     <string name="about_page_title">About</string>
     <string name="about_page_tmdb_attribution">This product uses the TMDB API but is not endorsed or certified by TMDB.</string>
     <string name="content_warnings_page_title">Content Warnings</string>
+    <string name="show_content_warning">Show Content Warning</string>
+    <string name="show_content_warning_description">Decide if we should hide movies with this content warning from search and suggestions.</string>
+    <string name="display_warning">Display Warning</string>
+    <string name="display_warning_description">Display a warning next to all movies with this content warning.</string>
 
     <string name="action_genre_text">Action</string>
     <string name="adventure_genre_text">Adventure</string>
