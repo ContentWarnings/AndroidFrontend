@@ -53,7 +53,7 @@ public class ContentWarningPrefsStorage {
     // Helper function to convert integer to a ContentWarningVisibility enum value, returns
     // null if passed in integer is invalid and cannot be cast to the enum
     @Nullable
-    private ContentWarningVisibility getContentWarningVisibilityEnum(final Integer val) {
+    public static ContentWarningVisibility getContentWarningVisibilityEnum(final Integer val) {
         if (val == null) {
             return null;
         }
