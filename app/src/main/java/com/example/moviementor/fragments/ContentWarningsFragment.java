@@ -13,9 +13,12 @@ import com.example.moviementor.R;
 import com.example.moviementor.activities.MainActivity;
 import com.example.moviementor.adapters.ContentWarningsSettingsAdapter;
 import com.example.moviementor.other.Backend;
+import com.example.moviementor.other.ContentWarningPrefsStorage;
+import com.example.moviementor.other.ContentWarningPrefsStorage.ContentWarningVisibility;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ContentWarningsFragment extends BaseFragment implements ContentWarningsSettingsAdapter.OnItemClickListener {
     private @Nullable ContentWarningsSettingsAdapter contentWarningsSettingsAdapter;
@@ -56,8 +59,14 @@ public class ContentWarningsFragment extends BaseFragment implements ContentWarn
         // If content warnings settings adapter has not been setup for this fragment yet, then
         // create it
         if (this.contentWarningsSettingsAdapter == null) {
+            // Get all current content warning preferences stored for the user
+            final ContentWarningPrefsStorage cwPrefsStorage = ContentWarningPrefsStorage
+                    .getInstance(requireActivity());
+            final Map<String, ContentWarningVisibility> cwPrefsMap = cwPrefsStorage
+                    .getAllContentWarningPrefs();
+
             this.contentWarningsSettingsAdapter = new
-                    ContentWarningsSettingsAdapter(contentWarningNames);
+                    ContentWarningsSettingsAdapter(contentWarningNames, cwPrefsMap);
 
             // Attach fragment as listener to the content warnings settings RecyclerView
             this.contentWarningsSettingsAdapter.setOnItemClickListener(this);
