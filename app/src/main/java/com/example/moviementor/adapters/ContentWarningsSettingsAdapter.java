@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moviementor.R;
 import com.example.moviementor.other.ContentWarningPrefsStorage.ContentWarningVisibility;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_HEADER = 1;
@@ -46,6 +48,45 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
     public int getItemViewType(final int position) {
         // First view is the header, all other views are for movie items
         return (position == 0) ? VIEW_TYPE_HEADER : VIEW_TYPE_ITEM;
+    }
+
+    // Called to update visibility text of a content warning row in case a content warning's
+    // individual settings were modified when returning to this page
+    public void updateContentWarningPrefs(final @NonNull Map<String, ContentWarningVisibility> newCwPrefsMap) {
+        // Union all the keys from the new and old maps
+        final Set<String> allKeys = new HashSet<>();
+        allKeys.addAll(newCwPrefsMap.keySet());
+        allKeys.addAll(this.cwPrefsMap.keySet());
+
+        for (final String contentWarningName : allKeys) {
+            // Found difference between the new and old content warning preferences
+            if (newCwPrefsMap.getOrDefault(contentWarningName, null)
+                    != this.cwPrefsMap.getOrDefault(contentWarningName, null))  {
+
+                final ContentWarningVisibility newCwPref = newCwPrefsMap.getOrDefault(contentWarningName, null);
+
+                // If no preference found for this content warning in the new cw preferences map,
+                // then remove the preference for this content warning in the original map
+                if (newCwPref == null) {
+                    this.cwPrefsMap.remove(contentWarningName);
+                }
+                // Otherwise, just update the value in the old cw preferences map with
+                // the value found in the new cw preferences map for this content warning
+                else {
+                    this.cwPrefsMap.put(contentWarningName, newCwPref);
+                }
+
+                // Find and update content warning row that had its visibility status modified.
+                // Offset position to update in RecyclerView by 1 since header is at the beginning
+                final int rowChangePosition = this.contentWarningNames.indexOf(contentWarningName);
+                notifyItemChanged(rowChangePosition + 1);
+
+                // Only one content warning's preferences can be updated at a time before returning
+                // to this page, so just return early since the rest of the old and new map will
+                // be identical
+                return;
+            }
+        }
     }
 
     @Override

@@ -56,20 +56,25 @@ public class ContentWarningsFragment extends BaseFragment implements ContentWarn
         final RecyclerView contentWarningsRecyclerView = requireView()
                 .findViewById(R.id.content_warnings_settings_recycler_view);
 
+        // Get all current content warning preferences stored for the user
+        final ContentWarningPrefsStorage cwPrefsStorage = ContentWarningPrefsStorage
+                .getInstance(requireActivity());
+        final Map<String, ContentWarningVisibility> cwPrefsMap = cwPrefsStorage
+                .getAllContentWarningPrefs();
+
         // If content warnings settings adapter has not been setup for this fragment yet, then
         // create it
         if (this.contentWarningsSettingsAdapter == null) {
-            // Get all current content warning preferences stored for the user
-            final ContentWarningPrefsStorage cwPrefsStorage = ContentWarningPrefsStorage
-                    .getInstance(requireActivity());
-            final Map<String, ContentWarningVisibility> cwPrefsMap = cwPrefsStorage
-                    .getAllContentWarningPrefs();
-
             this.contentWarningsSettingsAdapter = new
                     ContentWarningsSettingsAdapter(contentWarningNames, cwPrefsMap);
 
             // Attach fragment as listener to the content warnings settings RecyclerView
             this.contentWarningsSettingsAdapter.setOnItemClickListener(this);
+        }
+        else {
+            // This page may have been reopened with new content warning preferences, so try to
+            // update the adapter in case any changes were made
+            this.contentWarningsSettingsAdapter.updateContentWarningPrefs(cwPrefsMap);
         }
 
         // Bind the adapter and a Linear Layout Manager to the RecyclerView
