@@ -10,22 +10,28 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moviementor.R;
+import com.example.moviementor.other.ContentWarningPrefsStorage.ContentWarningVisibility;
 
 import java.util.List;
+import java.util.Map;
 
 public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_HEADER = 1;
     private static final int VIEW_TYPE_ITEM = 2;
 
     private final @NonNull List<String> contentWarningNames;
+    private final @NonNull Map<String, ContentWarningVisibility> cwPrefsMap;
 
     private @Nullable OnItemClickListener listener;
 
-    public ContentWarningsSettingsAdapter(final @NonNull List<String> contentWarningNames) {
+    public ContentWarningsSettingsAdapter(final @NonNull List<String> contentWarningNames,
+                                          final @NonNull Map<String, ContentWarningVisibility> cwPrefsMap) {
         this.contentWarningNames = contentWarningNames;
+        this.cwPrefsMap = cwPrefsMap;
         this.listener = null;
     }
 
@@ -110,8 +116,15 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
             // Bind this content warning name to the row's first line of text
             itemViewHolder.contentWarningName.setText(contentWarningName);
 
-            // TODO: Display user's visibility status of the cw instead of just always defaulting to show
-            itemViewHolder.contentWarningVisibility.setText("Show");
+            // Get current visibility status user has set for this content warning. If not found
+            // in the stored map of content warning settings, then default to "SHOW" since this is
+            // the default visibility option for all content warnings
+            final ContentWarningVisibility cwVisibilityPref = this.cwPrefsMap
+                    .getOrDefault(contentWarningName, ContentWarningVisibility.SHOW);
+            final @StringRes int visibilityStringRes = getVisibilityStringRes(cwVisibilityPref);
+
+            // Display visibility status of current content warning in the row
+            itemViewHolder.contentWarningVisibility.setText(visibilityStringRes);
 
             // Setup click listener to open this content warning's full settings page if clicked on
             itemViewHolder.itemView.setOnClickListener(view -> {
@@ -128,6 +141,21 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
             else {
                 itemViewHolder.contentWarningDivider.setVisibility(View.VISIBLE);
             }
+        }
+    }
+
+    // Helper function to get resource id for string that describes a content warning row's
+    // current visibility status
+    @StringRes
+    private int getVisibilityStringRes(final ContentWarningVisibility cwVisibility) {
+        if (cwVisibility == ContentWarningVisibility.WARN) {
+            return R.string.content_warnings_page_visibility_status_warn;
+        }
+        else if (cwVisibility == ContentWarningVisibility.HIDE) {
+            return R.string.content_warnings_page_visibility_status_hide;
+        }
+        else {
+            return R.string.content_warnings_page_visibility_status_show;
         }
     }
 
