@@ -89,6 +89,7 @@
                         android:layout_weight="1">
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/show_content_warning_toggle_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -130,6 +131,7 @@
                         android:layout_weight="1">
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/display_warning_toggle_button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"

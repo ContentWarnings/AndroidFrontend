@@ -14,6 +14,7 @@ import com.example.moviementor.fragments.ContentWarningSettingsFragment;
 import com.example.moviementor.fragments.ContentWarningsFragment;
 import com.example.moviementor.fragments.MovieFragment;
 import com.example.moviementor.other.AdvancedSearchOptionsModal;
+import com.example.moviementor.other.ContentWarningPrefsStorage.ContentWarningVisibility;
 import com.example.moviementor.other.FragmentStackManager;
 import com.example.moviementor.other.SearchOptions;
 
@@ -123,10 +124,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Get fragment stack manager to open full content warning's settings page in settings tab
-    public void openContentWarningSettingsPage(final @NonNull String contentWarningName) {
+    public void openContentWarningSettingsPage(final @NonNull String contentWarningName,
+                                               final ContentWarningVisibility contentWarningVisibility) {
         final ContentWarningSettingsFragment contentWarningSettingsFragment =
                 new ContentWarningSettingsFragment();
-        contentWarningSettingsFragment.assignContentWarning(contentWarningName);
+        contentWarningSettingsFragment.assignContentWarning(contentWarningName, contentWarningVisibility);
         this.fragmentStackManager.openNewPage(getSupportFragmentManager(),
                 contentWarningSettingsFragment);
     }

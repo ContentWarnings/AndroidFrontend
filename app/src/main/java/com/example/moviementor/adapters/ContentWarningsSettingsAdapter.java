@@ -129,7 +129,7 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
             // Setup click listener to open this content warning's full settings page if clicked on
             itemViewHolder.itemView.setOnClickListener(view -> {
                 if (this.listener != null) {
-                    this.listener.onContentWarningRowClick(contentWarningName);
+                    this.listener.onContentWarningRowClick(contentWarningName, cwVisibilityPref);
                 }
             });
 
@@ -170,7 +170,8 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
     public interface OnItemClickListener {
         void onHeaderBackButtonClick();
         void onHeaderSearchButtonClick();
-        void onContentWarningRowClick(final @NonNull String contentWarningName);
+        void onContentWarningRowClick(final @NonNull String contentWarningName,
+                                      final ContentWarningVisibility contentWarningVisibility);
     }
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder {
