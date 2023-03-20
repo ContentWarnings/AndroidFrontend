@@ -22,6 +22,7 @@ public class ContentWarningSettingsFragment extends BaseFragment {
     private static final String STORED_CONTENT_WARNING_NAME_KEY = "CONTENT_WARNING_NAME";
     private static final String STORED_CONTENT_WARNING_VISIBILITY_KEY = "CONTENT_WARNING_VISIBILITY";
 
+    private static float ACTIVATED_ALPHA = 1.0f;
     private static float DEACTIVATED_ALPHA = 0.7f;
 
     private @Nullable String contentWarningName;
@@ -122,21 +123,18 @@ public class ContentWarningSettingsFragment extends BaseFragment {
                 .findViewById(R.id.content_warning_description);
         contentWarningDescriptionText.setText(contentWarningDescription);
 
+        final SwitchMaterial showHideToggleButton = requireView()
+                .findViewById(R.id.show_content_warning_toggle_button);
+        final SwitchMaterial warnToggleButton = requireView()
+                .findViewById(R.id.display_warning_toggle_button);
+
         // Configure switch buttons to be set to the content warning's current visibility
         // status
         if (this.contentWarningVisibility == ContentWarningVisibility.SHOW) {
-            final SwitchMaterial showHideToggleButton = requireView()
-                    .findViewById(R.id.show_content_warning_toggle_button);
-
             // Just turn the show switch on
             showHideToggleButton.setChecked(true);
         }
         else if (this.contentWarningVisibility == ContentWarningVisibility.WARN) {
-            final SwitchMaterial showHideToggleButton = requireView()
-                    .findViewById(R.id.show_content_warning_toggle_button);
-            final SwitchMaterial warnToggleButton = requireView()
-                    .findViewById(R.id.display_warning_toggle_button);
-
             // Need to turn both switches to selected since a warning can't be shown for a movie
             // if it is not able to be shown in the first place
             showHideToggleButton.setChecked(true);
@@ -145,19 +143,64 @@ public class ContentWarningSettingsFragment extends BaseFragment {
         else {
             final LinearLayout displayWarningToggleRow = requireView()
                     .findViewById(R.id.display_warning_toggle_row);
-            final SwitchMaterial warnToggleButton = requireView()
-                    .findViewById(R.id.display_warning_toggle_button);
+            final TextView displayWarningDescription = requireView()
+                    .findViewById(R.id.display_warning_description);
 
             // Grey out display warning toggle button and text and deactivate this toggle button
-            // since current visibility of content warning is set to hidden which means no warning
+            // since current visibility of content warning is set to "HIDE" which means no warning
             // can be shown until movies with this content warning are not hidden anymore
             displayWarningToggleRow.setAlpha(DEACTIVATED_ALPHA);
+            displayWarningDescription.setAlpha(DEACTIVATED_ALPHA);
             warnToggleButton.setAlpha(DEACTIVATED_ALPHA);
-            warnToggleButton.setActivated(false);
+            warnToggleButton.setEnabled(false);
 
         }
 
-        // Make the rest of the items on the page visible
+        showHideToggleButton.setOnCheckedChangeListener((compoundButton, checked) -> {
+            // Update the visibility status for the content warning
+            this.contentWarningVisibility =
+                    (checked) ? ContentWarningVisibility.SHOW : ContentWarningVisibility.HIDE;
+
+            // Store the new visibility status for this content warning in
+            // local storage (sharedPrefs)
+            final ContentWarningPrefsStorage cwPrefsStorage = ContentWarningPrefsStorage
+                    .getInstance(requireActivity());
+            cwPrefsStorage.storeContentWarningPref(this.contentWarningName, this.contentWarningVisibility);
+
+            final LinearLayout displayWarningToggleRow = requireView()
+                    .findViewById(R.id.display_warning_toggle_row);
+            final TextView displayWarningDescription = requireView()
+                    .findViewById(R.id.display_warning_description);
+            final SwitchMaterial displayWarningToggleButton = requireView()
+                    .findViewById(R.id.display_warning_toggle_button);
+
+            if (this.contentWarningVisibility == ContentWarningVisibility.HIDE) {
+                // If content warning visibility is set to "HIDE", then grey out and deactivate the
+                // display warning toggle button and text since no warning can be shown until
+                // movies with this content warning are not hidden anymore
+                displayWarningToggleRow.setAlpha(DEACTIVATED_ALPHA);
+                displayWarningDescription.setAlpha(DEACTIVATED_ALPHA);
+                displayWarningToggleButton.setAlpha(DEACTIVATED_ALPHA);
+
+                // Also, deactivate the display warning toggle button and make sure it is turned
+                // off
+                displayWarningToggleButton.setEnabled(false);
+                displayWarningToggleButton.setChecked(false);
+            }
+            else {
+                // Otherwise, content warning visibility has been set to "SHOW", so make the
+                // display warning toggle button and text not greyed out anymore since warnings
+                // can be show again for movies with this content warning
+                displayWarningToggleRow.setAlpha(ACTIVATED_ALPHA);
+                displayWarningDescription.setAlpha(ACTIVATED_ALPHA);
+                displayWarningToggleButton.setAlpha(ACTIVATED_ALPHA);
+
+                // Also, reactivate the display warning toggle button
+                displayWarningToggleButton.setEnabled(true);
+            }
+        });
+
+        // Make all items on the page visible
         final LinearLayout contentWarningSettingsPageOptions = requireView()
                 .findViewById(R.id.content_warning_settings_page_options);
         contentWarningSettingsPageOptions.setVisibility(View.VISIBLE);
