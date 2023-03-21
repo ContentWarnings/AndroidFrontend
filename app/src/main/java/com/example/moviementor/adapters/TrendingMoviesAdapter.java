@@ -15,19 +15,85 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.moviementor.R;
 import com.example.moviementor.models.TrendingMovieViewModel;
+import com.example.moviementor.other.ContentWarningPrefsStorage.ContentWarningVisibility;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TrendingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIEW_TYPE_HEADER = 1;
     private static final int VIEW_TYPE_ITEM = 2;
 
     private final @NonNull List<TrendingMovieViewModel> trendingMoviesList;
+    private @NonNull List<TrendingMovieViewModel> filteredTrendingMoviesList;
+    private @NonNull Map<String, ContentWarningVisibility> cwPrefsMap;
     private @Nullable OnItemClickListener listener;
 
-    public TrendingMoviesAdapter(final @NonNull List<TrendingMovieViewModel> trendingMoviesList) {
+    public TrendingMoviesAdapter(final @NonNull List<TrendingMovieViewModel> trendingMoviesList,
+                                 final @NonNull Map<String, ContentWarningVisibility> cwPrefsMap) {
         this.trendingMoviesList = trendingMoviesList;
+        this.cwPrefsMap = cwPrefsMap;
+        this.filteredTrendingMoviesList = getFilteredTrendingMoviesList();
         this.listener = null;
+    }
+
+    // Helper function to get list of trending movie data with any movies that have flagged content
+    // warnings filtered out
+    @NonNull
+    private List<TrendingMovieViewModel> getFilteredTrendingMoviesList() {
+        final List<TrendingMovieViewModel> filteredTrendingMoviesList = new ArrayList<>();
+
+        for (final @NonNull TrendingMovieViewModel trendingMovie : this.trendingMoviesList) {
+            // Get list of content warnings for current trending movie
+            final List<String> contentWarnings = trendingMovie.getContentWarnings();
+
+            boolean foundFlaggedContentWarning = false;
+
+            // Go through all the movie's content warnings and see if user has flagged at least
+            // one of them
+            for (final @NonNull String contentWarningName : contentWarnings) {
+                final ContentWarningVisibility contentWarningPref = this.cwPrefsMap
+                        .getOrDefault(contentWarningName, ContentWarningVisibility.SHOW);
+
+                // If user has selected that movies with this content warning should be warned or
+                // hidden, then this movie contains a cw that was flagged by the user
+                if (contentWarningPref != ContentWarningVisibility.SHOW) {
+                    foundFlaggedContentWarning = true;
+                    break;
+                }
+            }
+
+            // Don't filter out this movie if no flagged content warnings were found
+            if (!foundFlaggedContentWarning) {
+                filteredTrendingMoviesList.add(trendingMovie);
+            }
+        }
+
+        return filteredTrendingMoviesList;
+    }
+
+    // Whenever this page is re-opened, this function is called to check if any content warning
+    // preferences have changed, since the list of trending movies being displayed may need to
+    // be re-filtered to adjust to these changes
+    public void checkContentWarningPrefsChanged(Map<String, ContentWarningVisibility> newCwPrefsMap) {
+        // If no content warning preferences have changed, then nothing needs to be done
+        if (this.cwPrefsMap.equals(newCwPrefsMap)) {
+            return;
+        }
+
+        this.cwPrefsMap = newCwPrefsMap;
+
+        // Get filtered list of trending movies again with the new content warning preferences set
+        // by the user
+        final List<TrendingMovieViewModel> newFilteredTrendingMoviesList = getFilteredTrendingMoviesList();
+
+        // If the new content warning settings have caused the filtered list to change, then need
+        // to update the page to display the new filtered list of trending movies
+        if (!this.filteredTrendingMoviesList.equals(newFilteredTrendingMoviesList)) {
+            this.filteredTrendingMoviesList = newFilteredTrendingMoviesList;
+            notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -79,7 +145,7 @@ public class TrendingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             // Get the current movie data at specified position in list. Offset position by -1
             // since header is at position 0 in the RecyclerView
-            final @NonNull TrendingMovieViewModel movieData = this.trendingMoviesList.get(position - 1);
+            final @NonNull TrendingMovieViewModel movieData = this.filteredTrendingMoviesList.get(position - 1);
 
             // Bind this movie's name to the movie item view's TextView
             itemViewHolder.trendingMovieName.setText(movieData.getMovieName());
@@ -112,10 +178,11 @@ public class TrendingMoviesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    // Returns the total number of trending movies received from the database plus 1 for the header
+    // Returns the total number of trending movies received from the database after that were
+    // not filtered out plus 1 for the header
     @Override
     public int getItemCount() {
-        return this.trendingMoviesList.size() + 1;
+        return this.filteredTrendingMoviesList.size() + 1;
     }
 
     // Returns whether view is of type header or movie item.
