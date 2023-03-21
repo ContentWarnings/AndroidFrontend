@@ -22,8 +22,8 @@ public class ContentWarningSettingsFragment extends BaseFragment {
     private static final String STORED_CONTENT_WARNING_NAME_KEY = "CONTENT_WARNING_NAME";
     private static final String STORED_CONTENT_WARNING_VISIBILITY_KEY = "CONTENT_WARNING_VISIBILITY";
 
-    private static float ACTIVATED_ALPHA = 1.0f;
-    private static float DEACTIVATED_ALPHA = 0.7f;
+    private static final float ACTIVATED_ALPHA = 1.0f;
+    private static final float DEACTIVATED_ALPHA = 0.7f;
 
     private @Nullable String contentWarningName;
     private @Nullable ContentWarningVisibility contentWarningVisibility;
@@ -198,6 +198,25 @@ public class ContentWarningSettingsFragment extends BaseFragment {
                 // Also, reactivate the display warning toggle button
                 displayWarningToggleButton.setEnabled(true);
             }
+        });
+
+        warnToggleButton.setOnCheckedChangeListener((compoundButton, checked) -> {
+            // Don't need to do anything when the warn toggle button is turned off automatically
+            // and disabled (Occurs when this button is already turned on while user turns the
+            // showHideToggleButton to off/hide)
+            if (!checked && !compoundButton.isEnabled()) {
+                return;
+            }
+
+            // Update the visibility status for the content warning
+            this.contentWarningVisibility =
+                    (checked) ? ContentWarningVisibility.WARN : ContentWarningVisibility.SHOW;
+
+            // Store the new visibility status for this content warning in
+            // local storage (sharedPrefs)
+            final ContentWarningPrefsStorage cwPrefsStorage = ContentWarningPrefsStorage
+                    .getInstance(requireActivity());
+            cwPrefsStorage.storeContentWarningPref(this.contentWarningName, this.contentWarningVisibility);
         });
 
         // Make all items on the page visible
