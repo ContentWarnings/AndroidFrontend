@@ -72,6 +72,7 @@ public class ContentWarningPrefsStorage {
     }
 
     // Retrieves all content warning preferences set by the user from SharedPreferences
+    @NonNull
     public Map<String, ContentWarningVisibility> getAllContentWarningPrefs() {
         final Map<String, ?> allPrefs = this.sharedPrefs.getAll();
         final Map<String, ContentWarningVisibility> contentWarningPrefs = new HashMap<>();

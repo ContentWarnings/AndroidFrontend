@@ -147,6 +147,7 @@ public class Backend {
 
                         final @NonNull String movieTitle = searchResult.optString("title", "");
                         final @NonNull String movieImageUrlString = searchResult.optString("img", "");
+                        final @Nullable JSONArray contentWarningsJSONArray = searchResult.optJSONArray("cw");
 
                         // Try making URL object and default to null if unsuccessful
                         @Nullable URL movieImageUrl;
@@ -157,8 +158,23 @@ public class Backend {
                             movieImageUrl = null;
                         }
 
+                        // Parse through content warning strings and add valid content warnings to the list
+                        final @NonNull List<String> contentWarningList = new ArrayList<>();
+                        if (contentWarningsJSONArray != null) {
+                            for (int j = 0; j < contentWarningsJSONArray.length(); j++) {
+                                final @Nullable String contentWarning = contentWarningsJSONArray.optString(j, null);
+
+                                // Skip over any invalid strings in the content warnings array
+                                if (contentWarning == null) {
+                                    continue;
+                                }
+
+                                contentWarningList.add(contentWarning);
+                            }
+                        }
+
                         final TrendingMovieViewModel movieData = new
-                                TrendingMovieViewModel(movieId, movieTitle, movieImageUrl);
+                                TrendingMovieViewModel(movieId, movieTitle, movieImageUrl, contentWarningList);
                         trendingMoviesList.add(movieData);
                     }
                 }

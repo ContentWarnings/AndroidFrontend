@@ -14,10 +14,12 @@ import com.example.moviementor.activities.MainActivity;
 import com.example.moviementor.adapters.TrendingMoviesAdapter;
 import com.example.moviementor.models.TrendingMovieViewModel;
 import com.example.moviementor.other.Backend;
+import com.example.moviementor.other.ContentWarningPrefsStorage;
 import com.example.moviementor.other.SpanSizeLookupWithHeader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class FeaturedFragment extends BaseFragment implements TrendingMoviesAdapter.OnItemClickListener {
     // Holds onto the adapter for the trending page's RecyclerView
@@ -57,7 +59,13 @@ public class FeaturedFragment extends BaseFragment implements TrendingMoviesAdap
 
         // If trending movies adapter has not been setup for this fragment yet, then create it
         if (this.trendingMoviesAdapter == null) {
-            this.trendingMoviesAdapter = new TrendingMoviesAdapter(trendingMoviesData);
+            // Get all current content warning preferences stored for the user
+            final ContentWarningPrefsStorage cwPrefsStorage = ContentWarningPrefsStorage
+                    .getInstance(requireActivity());
+            final Map<String, ContentWarningPrefsStorage.ContentWarningVisibility> cwPrefsMap = cwPrefsStorage
+                    .getAllContentWarningPrefs();
+
+            this.trendingMoviesAdapter = new TrendingMoviesAdapter(trendingMoviesData, cwPrefsMap);
 
             // Attach fragment as listener to the trending movies RecyclerView
             this.trendingMoviesAdapter.setOnItemClickListener(this);
@@ -72,6 +80,23 @@ public class FeaturedFragment extends BaseFragment implements TrendingMoviesAdap
         // Now that RecyclerView is populated, remove the loading progress wheel
         final ProgressBar loadingProgressWheel = requireView().findViewById(R.id.loading_circle);
         loadingProgressWheel.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onHiddenChanged(final boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+        // If page is being shown again, need to check if any content warning preferences have
+        // changed since, so that the list of trending movies can be re-filtered if needed
+        if (!hidden && this.trendingMoviesAdapter != null) {
+            // Get all current content warning preferences stored for the user
+            final ContentWarningPrefsStorage cwPrefsStorage = ContentWarningPrefsStorage
+                    .getInstance(requireActivity());
+            final Map<String, ContentWarningPrefsStorage.ContentWarningVisibility> cwPrefsMap = cwPrefsStorage
+                    .getAllContentWarningPrefs();
+
+            this.trendingMoviesAdapter.checkContentWarningPrefsChanged(cwPrefsMap);
+        }
     }
 
     // Function called by the listener attached to the child RecyclerView's adapter. Only called by
