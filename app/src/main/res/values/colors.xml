@@ -78,4 +78,6 @@
     <color name="content_warning_settings_page_title_text">@color/white</color>
     <color name="content_warning_description_text">@color/white</color>
     <color name="content_warning_settings_page_text">@color/white</color>
+    <color name="content_warning_page_title_text">@color/white</color>
+    <color name="content_warning_page_header_divider">@color/white</color>
 </resources>

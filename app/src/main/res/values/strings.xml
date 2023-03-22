@@ -32,6 +32,7 @@
     <string name="content_warnings_page_visibility_status_show">Show</string>
     <string name="content_warnings_page_visibility_status_warn">Warn</string>
     <string name="content_warnings_page_visibility_status_hide">Hide</string>
+    <string name="content_warning_page_title_prefix">CW:</string>
 
     <string name="action_genre_text">Action</string>
     <string name="adventure_genre_text">Adventure</string>
