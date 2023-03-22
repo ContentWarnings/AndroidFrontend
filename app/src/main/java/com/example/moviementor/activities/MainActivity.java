@@ -10,10 +10,12 @@ import android.widget.LinearLayout;
 import com.example.moviementor.R;
 import com.example.moviementor.fragments.AboutFragment;
 import com.example.moviementor.fragments.BaseFragment;
+import com.example.moviementor.fragments.ContentWarningFragment;
 import com.example.moviementor.fragments.ContentWarningSettingsFragment;
 import com.example.moviementor.fragments.ContentWarningsFragment;
 import com.example.moviementor.fragments.MovieFragment;
 import com.example.moviementor.other.AdvancedSearchOptionsModal;
+import com.example.moviementor.other.ContentWarning;
 import com.example.moviementor.other.ContentWarningPrefsStorage.ContentWarningVisibility;
 import com.example.moviementor.other.FragmentStackManager;
 import com.example.moviementor.other.SearchOptions;
@@ -137,5 +139,12 @@ public class MainActivity extends AppCompatActivity {
     public void openAboutPage() {
         final AboutFragment aboutFragment = new AboutFragment();
         this.fragmentStackManager.openNewPage(getSupportFragmentManager(), aboutFragment);
+    }
+
+    // Get fragment stack manager to open a content warning's full details page
+    public void openContentWarningPage(final @NonNull ContentWarning contentWarning) {
+        final ContentWarningFragment cwFragment = new ContentWarningFragment();
+        cwFragment.assignContentWarning(contentWarning);
+        this.fragmentStackManager.openNewPage(getSupportFragmentManager(), cwFragment);
     }
 }
