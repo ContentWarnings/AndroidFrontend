@@ -59,6 +59,7 @@
             android:id="@+id/movie_page_warning_banner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:paddingVertical="@dimen/movie_page_warning_banner_padding_vertical"
             android:paddingStart="@dimen/movie_page_warning_banner_padding_start"
             android:paddingEnd="@dimen/movie_page_warning_banner_padding_end"
