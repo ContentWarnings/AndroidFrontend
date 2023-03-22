@@ -33,6 +33,11 @@
     <string name="content_warnings_page_visibility_status_warn">Warn</string>
     <string name="content_warnings_page_visibility_status_hide">Hide</string>
     <string name="content_warning_page_title_prefix">CW:</string>
+    <string name="content_warning_page_summary_header">Summary</string>
+    <string name="no_content_warning_summary">No summary provided.</string>
+    <string name="content_warning_page_submit_feedback_header">Submit Feedback</string>
+    <string name="content_warning_upvote_button_text">This was accurate.</string>
+    <string name="content_warning_downvote_button_text">This was inaccurate.</string>
 
     <string name="action_genre_text">Action</string>
     <string name="adventure_genre_text">Adventure</string>

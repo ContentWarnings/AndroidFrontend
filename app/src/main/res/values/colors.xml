@@ -80,4 +80,11 @@
     <color name="content_warning_settings_page_text">@color/white</color>
     <color name="content_warning_page_title_text">@color/white</color>
     <color name="content_warning_page_header_divider">@color/white</color>
+    <color name="content_warning_page_timestamp_text">@color/white</color>
+    <color name="content_warning_page_summary_header">@color/white</color>
+    <color name="content_warning_page_summary">@color/white</color>
+    <color name="content_warning_page_submit_feedback_header">@color/white</color>
+    <color name="content_warning_upvote_button_background">#197D29</color>
+    <color name="content_warning_downvote_button_background">#AA3F3F</color>
+    <color name="content_warning_vote_button_text">@color/white</color>
 </resources>
