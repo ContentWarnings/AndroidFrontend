@@ -130,9 +130,9 @@ public class MovieFragment extends BaseFragment {
     // page. This function makes any changes, if needed, so that the page will reflect the
     // user's most up-to-date content warning settings
     private void refreshWarnings() {
-        // If the movie has not retrieved its content warnings from the backend yet or the movie
-        // does not have any content warnings, then don't need to refresh anything on the page
-        if (this.movieContentWarnings == null || this.movieContentWarnings.isEmpty()) {
+        // If the movie has not retrieved its data from the backend yet or if the movie does not
+        // have any content warnings, then don't need to refresh anything on the page
+        if (this.movieData == null || this.movieContentWarnings == null || this.movieContentWarnings.isEmpty()) {
             return;
         }
 
@@ -149,7 +149,7 @@ public class MovieFragment extends BaseFragment {
 
         // Re-organize content warnings for this movie by priority
         // (WARN/HIDE content warnings before SHOW content warnings)
-        this.movieContentWarnings = getContentWarningListSortedByPriority(this.movieContentWarnings);
+        this.movieContentWarnings = getContentWarningListSortedByPriority(this.movieData.getContentWarnings());
 
         // Clear current list of content warnings being displayed
         final LinearLayout contentWarningsList = requireView().findViewById(R.id.movie_page_content_warnings_list);
@@ -158,9 +158,14 @@ public class MovieFragment extends BaseFragment {
         final LayoutInflater inflater = LayoutInflater.from(requireContext());
 
         // Re-create all the content warning rows for the movie's list of content warnings
-        for (final @NonNull ContentWarning contentWarning : this.movieContentWarnings) {
+        for (int i = 0; i < this.movieContentWarnings.size(); i++) {
+            final @NonNull ContentWarning contentWarning = this.movieContentWarnings.get(i);
+
             // Inflate custom layout for singular content warning item
             final View contentWarningItemView = inflater.inflate(R.layout.content_warning_item, contentWarningsList, false);
+
+            // Have each content warning warning row keep track of its position in the list
+            contentWarningItemView.setTag(i);
 
             final ImageView warningIcon = contentWarningItemView
                     .findViewById(R.id.content_warning_item_warning_icon);
@@ -201,6 +206,19 @@ public class MovieFragment extends BaseFragment {
             }
             // Don't display anything for timestamp text if content warning does not have any
             // reported
+
+            // Open content warning's full details page when clicked on
+            contentWarningItemView.setOnClickListener(view -> {
+                // Get position of content warning row that was clicked on in list
+                final int position = (Integer) view.getTag();
+
+                // Get full object for content warning row that was clicked on
+                final @NonNull ContentWarning contentWarningData = this.movieContentWarnings.get(position);
+
+                // Open the full details page for this content warning
+                final MainActivity mainActivity = (MainActivity) requireActivity();
+                mainActivity.openContentWarningPage(contentWarningData);
+            });
 
             // Append this content warning item to the list of content warnings at the bottom
             // of the page
@@ -394,6 +412,10 @@ public class MovieFragment extends BaseFragment {
         moviePageContentWarningsHeader.setVisibility(View.VISIBLE);
 
         final LinearLayout contentWarningsList = requireView().findViewById(R.id.movie_page_content_warnings_list);
+
+        // Remove any old, stale views from content warnings list before adding all the
+        // new content warning views to the list
+        contentWarningsList.removeAllViews();
 
         // Create a content warning row for each of this movie's reported content warnings and
         // append each to the content warning list located at the bottom of the page

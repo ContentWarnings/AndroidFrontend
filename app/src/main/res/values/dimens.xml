@@ -207,4 +207,10 @@
     <dimen name="content_warning_settings_page_show_content_warning_description_margin_bottom">26dp</dimen>
     <dimen name="content_warning_settings_page_display_warning_toggle_row_margin_bottom">4dp</dimen>
     <dimen name="content_warning_settings_page_display_warning_description_margin_bottom">20dp</dimen>
+    <dimen name="content_warning_page_title_text_size">24sp</dimen>
+    <dimen name="content_warning_page_header_margin_horizontal">19dp</dimen>
+    <dimen name="content_warning_page_header_padding_vertical">20dp</dimen>
+    <dimen name="content_warning_page_title_padding_horizontal">30dp</dimen>
+    <dimen name="content_warning_page_title_margin_horizontal">@dimen/back_button_icon_width</dimen>
+    <dimen name="content_warning_page_header_divider_height">1dp</dimen>
 </resources>
