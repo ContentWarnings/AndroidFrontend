@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.moviementor.R;
+import com.example.moviementor.activities.MainActivity;
 import com.example.moviementor.adapters.GenreTilesAdapter;
 import com.example.moviementor.adapters.StreamingProvidersAdapter;
 import com.example.moviementor.models.MovieViewModel;
@@ -49,11 +50,13 @@ public class MovieFragment extends BaseFragment {
     private @NonNull String movieName;
     private @NonNull Map<String, ContentWarningVisibility> cwPrefsMap;
 
+    private @Nullable MovieViewModel movieData;
     private @Nullable List<ContentWarning> movieContentWarnings;
 
     public MovieFragment() {
         super(R.layout.movie_fragment, null);
         this.movieId = UNASSIGNED_MOVIE;
+        this.movieData = null;
         this.movieContentWarnings = null;
     }
 
@@ -91,16 +94,23 @@ public class MovieFragment extends BaseFragment {
         final TextView moviePageTitle = requireView().findViewById(R.id.movie_page_title);
         moviePageTitle.setText(this.movieName);
 
-        // Fetch movie's data from API to populate the page
-        Backend.fetchMovie(this, this.movieId);
+        // Need to fetch movie's data from API to populate the page with
+        if (this.movieData == null) {
+            Backend.fetchMovie(this, this.movieId);
+        }
+        // Already have movie's data, so just populate the page with this data
+        else {
+            this.movieId = this.movieData.getMovieId();
+            populateMoviePage(this.movieData);
+        }
     }
 
     @Override
     public void onHiddenChanged(final boolean hidden) {
         super.onHiddenChanged(hidden);
 
-        // Page is being shown again
-        if (!hidden) {
+        // Page is being shown again and movie's data has already been fetched from API
+        if (!hidden && this.movieData != null) {
             // Get all current content warning preferences stored for the user
             final ContentWarningPrefsStorage cwPrefsStorage = ContentWarningPrefsStorage
                     .getInstance(requireActivity());
@@ -137,10 +147,9 @@ public class MovieFragment extends BaseFragment {
             warningBanner.setVisibility(View.GONE);
         }
 
-        // Get content warnings for this movie organized by priority
+        // Re-organize content warnings for this movie by priority
         // (WARN/HIDE content warnings before SHOW content warnings)
-        final List<ContentWarning> contentWarnings =
-                getContentWarningListSortedByPriority(this.movieContentWarnings);
+        this.movieContentWarnings = getContentWarningListSortedByPriority(this.movieContentWarnings);
 
         // Clear current list of content warnings being displayed
         final LinearLayout contentWarningsList = requireView().findViewById(R.id.movie_page_content_warnings_list);
@@ -149,7 +158,7 @@ public class MovieFragment extends BaseFragment {
         final LayoutInflater inflater = LayoutInflater.from(requireContext());
 
         // Re-create all the content warning rows for the movie's list of content warnings
-        for (final @NonNull ContentWarning contentWarning : contentWarnings) {
+        for (final @NonNull ContentWarning contentWarning : this.movieContentWarnings) {
             // Inflate custom layout for singular content warning item
             final View contentWarningItemView = inflater.inflate(R.layout.content_warning_item, contentWarningsList, false);
 
@@ -226,12 +235,16 @@ public class MovieFragment extends BaseFragment {
             return;
         }
 
+        this.movieData = movieData;
+
         // Hide loading progress wheel since movie data is ready to populate the page
         final ProgressBar loadingProgressWheel = requireView().findViewById(R.id.loading_circle);
         loadingProgressWheel.setVisibility(View.GONE);
 
-        // Hold onto list of content warnings for this movie
-        this.movieContentWarnings = movieData.getContentWarnings();
+        // Hold onto list of content warnings for this movie organized by priority
+        // (WARN/HIDE content warnings before SHOW content warnings)
+        this.movieContentWarnings =
+                getContentWarningListSortedByPriority(movieData.getContentWarnings());
 
         final ViewGroup warningBanner = requireView().findViewById(R.id.movie_page_warning_banner);
 
@@ -380,18 +393,18 @@ public class MovieFragment extends BaseFragment {
         final TextView moviePageContentWarningsHeader = requireView().findViewById(R.id.movie_page_content_warnings_header);
         moviePageContentWarningsHeader.setVisibility(View.VISIBLE);
 
-        // Get content warnings for this movie organized by priority
-        // (WARN/HIDE content warnings before SHOW content warnings)
-        final List<ContentWarning> contentWarnings =
-                getContentWarningListSortedByPriority(this.movieContentWarnings);
-
         final LinearLayout contentWarningsList = requireView().findViewById(R.id.movie_page_content_warnings_list);
 
         // Create a content warning row for each of this movie's reported content warnings and
         // append each to the content warning list located at the bottom of the page
-        for (final @NonNull ContentWarning contentWarning : contentWarnings) {
+        for (int i = 0; i < this.movieContentWarnings.size(); i++) {
+            final @NonNull ContentWarning contentWarning = this.movieContentWarnings.get(i);
+
             // Inflate custom layout for singular content warning item
             final View contentWarningItemView = inflater.inflate(R.layout.content_warning_item, contentWarningsList, false);
+
+            // Have each content warning warning row keep track of its position in the list
+            contentWarningItemView.setTag(i);
 
             final ImageView warningIcon = contentWarningItemView
                     .findViewById(R.id.content_warning_item_warning_icon);
@@ -433,6 +446,19 @@ public class MovieFragment extends BaseFragment {
             // Don't display anything for timestamp text if content warning does not have any
             // reported
 
+            // Open content warning's full details page when clicked on
+            contentWarningItemView.setOnClickListener(view -> {
+                // Get position of content warning row that was clicked on in list
+                final int position = (Integer) view.getTag();
+
+                // Get full object for content warning row that was clicked on
+                final @NonNull ContentWarning contentWarningData = this.movieContentWarnings.get(position);
+
+                // Open the full details page for this content warning
+                final MainActivity mainActivity = (MainActivity) requireActivity();
+                mainActivity.openContentWarningPage(contentWarningData);
+            });
+
             // Append this content warning item to the list of content warnings at the bottom
             // of the movie page
             contentWarningsList.addView(contentWarningItemView);
@@ -440,7 +466,7 @@ public class MovieFragment extends BaseFragment {
 
         // If no content warnings are reported for this movie currently, then display
         // text that explains so
-        if (contentWarnings.isEmpty()) {
+        if (this.movieContentWarnings.isEmpty()) {
             final TextView noContentWarningsText = requireView().findViewById(R.id.no_content_warnings_found);
             noContentWarningsText.setVisibility(View.VISIBLE);
         }
