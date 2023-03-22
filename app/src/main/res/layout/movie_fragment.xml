@@ -233,6 +233,16 @@
                 android:layout_marginTop="@dimen/content_warnings_header_margin_top"
                 android:layout_marginStart="@dimen/content_warnings_header_margin_start"/>
 
+            <TextView
+                android:id="@+id/no_content_warnings_found"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:visibility="gone"
+                android:text="@string/movie_page_no_content_warnings"
+                android:textSize="@dimen/no_content_warnings_text_size"
+                android:textColor="@color/movie_page_no_content_warnings_text" />
+
             <LinearLayout
                 android:id="@+id/movie_page_content_warnings_list"
                 android:layout_width="match_parent"
@@ -240,19 +250,7 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:layout_marginHorizontal="@dimen/movie_page_content_warnings_list_margin_horizontal"
-                android:layout_marginTop="@dimen/content_warnings_list_margin_top" >
-
-                <TextView
-                    android:id="@+id/no_content_warnings_found"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:visibility="gone"
-                    android:text="@string/movie_page_no_content_warnings"
-                    android:textSize="@dimen/no_content_warnings_text_size"
-                    android:textColor="@color/movie_page_no_content_warnings_text" />
-
-            </LinearLayout>
+                android:layout_marginTop="@dimen/content_warnings_list_margin_top"  />
 
         </LinearLayout>
         

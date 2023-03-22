@@ -104,7 +104,7 @@
     <dimen name="movie_page_title_text_size">24sp</dimen>
     <dimen name="movie_page_title_padding_horizontal">30dp</dimen>
     <dimen name="movie_page_title_margin_horizontal">@dimen/back_button_icon_width</dimen>
-    <dimen name="movie_page_header_divider_height">1dp</dimen>
+    <dimen name="movie_page_header_divider_height">2dp</dimen>
     <dimen name="movie_page_warning_banner_padding_vertical">12dp</dimen>
     <dimen name="movie_page_warning_banner_padding_start">19dp</dimen>
     <dimen name="movie_page_warning_banner_padding_end">14dp</dimen>
@@ -212,5 +212,26 @@
     <dimen name="content_warning_page_header_padding_vertical">20dp</dimen>
     <dimen name="content_warning_page_title_padding_horizontal">30dp</dimen>
     <dimen name="content_warning_page_title_margin_horizontal">@dimen/back_button_icon_width</dimen>
-    <dimen name="content_warning_page_header_divider_height">1dp</dimen>
+    <dimen name="content_warning_page_header_divider_height">2dp</dimen>
+    <dimen name="content_warning_page_single_timestamp_text_size">18sp</dimen>
+    <dimen name="content_warning_page_multiple_timestamps_text_size">14sp</dimen>
+    <dimen name="content_warning_page_timestamp_list_margin_horizontal">67dp</dimen>
+    <dimen name="content_warning_page_timestamp_list_margin_top">20dp</dimen>
+    <dimen name="content_warning_page_summary_header_text_size">32sp</dimen>
+    <dimen name="content_warning_page_summary_header_margin_top">20dp</dimen>
+    <dimen name="content_warning_page_summary_header_margin_start">20dp</dimen>
+    <dimen name="content_warning_page_summary_text_size">21sp</dimen>
+    <dimen name="content_warning_page_summary_margin_horizontal">20dp</dimen>
+    <dimen name="content_warning_page_summary_margin_top">4dp</dimen>
+    <dimen name="content_warning_page_submit_feedback_header_text_size">32sp</dimen>
+    <dimen name="content_warning_page_submit_feedback_header_margin_start">20dp</dimen>
+    <dimen name="content_warning_page_submit_feedback_header_margin_top">24dp</dimen>
+    <dimen name="content_warning_voting_button_corner_radius">10dp</dimen>
+    <dimen name="content_warning_voting_button_text_size">28sp</dimen>
+    <dimen name="content_warning_voting_buttons_margin_horizontal">25dp</dimen>
+    <dimen name="content_warning_voting_button_padding_horizontal">16dp</dimen>
+    <dimen name="content_warning_voting_button_padding_vertical">10dp</dimen>
+    <dimen name="content_warning_voting_button_icon_padding">14dp</dimen>
+    <dimen name="content_warning_upvote_button_margin_bottom">14dp</dimen>
+    <dimen name="content_warning_voting_buttons_margin_vertical">8dp</dimen>
 </resources>
