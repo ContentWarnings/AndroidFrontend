@@ -15,10 +15,12 @@ import com.example.moviementor.R;
 import com.example.moviementor.activities.MainActivity;
 import com.example.moviementor.adapters.SearchPageAdapter;
 import com.example.moviementor.models.GenreViewModel;
+import com.example.moviementor.other.ContentWarningPrefsStorage;
 import com.example.moviementor.other.SearchOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SearchFragment extends BaseFragment implements SearchPageAdapter.OnItemClickListener {
     // Static array containing data for each genre's name
@@ -86,6 +88,19 @@ public class SearchFragment extends BaseFragment implements SearchPageAdapter.On
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
 
+        // If page is being shown again, need to check if any content warning preferences have
+        // changed since, so that the list of movie search results can be re-displayed and
+        // re-filtered if needed
+        if (!hidden && this.searchPageAdapter != null) {
+            // Get all current content warning preferences stored for the user
+            final ContentWarningPrefsStorage cwPrefsStorage = ContentWarningPrefsStorage
+                    .getInstance(requireActivity());
+            final Map<String, ContentWarningPrefsStorage.ContentWarningVisibility> cwPrefsMap = cwPrefsStorage
+                    .getAllContentWarningPrefs();
+
+            this.searchPageAdapter.checkContentWarningPrefsChanged(cwPrefsMap);
+        }
+
         // Search page is being shown again, and user requested to go straight to search bar
         if (!hidden && this.shouldJumpToSearchBar) {
             jumpToSearchBar();
@@ -104,7 +119,13 @@ public class SearchFragment extends BaseFragment implements SearchPageAdapter.On
         // If search page adapter has not been setup for this fragment yet, then create and
         // initialize it
         if (this.searchPageAdapter == null) {
-            this.searchPageAdapter = new SearchPageAdapter(this.genreList);
+            // Get all current content warning preferences stored for the user
+            final ContentWarningPrefsStorage cwPrefsStorage = ContentWarningPrefsStorage
+                    .getInstance(requireActivity());
+            final Map<String, ContentWarningPrefsStorage.ContentWarningVisibility> cwPrefsMap = cwPrefsStorage
+                    .getAllContentWarningPrefs();
+
+            this.searchPageAdapter = new SearchPageAdapter(this.genreList, cwPrefsMap);
 
             // Attach fragment as listener to the search page RecyclerView
             this.searchPageAdapter.setOnItemClickListener(this);

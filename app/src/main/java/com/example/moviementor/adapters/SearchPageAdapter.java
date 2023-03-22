@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -24,13 +25,17 @@ import com.example.moviementor.R;
 import com.example.moviementor.models.GenreViewModel;
 import com.example.moviementor.models.SearchResultMovieViewModel;
 import com.example.moviementor.other.Backend;
+import com.example.moviementor.other.ContentWarningPrefsStorage.ContentWarningVisibility;
 import com.example.moviementor.other.SearchOptions;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int VIEW_TYPE_HEADER = 1;
@@ -41,6 +46,8 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private final @NonNull List<Object> searchPageItems;
     private final @NonNull List<Object> genreItems;
+
+    private @NonNull Map<String, ContentWarningVisibility> cwPrefsMap;
 
     private @NonNull String searchString;
 
@@ -61,12 +68,15 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     // Stores and manages the current filter/sort options the user has selected for searching
     private final @NonNull SearchOptions searchOptions;
 
-    public SearchPageAdapter(final @NonNull List<Object> genreItems) {
+    public SearchPageAdapter(final @NonNull List<Object> genreItems,
+                             final @NonNull Map<String, ContentWarningVisibility> cwPrefsMap) {
         this.searchPageItems = new ArrayList<>();
         this.searchPageItems.addAll(genreItems);
 
         this.genreItems = genreItems;
         this.genreBackgroundAlphaValue = 0;
+
+        this.cwPrefsMap = cwPrefsMap;
 
         this.searchString = "";
         this.searchOptions = new SearchOptions();
@@ -493,9 +503,32 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             final SearchPageAdapter.SearchResultViewHolder searchResultViewHolder =
                     (SearchPageAdapter.SearchResultViewHolder) viewHolder;
 
+            // Restore this viewHolder to visible in case it was previously hidden
+            searchResultViewHolder.itemView.setVisibility(View.VISIBLE);
+            searchResultViewHolder.itemView.setLayoutParams(new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
             // Get the current movie search result at specified position in list. Offset position
             // by -2 since header and search bar are at position 0 and 1 in the RecyclerView
             final @NonNull SearchResultMovieViewModel searchResultData = (SearchResultMovieViewModel) this.searchPageItems.get(position - 2);
+
+            // If movie contains a content warning that user has flagged as HIDE, then simply
+            // hide this movie's view on the screen
+            if (shouldBeHidden(searchResultData.getContentWarnings())) {
+                searchResultViewHolder.itemView.setVisibility(View.GONE);
+                searchResultViewHolder.itemView.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+
+                // If this is the last item in current search results and is being hidden, and
+                // there are more search results available to fetch, then start the process of
+                // fetching the next page
+                // (last search result item is the second to last item in the list since
+                // the last item is always a null object representing the load more row)
+                if (position == (getItemCount() - 2) && shouldGetNextPage()) {
+                    getNextPage();
+                }
+
+                return;
+            }
 
            final @Nullable URL searchResultMovieImageUrl = searchResultData.getMovieImageUrl();
 
@@ -515,7 +548,14 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                        .into(searchResultViewHolder.searchResultMovieImage);
            }
 
-           // TODO: hide triangle warning icon by default
+           // Only display warning triangle icon for this search result if this movie contains
+           // at least one content warning that the user has set as WARN
+           if (shouldBeWarned(searchResultData.getContentWarnings())) {
+               searchResultViewHolder.searchResultWarningIcon.setVisibility(View.VISIBLE);
+           }
+           else {
+               searchResultViewHolder.searchResultWarningIcon.setVisibility(View.GONE);
+           }
 
            searchResultViewHolder.searchResultMovieTitle.setText(searchResultData.getMovieName());
 
@@ -549,16 +589,20 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
            searchResultViewHolder.searchResultYearAndDescription.setText(movieYearAndDescription);
 
-           // Get list of content warning strings
-           final @NonNull List<String> contentWarningList = searchResultData.getContentWarnings();
+            // Get unique list of content warnings for this movie organized by priority
+            // (WARN content warnings before SHOW content warnings)
+            final @NonNull List<String> contentWarningList =
+                    getUniqueContentWarningListSortedByPriority(searchResultData.getContentWarnings());
 
            // Get content warning tile recycler view for current view holder and its associated
            // adapter. If valid ContentWarningTilesAdapter was found, then populate the adapter's
-           // contentWarningList with new list of content warning strings
+           // contentWarningList with new list of content warning strings and update the adapter's
+           // content warning preferences
            final RecyclerView.Adapter contentWarningTilesAdapter = searchResultViewHolder
                    .searchResultContentWarningsRecyclerView.getAdapter();
            if (contentWarningTilesAdapter instanceof ContentWarningTilesAdapter) {
-               ((ContentWarningTilesAdapter) contentWarningTilesAdapter).setContentWarningList(contentWarningList);
+               ((ContentWarningTilesAdapter) contentWarningTilesAdapter)
+                       .setContentWarningListAndPrefs(contentWarningList, this.cwPrefsMap);
            }
 
            final int movieId = searchResultData.getMovieId();
@@ -590,6 +634,74 @@ public class SearchPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             // the next page of search results has not been requested yet
             loadMoreViewHolder.loadMoreWheel.setVisibility(View.GONE);
         }
+    }
+
+    // Whenever this page is re-opened, this function is called to check if any content warning
+    // preferences have changed, since the list of movie search results being displayed may need to
+    // be re-filtered and/or re-displayed to adjust to these changes
+    public void checkContentWarningPrefsChanged(Map<String, ContentWarningVisibility> newCwPrefsMap) {
+        // If content warning preferences have changed, need to refresh list being displayed so
+        // that search results can be hidden or shown again if needed and so that content warning
+        // highlights can be added or removed if needed
+        if (!this.cwPrefsMap.equals(newCwPrefsMap)) {
+            this.cwPrefsMap = newCwPrefsMap;
+            notifyDataSetChanged();
+        }
+    }
+
+    // Helper function that decides whether or not movie should be shown based on the user's
+    // content warning settings
+    private boolean shouldBeHidden(final @NonNull List<String> movieContentWarnings) {
+        for (final @NonNull String contentWarning : movieContentWarnings) {
+            if (this.cwPrefsMap.getOrDefault(contentWarning, ContentWarningVisibility.SHOW) == ContentWarningVisibility.HIDE) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Helper function that decides whether or not movie has any content warnings that need to be
+    // warned based on the user's content warning settings
+    private boolean shouldBeWarned(final @NonNull List<String> movieContentWarnings) {
+        for (final @NonNull String contentWarning : movieContentWarnings) {
+            if (this.cwPrefsMap.getOrDefault(contentWarning, ContentWarningVisibility.SHOW) == ContentWarningVisibility.WARN) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Helper function that re-organizes a movie's content warning list such that all content
+    // warnings that user has set to WARN appear first and removes any duplicates
+    private List<String> getUniqueContentWarningListSortedByPriority(final @NonNull List<String> contentWarnings) {
+        final List<String> contentWarningsWarn = new ArrayList<>();
+        final List<String> contentWarningsShow = new ArrayList<>();
+
+        final Set<String> seenContentWarnings = new HashSet<>();
+
+        // Split movie's list of content warnings into two lists separated by whether or not their
+        // visibility status is SHOW or WARN (Should never have CW with hide since the movie would
+        // have been filtered out)
+        for (final @NonNull String contentWarning : contentWarnings) {
+            // Don't add duplicate content warning to the final list
+            if (seenContentWarnings.contains(contentWarning)) {
+                continue;
+            }
+            seenContentWarnings.add(contentWarning);
+
+            if (this.cwPrefsMap.getOrDefault(contentWarning, ContentWarningVisibility.SHOW) == ContentWarningVisibility.WARN) {
+                contentWarningsWarn.add(contentWarning);
+            }
+            else {
+                contentWarningsShow.add(contentWarning);
+            }
+        }
+
+        // Append list of content warnings with SHOW visibility to list of content warnings
+        // with WARN visibility
+        contentWarningsWarn.addAll(contentWarningsShow);
+
+        return contentWarningsWarn;
     }
 
     // Returns the total number of genres or search results, plus 2 for the header and search bar

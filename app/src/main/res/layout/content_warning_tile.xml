@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/content_warning_tile_background"
+    android:background="@drawable/content_warning_tile_normal_background"
     android:paddingTop="@dimen/content_warning_tile_padding_top"
     android:paddingBottom="@dimen/content_warning_tile_padding_bottom"
     android:paddingHorizontal="@dimen/content_warning_tile_padding_horizontal"
