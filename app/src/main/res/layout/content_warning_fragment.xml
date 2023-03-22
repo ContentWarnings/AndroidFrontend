@@ -94,11 +94,21 @@
                 android:layout_marginStart="@dimen/content_warning_page_submit_feedback_header_margin_start"
                 android:layout_marginTop="@dimen/content_warning_page_submit_feedback_header_margin_top" />
 
+            <ProgressBar
+                android:id="@+id/voting_buttons_loading_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                style="?android:attr/progressBarStyle"
+                android:indeterminateTint="@color/loading_circle"
+                android:layout_marginVertical="@dimen/content_warning_voting_buttons_loading_circle_margin_vertical" />
+
             <RadioGroup
                 android:id="@+id/content_warning_voting_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:visibility="gone"
                 android:layout_marginHorizontal="@dimen/content_warning_voting_buttons_margin_horizontal"
                 android:layout_marginVertical="@dimen/content_warning_voting_buttons_margin_vertical">
 

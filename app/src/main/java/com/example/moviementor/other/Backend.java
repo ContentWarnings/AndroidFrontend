@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.moviementor.adapters.SearchPageAdapter;
+import com.example.moviementor.fragments.ContentWarningFragment;
+import com.example.moviementor.fragments.ContentWarningFragment.ContentWarningVotingState;
 import com.example.moviementor.fragments.ContentWarningSettingsFragment;
 import com.example.moviementor.fragments.ContentWarningsFragment;
 import com.example.moviementor.fragments.FeaturedFragment;
@@ -758,6 +760,54 @@ public class Backend {
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.e("Backend: ", error.toString());
                 // TODO: Upon failure set content warning settings page view to an error screen with a reload button
+            }
+        });
+    }
+
+    public static void fetchContentWarningVoteStatus(final @NonNull ContentWarningFragment contentWarningFragment,
+                                                     final @NonNull String contentWarningId) {
+        // Setup URL to get user's voting status for this cw
+        final String relativeUrl = "cw/" + contentWarningId + "/has-voted";
+        final String fetchContentWarningVoteStatusUrl = getAbsoluteUrl(relativeUrl);
+
+        // Hit API to get user's past voting status for this content warning
+        client.get(fetchContentWarningVoteStatusUrl, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                @Nullable ContentWarningVotingState contentWarningVoteStatus = null;
+
+                try {
+                    final JSONObject contentWarningVoteStatusObj = new JSONObject(new String(responseBody));
+                    final @NonNull String contentWarningVoteStatusStr = contentWarningVoteStatusObj
+                            .optString("response", "");
+
+                    // Content warning voting status found for user
+                    if (!contentWarningVoteStatusStr.isEmpty()) {
+                        if (contentWarningVoteStatusStr.equals("upvoted")) {
+                            contentWarningVoteStatus = ContentWarningVotingState.UPVOTED;
+                        }
+                        else if (contentWarningVoteStatusStr.equals("downvoted")) {
+                            contentWarningVoteStatus = ContentWarningVotingState.DOWNVOTED;
+                        }
+                        else {
+                            contentWarningVoteStatus = ContentWarningVotingState.NOT_VOTED;
+                        }
+                    }
+                }
+                catch (final JSONException e) {
+                    Log.e("Backend: ", e.toString());
+                    // TODO: Upon failure set content warning details page view to an error screen with a reload button
+                }
+
+                // Done fetching content warning's voting status for user so properly initialize
+                // the upvote/downvote buttons in the cw fragment now with this info
+                contentWarningFragment.setupVotingButtons(contentWarningVoteStatus);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.e("Backend: ", error.toString());
+                // TODO: Upon failure set content warning details page view to an error screen with a reload button
             }
         });
     }
