@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/content_warning_tile_background" />
+    <solid android:color="@color/content_warning_tile_warn_background" />
     <corners android:radius="@dimen/content_warning_tile_corner_radius" />
 </shape>
