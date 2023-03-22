@@ -5,6 +5,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.moviementor.R;
+import com.example.moviementor.other.Backend;
 import com.example.moviementor.other.ContentWarning;
 import com.example.moviementor.other.TimeStamp;
 
@@ -22,6 +24,12 @@ import java.util.List;
 public class ContentWarningFragment extends BaseFragment {
     private static final float UNSELECTED_BUTTON_ALPHA = 1.0f;
     private static final float SELECTED_BUTTON_ALPHA = 0.5f;
+
+    public enum ContentWarningVotingState {
+        NOT_VOTED,
+        UPVOTED,
+        DOWNVOTED
+    }
 
     private @Nullable ContentWarning contentWarning;
 
@@ -105,9 +113,45 @@ public class ContentWarningFragment extends BaseFragment {
                 this.contentWarning.getContentWarningDescription() : getString(R.string.no_content_warning_summary);
         contentWarningSummaryText.setText(contentWarningSummary);
 
-        final RadioGroup contentWarningVotingButtons = view.findViewById(R.id.content_warning_voting_group);
+        // Find out if/what user has voted for this content warning before, so that upvote/downvote
+        // buttons can be setup to reflect how the user voted for this content warning previously
+        Backend.fetchContentWarningVoteStatus(this, this.contentWarning.getContentWarningId());
+    }
 
+    // Called by API to setup initial state of buttons based off whatever the user has voted
+    // for this content warning previously
+    public void setupVotingButtons(final @Nullable ContentWarningVotingState cwVotingState) {
+        // Could not find whether or not user has previously voted for this content warning, so
+        // don't display voting buttons to user
+        if (cwVotingState == null) {
+            return;
+        }
+        // If content warning fragment has been removed from view hierarchy before setting up the
+        // voting buttons, then ignore this outdated attempt
+        else if (this.contentWarning == null) {
+            return;
+        }
 
+        final RadioGroup contentWarningVotingButtons = requireView()
+                .findViewById(R.id.content_warning_voting_group);
+
+        // Only need to set initial state of voting buttons if user has voted for this cw before
+        if (cwVotingState == ContentWarningVotingState.UPVOTED) {
+            final RadioButton upvoteButton = requireView()
+                    .findViewById(R.id.content_warning_upvote_button);
+
+            upvoteButton.setChecked(true);
+            upvoteButton.setAlpha(SELECTED_BUTTON_ALPHA);
+        }
+        else if (cwVotingState == ContentWarningVotingState.DOWNVOTED) {
+            final RadioButton downvoteButton = requireView()
+                    .findViewById(R.id.content_warning_downvote_button);
+
+            downvoteButton.setChecked(true);
+            downvoteButton.setAlpha(SELECTED_BUTTON_ALPHA);
+        }
+
+        // Setup click listener to detect if user selects new voting option for this content warning
         contentWarningVotingButtons.setOnCheckedChangeListener((radioGroup, checkedId) -> {
             // Get the RadioButton whose checked state was modified
             final RadioButton voteButton = radioGroup.findViewById(checkedId);
@@ -137,5 +181,22 @@ public class ContentWarningFragment extends BaseFragment {
             // Make the other vote button fully visible again, signifying that it can be pressed now
             otherVoteButton.setAlpha(UNSELECTED_BUTTON_ALPHA);
         });
+
+        // Hide loading progress wheel at bottom of page since voting buttons are ready
+        // to be displayed
+        final ProgressBar loadingProgressWheel = requireView()
+                .findViewById(R.id.voting_buttons_loading_circle);
+        loadingProgressWheel.setVisibility(View.GONE);
+
+        // Make voting buttons visible with their initial state
+        contentWarningVotingButtons.setVisibility(View.VISIBLE);
+    }
+
+    // When content warning fragment is removed from view hierarchy, un-assign its cw data, so that
+    // outdated API requests do not try to modify the page anymore
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        this.contentWarning = null;
     }
 }
