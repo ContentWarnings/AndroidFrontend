@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,13 +26,18 @@ import com.example.moviementor.adapters.StreamingProvidersAdapter;
 import com.example.moviementor.models.MovieViewModel;
 import com.example.moviementor.other.Backend;
 import com.example.moviementor.other.ContentWarning;
+import com.example.moviementor.other.ContentWarningPrefsStorage;
+import com.example.moviementor.other.ContentWarningPrefsStorage.ContentWarningVisibility;
 import com.example.moviementor.other.TimeStamp;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class MovieFragment extends BaseFragment {
     private static final String STORED_MOVIE_ID_KEY = "STORED_MOVIE_ID";
@@ -41,10 +47,14 @@ public class MovieFragment extends BaseFragment {
 
     private int movieId;
     private @NonNull String movieName;
+    private @NonNull Map<String, ContentWarningVisibility> cwPrefsMap;
+
+    private @Nullable List<ContentWarning> movieContentWarnings;
 
     public MovieFragment() {
         super(R.layout.movie_fragment, null);
         this.movieId = UNASSIGNED_MOVIE;
+        this.movieContentWarnings = null;
     }
 
     // Called right after constructor when MovieFragment is created to give page initial data
@@ -52,6 +62,7 @@ public class MovieFragment extends BaseFragment {
     public void assignMovie(final int movieId, final @NonNull String movieName) {
         this.movieId = movieId;
         this.movieName = movieName;
+        this.cwPrefsMap = new HashMap<>();
     }
 
     @Override
@@ -63,6 +74,11 @@ public class MovieFragment extends BaseFragment {
             this.movieId = savedInstanceState.getInt(STORED_MOVIE_ID_KEY);
             this.movieName = savedInstanceState.getString(STORED_MOVIE_NAME_KEY);
         }
+
+        // Get up-to-date content warning preferences stored for the user
+        final ContentWarningPrefsStorage cwPrefsStorage = ContentWarningPrefsStorage
+                .getInstance(requireActivity());
+        this.cwPrefsMap = cwPrefsStorage.getAllContentWarningPrefs();
 
         // Setup back button in header
         final ImageButton backButton = requireView().findViewById(R.id.movie_page_header_back_button);
@@ -80,13 +96,117 @@ public class MovieFragment extends BaseFragment {
     }
 
     @Override
+    public void onHiddenChanged(final boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+        // Page is being shown again
+        if (!hidden) {
+            // Get all current content warning preferences stored for the user
+            final ContentWarningPrefsStorage cwPrefsStorage = ContentWarningPrefsStorage
+                    .getInstance(requireActivity());
+            final Map<String, ContentWarningPrefsStorage.ContentWarningVisibility> newCwPrefsMap =
+                    cwPrefsStorage.getAllContentWarningPrefs();
+
+            // Need to check if any content warning preferences have changed since reopening page,
+            // so that the warning banner and warning icons can be adjusted if needed
+            if (!this.cwPrefsMap.equals(newCwPrefsMap)) {
+                this.cwPrefsMap = newCwPrefsMap;
+                refreshWarnings();
+            }
+        }
+    }
+
+    // Called whenever user has modified their content warning preferences before re-opening this
+    // page. This function makes any changes, if needed, so that the page will reflect the
+    // user's most up-to-date content warning settings
+    private void refreshWarnings() {
+        // If the movie has not retrieved its content warnings from the backend yet or the movie
+        // does not have any content warnings, then don't need to refresh anything on the page
+        if (this.movieContentWarnings == null || this.movieContentWarnings.isEmpty()) {
+            return;
+        }
+
+        final ViewGroup warningBanner = requireView().findViewById(R.id.movie_page_warning_banner);
+
+        // Only display warning banner at the top of the page if this movie contains at least
+        // one content warning that the user has set as WARN or HIDE
+        if (shouldShowWarningBanner(this.movieContentWarnings)) {
+            warningBanner.setVisibility(View.VISIBLE);
+        }
+        else {
+            warningBanner.setVisibility(View.GONE);
+        }
+
+        // Get content warnings for this movie organized by priority
+        // (WARN/HIDE content warnings before SHOW content warnings)
+        final List<ContentWarning> contentWarnings =
+                getContentWarningListSortedByPriority(this.movieContentWarnings);
+
+        // Clear current list of content warnings being displayed
+        final LinearLayout contentWarningsList = requireView().findViewById(R.id.movie_page_content_warnings_list);
+        contentWarningsList.removeAllViews();
+
+        final LayoutInflater inflater = LayoutInflater.from(requireContext());
+
+        // Re-create all the content warning rows for the movie's list of content warnings
+        for (final @NonNull ContentWarning contentWarning : contentWarnings) {
+            // Inflate custom layout for singular content warning item
+            final View contentWarningItemView = inflater.inflate(R.layout.content_warning_item, contentWarningsList, false);
+
+            final ImageView warningIcon = contentWarningItemView
+                    .findViewById(R.id.content_warning_item_warning_icon);
+            final TextView contentWarningName = contentWarningItemView
+                    .findViewById(R.id.content_warning_item_name);
+            final TextView contentWarningTimestamp = contentWarningItemView
+                    .findViewById(R.id.content_warning_item_timestamp);
+
+            // Only display warning icon next to this content warning if user has set this
+            // content warning's visibility as WARN or HIDE
+            if (this.cwPrefsMap.getOrDefault(contentWarning.getContentWarningName(), ContentWarningVisibility.SHOW)
+                    != ContentWarningVisibility.SHOW) {
+                warningIcon.setVisibility(View.VISIBLE);
+            }
+            else {
+                warningIcon.setVisibility(View.GONE);
+            }
+
+            contentWarningName.setText(contentWarning.getContentWarningName());
+
+            // If single content warning has multiple timestamps reported, then just display
+            // text that this content warning occurs multiple times in the movie
+            if (contentWarning.getTimestampList().size() > 1) {
+                contentWarningTimestamp.setText(
+                        getString(R.string.content_warning_item_multiple_timestamps));
+            }
+            // Content warning only has one timestamp, so display this timestamp
+            // in the content warning item
+            else if (contentWarning.getTimestampList().size() == 1) {
+                // Get first and only timestamp for content warning
+                final TimeStamp cwTimestamp = contentWarning.getTimestampList().get(0);
+
+                // Convert timestamp into string of format "hh:mm - hh:mm"
+                final String timestampString = cwTimestamp.getStartTimeString() + " - "
+                        + cwTimestamp.getEndTimeString();
+
+                contentWarningTimestamp.setText(timestampString);
+            }
+            // Don't display anything for timestamp text if content warning does not have any
+            // reported
+
+            // Append this content warning item to the list of content warnings at the bottom
+            // of the page
+            contentWarningsList.addView(contentWarningItemView);
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(STORED_MOVIE_ID_KEY, this.movieId);
         outState.putString(STORED_MOVIE_NAME_KEY, this.movieName);
     }
 
-    // When movie fragment is removed from view hierarchy, unassign its movie id, so that outdated
+    // When movie fragment is removed from view hierarchy, un-assign its movie id, so that outdated
     // movie data fetched from the API does not try to populate page anymore
     @Override
     public void onDestroyView() {
@@ -109,6 +229,20 @@ public class MovieFragment extends BaseFragment {
         // Hide loading progress wheel since movie data is ready to populate the page
         final ProgressBar loadingProgressWheel = requireView().findViewById(R.id.loading_circle);
         loadingProgressWheel.setVisibility(View.GONE);
+
+        // Hold onto list of content warnings for this movie
+        this.movieContentWarnings = movieData.getContentWarnings();
+
+        final ViewGroup warningBanner = requireView().findViewById(R.id.movie_page_warning_banner);
+
+        // Only display warning banner at the top of the page if this movie contains at least
+        // one content warning that the user has set as WARN or HIDE
+        if (shouldShowWarningBanner(this.movieContentWarnings)) {
+            warningBanner.setVisibility(View.VISIBLE);
+        }
+        else {
+            warningBanner.setVisibility(View.GONE);
+        }
 
         // If movie's name fetched from API is different from movie name initially passed to the
         // movie page, then set header title of the page to the new movie's name
@@ -246,7 +380,11 @@ public class MovieFragment extends BaseFragment {
         final TextView moviePageContentWarningsHeader = requireView().findViewById(R.id.movie_page_content_warnings_header);
         moviePageContentWarningsHeader.setVisibility(View.VISIBLE);
 
-        final List<ContentWarning> contentWarnings = movieData.getContentWarnings();
+        // Get content warnings for this movie organized by priority
+        // (WARN/HIDE content warnings before SHOW content warnings)
+        final List<ContentWarning> contentWarnings =
+                getContentWarningListSortedByPriority(this.movieContentWarnings);
+
         final LinearLayout contentWarningsList = requireView().findViewById(R.id.movie_page_content_warnings_list);
 
         // Create a content warning row for each of this movie's reported content warnings and
@@ -255,10 +393,22 @@ public class MovieFragment extends BaseFragment {
             // Inflate custom layout for singular content warning item
             final View contentWarningItemView = inflater.inflate(R.layout.content_warning_item, contentWarningsList, false);
 
+            final ImageView warningIcon = contentWarningItemView
+                    .findViewById(R.id.content_warning_item_warning_icon);
             final TextView contentWarningName = contentWarningItemView
                     .findViewById(R.id.content_warning_item_name);
             final TextView contentWarningTimestamp = contentWarningItemView
                     .findViewById(R.id.content_warning_item_timestamp);
+
+            // Only display warning icon next to this content warning if user has set this
+            // content warning's visibility as WARN or HIDE
+            if (this.cwPrefsMap.getOrDefault(contentWarning.getContentWarningName(), ContentWarningVisibility.SHOW)
+                    != ContentWarningVisibility.SHOW) {
+                warningIcon.setVisibility(View.VISIBLE);
+            }
+            else {
+                warningIcon.setVisibility(View.GONE);
+            }
 
             contentWarningName.setText(contentWarning.getContentWarningName());
 
@@ -294,6 +444,46 @@ public class MovieFragment extends BaseFragment {
             final TextView noContentWarningsText = requireView().findViewById(R.id.no_content_warnings_found);
             noContentWarningsText.setVisibility(View.VISIBLE);
         }
+    }
+
+    // Helper function that decides whether or not warning banner should be displayed at the top of
+    // the page based on this movie's content warnings and the user's content warning settings
+    private boolean shouldShowWarningBanner(final @NonNull List<ContentWarning> contentWarnings) {
+        for (final @NonNull ContentWarning contentWarning : contentWarnings) {
+            // If movie has a content warning that user has flagged to be warned or hidden, then
+            // warning banner needs to be shown
+            if (this.cwPrefsMap.getOrDefault(contentWarning.getContentWarningName(), ContentWarningVisibility.SHOW)
+                    != ContentWarningVisibility.SHOW) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Helper function that re-organizes a movie's content warning list such that all content
+    // warnings that user has set to WARN or HIDE appear before any content warnings set to SHOW
+    @NonNull
+    private List<ContentWarning> getContentWarningListSortedByPriority(final @NonNull List<ContentWarning> contentWarnings) {
+        final List<ContentWarning> warnHideContentWarnings = new ArrayList<>();
+        final List<ContentWarning> showContentWarnings = new ArrayList<>();
+
+        // Split movie's list of content warnings into two lists separated by whether or not their
+        // visibility status is SHOW/HIDE or WARN
+        for (final @NonNull ContentWarning contentWarning : contentWarnings) {
+            if (this.cwPrefsMap.getOrDefault(contentWarning.getContentWarningName(), ContentWarningVisibility.SHOW)
+                    == ContentWarningVisibility.SHOW) {
+                showContentWarnings.add(contentWarning);
+            }
+            else {
+                warnHideContentWarnings.add(contentWarning);
+            }
+        }
+
+        // Append list of content warnings with SHOW visibility to list of content warnings
+        // with WARN or HIDE visibility
+        warnHideContentWarnings.addAll(showContentWarnings);
+
+        return warnHideContentWarnings;
     }
 
     // Helper function to parse Java date objects into desired format for displaying on the
