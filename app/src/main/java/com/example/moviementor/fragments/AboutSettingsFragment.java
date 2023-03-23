@@ -72,7 +72,7 @@ public class AboutSettingsFragment extends BaseFragment {
         // Setup click listener to open terms of service page when this row is clicked on
         termsOfServiceSettingsRow.setOnClickListener(view -> {
             final MainActivity mainActivity = (MainActivity) requireActivity();
-            //mainActivity.openTermsOfServicePage();
+            mainActivity.openTermsOfServicePage();
         });
     }
 }

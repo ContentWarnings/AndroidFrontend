@@ -17,6 +17,7 @@ import com.example.moviementor.fragments.ContentWarningSettingsFragment;
 import com.example.moviementor.fragments.ContentWarningsFragment;
 import com.example.moviementor.fragments.MovieFragment;
 import com.example.moviementor.fragments.PrivacyPolicyFragment;
+import com.example.moviementor.fragments.TermsOfServiceFragment;
 import com.example.moviementor.other.AdvancedSearchOptionsModal;
 import com.example.moviementor.other.ContentWarning;
 import com.example.moviementor.other.ContentWarningPrefsStorage.ContentWarningVisibility;
@@ -167,5 +168,11 @@ public class MainActivity extends AppCompatActivity {
     public void openPrivacyPolicyPage() {
         final PrivacyPolicyFragment privacyPolicyFragment = new PrivacyPolicyFragment();
         this.fragmentStackManager.openNewPage(getSupportFragmentManager(), privacyPolicyFragment);
+    }
+
+    // Get fragment stack manager to open terms of service page in settings tab
+    public void openTermsOfServicePage() {
+        final TermsOfServiceFragment termsOfServiceFragment = new TermsOfServiceFragment();
+        this.fragmentStackManager.openNewPage(getSupportFragmentManager(), termsOfServiceFragment);
     }
 }
