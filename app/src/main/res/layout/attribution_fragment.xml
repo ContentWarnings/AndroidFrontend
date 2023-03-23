@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="@dimen/attribution_page_header_padding_top"
+            android:paddingBottom="@dimen/attribution_page_header_padding_bottom"
+            android:layout_marginStart="@dimen/attribution_page_header_margin_start"
+            android:layout_marginEnd="@dimen/attribution_page_header_margin_end">
+
+            <ImageButton
+                android:id="@+id/attribution_page_back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back_button"
+                android:theme="@style/SelectableItemTheme"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_marginEnd="@dimen/attribution_page_back_button_margin_end" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/attribution_page_title"
+                android:textColor="@color/attribution_page_title_text"
+                android:textSize="@dimen/attribution_page_title_text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="@dimen/attribution_page_content_margin_horizontal"
+            android:layout_marginBottom="@dimen/attribution_page_content_margin_bottom">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/attribution_page_paragraph_header"
+                android:textSize="@dimen/attribution_page_paragraph_header_text_size"
+                android:textColor="@color/attribution_page_paragraph_header"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/attribution_page_paragraph_header_margin_top" />
+
+            <TextView
+                android:id="@+id/attribution_page_paragraph"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/attribution_page_paragraph"
+                android:textSize="@dimen/attribution_page_paragraph_text_size"
+                android:textColor="@color/attribution_page_paragraph_text"
+                android:layout_marginTop="@dimen/attribution_page_paragraph_margin_top" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

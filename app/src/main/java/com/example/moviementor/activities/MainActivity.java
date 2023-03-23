@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import com.example.moviementor.R;
 import com.example.moviementor.fragments.AboutFragment;
 import com.example.moviementor.fragments.AboutSettingsFragment;
+import com.example.moviementor.fragments.AttributionFragment;
 import com.example.moviementor.fragments.BaseFragment;
 import com.example.moviementor.fragments.ContentWarningFragment;
 import com.example.moviementor.fragments.ContentWarningSettingsFragment;
@@ -153,5 +154,11 @@ public class MainActivity extends AppCompatActivity {
     public void openAboutPage() {
         final AboutFragment aboutFragment = new AboutFragment();
         this.fragmentStackManager.openNewPage(getSupportFragmentManager(), aboutFragment);
+    }
+
+    // Get fragment stack manager to open attribution page in settings tab
+    public void openAttributionPage() {
+        final AttributionFragment attributionFragment = new AttributionFragment();
+        this.fragmentStackManager.openNewPage(getSupportFragmentManager(), attributionFragment);
     }
 }
