@@ -53,7 +53,7 @@ public class SettingsFragment extends BaseFragment {
         // Setup click listener to open about page when about row is clicked on
         aboutSettingsRow.setOnClickListener(view -> {
             final MainActivity mainActivity = (MainActivity) requireActivity();
-            mainActivity.openAboutPage();
+            mainActivity.openAboutSettingsPage();
         });
     }
 }
