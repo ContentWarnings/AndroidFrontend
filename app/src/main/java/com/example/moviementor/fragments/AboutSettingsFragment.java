@@ -66,7 +66,7 @@ public class AboutSettingsFragment extends BaseFragment {
         // Setup click listener to open privacy policy page when this row is clicked on
         privacyPolicySettingsRow.setOnClickListener(view -> {
             final MainActivity mainActivity = (MainActivity) requireActivity();
-            //mainActivity.openPrivacyPolicyPage();
+            mainActivity.openPrivacyPolicyPage();
         });
 
         // Setup click listener to open terms of service page when this row is clicked on
