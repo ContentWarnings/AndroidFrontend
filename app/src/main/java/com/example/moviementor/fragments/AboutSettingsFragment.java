@@ -57,10 +57,10 @@ public class AboutSettingsFragment extends BaseFragment {
             mainActivity.openAboutPage();
         });
 
-        // Setup click listener to open attributions page when this row is clicked on
+        // Setup click listener to open attribution page when this row is clicked on
         attributionSettingsRow.setOnClickListener(view -> {
             final MainActivity mainActivity = (MainActivity) requireActivity();
-            //mainActivity.openAttributionsPage();
+            mainActivity.openAttributionPage();
         });
 
         // Setup click listener to open privacy policy page when this row is clicked on

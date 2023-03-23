@@ -41,6 +41,8 @@
     <string name="settings_row_terms_of_service">Terms of Service</string>
     <string name="about_page_title">About</string>
     <string name="about_page_paragraph_header">About Movie Mentor</string>
+    <string name="attribution_page_title">Attribution</string>
+    <string name="attribution_page_paragraph_header">Movie Mentor Attributions</string>
 
     <string name="about_page_paragraph">MovieMentor is an application developed by Jeffrey DiVincent,
         Adam Fernandes, Jacob Franz, Nathanael Gaulke, Lauren Morris, and Garrett Spears as part of
@@ -58,6 +60,10 @@
         to look closer at a content warning they might be on the fence about.\n\nWe hope that you
         find this application useful in your search for new movies to watch that are interesting and
         trauma-free to you.\n\n Enjoy browsing and have a good day!\n— MovieMentor Team</string>
+
+    <string name="attribution_page_paragraph">Source code can be found <a href="https://github.com/orgs/ContentWarnings/repositories">here</a>\n\n
+        This application uses the <a href="https://www.themoviedb.org/documentation/api">TMDB API</a> and
+        <a href="https://apis.justwatch.com/docs/api/">JustWatch API</a></string>
 
     <string name="action_genre_text">Action</string>
     <string name="adventure_genre_text">Adventure</string>
