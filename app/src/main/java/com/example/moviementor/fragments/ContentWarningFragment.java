@@ -17,11 +17,17 @@ import com.example.moviementor.other.Backend;
 import com.example.moviementor.other.ContentWarning;
 import com.example.moviementor.other.TimeStamp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContentWarningFragment extends BaseFragment {
     private static final float UNSELECTED_BUTTON_ALPHA = 1.0f;
     private static final float SELECTED_BUTTON_ALPHA = 0.5f;
+
+    private static final String STORED_CW_ID = "CW_ID";
+    private static final String STORED_CW_NAME = "CW_NAME";
+    private static final String STORED_CW_SUMMARY = "CW_SUMMARY";
+    private static final String STORED_CW_TIMESTAMPS = "CW_TIMESTAMPS";
 
     public enum ContentWarningVotingState {
         NOT_VOTED,
@@ -48,10 +54,14 @@ public class ContentWarningFragment extends BaseFragment {
     public void onViewCreated(final @NonNull View view, final @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // When content warning page is recreated due to a configuration change, then just go
-        // back to previous page since the content warning data is lost on this page
+        // Recover content warning data from saved instance state if available
+        if (savedInstanceState != null) {
+            recoverContentWarning(savedInstanceState);
+        }
+
+        // If content warning page has no access to content warning data even from
+        // savedInstanceState, then just leave page empty
         if (this.contentWarning == null) {
-            requireActivity().onBackPressed();
             return;
         }
 
@@ -260,11 +270,70 @@ public class ContentWarningFragment extends BaseFragment {
         upvoteButton.setAlpha(UNSELECTED_BUTTON_ALPHA);
     }
 
-    // When content warning fragment is removed from view hierarchy, un-assign its cw data, so that
-    // outdated API requests do not try to modify the page anymore
+    // Store all of content warning's data in case of configuration change
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        this.contentWarning = null;
+    public void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (this.contentWarning == null) {
+            return;
+        }
+
+        outState.putString(STORED_CW_ID, this.contentWarning.getContentWarningId());
+        outState.putString(STORED_CW_NAME, this.contentWarning.getContentWarningName());
+        outState.putString(STORED_CW_SUMMARY, this.contentWarning.getContentWarningDescription());
+
+        final ArrayList<String> timeStampStrings = new ArrayList<>();
+
+        for (final @NonNull TimeStamp timeStamp : this.contentWarning.getTimestampList()) {
+            final String timeStampStr = timeStamp.getStartTimeString() + "-" + timeStamp.getEndTimeString();
+            timeStampStrings.add(timeStampStr);
+        }
+
+        outState.putStringArrayList(STORED_CW_TIMESTAMPS, timeStampStrings);
+    }
+
+    // Helper function to parse through and recover content warning from savedInstanceState
+    private void recoverContentWarning(final @NonNull Bundle savedInstanceState) {
+        final String cwId = savedInstanceState.getString(STORED_CW_ID);
+        final String cwName = savedInstanceState.getString(STORED_CW_NAME);
+        final String cwSummary = savedInstanceState.getString(STORED_CW_SUMMARY);
+        final List<String> timeStampStrings = savedInstanceState.getStringArrayList(STORED_CW_TIMESTAMPS);
+
+        if (cwId != null && cwName != null && cwSummary != null &&timeStampStrings != null) {
+            final List<TimeStamp> cwTimeStamps = new ArrayList<>();
+
+            for (final @Nullable String timeStampStr : timeStampStrings) {
+                if (timeStampStr == null) {
+                    continue;
+                }
+
+                final String[] startAndEndTimeStr = timeStampStr.split("-");
+
+                if (startAndEndTimeStr.length != 2) {
+                    continue;
+                }
+
+                int startTime, endTime;
+
+                try {
+                    final int startTimeHour = Integer.parseInt(startAndEndTimeStr[0].substring(0, 2));
+                    final int startTimeMin = Integer.parseInt(startAndEndTimeStr[0].substring(3, 5));
+
+                    final int endTimeHour = Integer.parseInt(startAndEndTimeStr[1].substring(0, 2));
+                    final int endTimeMin = Integer.parseInt(startAndEndTimeStr[1].substring(3, 5));
+
+                    startTime = startTimeHour * 60 + startTimeMin;
+                    endTime = endTimeHour * 60 + endTimeMin;
+                }
+                catch (final NumberFormatException e) {
+                    continue;
+                }
+
+                cwTimeStamps.add(new TimeStamp(startTime, endTime));
+            }
+
+            this.contentWarning = new ContentWarning(cwId, cwName, cwSummary, cwTimeStamps);
+        }
     }
 }
