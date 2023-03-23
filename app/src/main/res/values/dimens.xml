@@ -231,7 +231,7 @@
     <dimen name="content_warning_voting_buttons_margin_horizontal">25dp</dimen>
     <dimen name="content_warning_voting_button_padding_horizontal">16dp</dimen>
     <dimen name="content_warning_voting_button_padding_vertical">10dp</dimen>
-    <dimen name="content_warning_voting_button_icon_padding">14dp</dimen>
+    <dimen name="content_warning_voting_button_icon_margin_end">14dp</dimen>
     <dimen name="content_warning_upvote_button_margin_bottom">14dp</dimen>
     <dimen name="content_warning_voting_buttons_margin_vertical">8dp</dimen>
     <dimen name="content_warning_voting_buttons_loading_circle_margin_vertical">12dp</dimen>
