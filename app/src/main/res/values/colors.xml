@@ -71,8 +71,6 @@
     <color name="movie_page_content_warning_item_timestamp_text">@color/white</color>
     <color name="settings_row_divider">#44FFFFFF</color>
     <color name="settings_row_text">@color/white</color>
-    <color name="about_page_title_text">@color/white</color>
-    <color name="about_page_tmdb_attribution_text">@color/white</color>
     <color name="content_warnings_page_title_text">@color/white</color>
     <color name="content_warning_settings_row_text">@color/white</color>
     <color name="content_warning_settings_page_title_text">@color/white</color>
@@ -87,4 +85,5 @@
     <color name="content_warning_upvote_button_background">#197D29</color>
     <color name="content_warning_downvote_button_background">#AA3F3F</color>
     <color name="content_warning_vote_button_text">@color/white</color>
+    <color name="about_page_title_text">@color/white</color>
 </resources>

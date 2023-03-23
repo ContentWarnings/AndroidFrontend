@@ -10,24 +10,24 @@ import androidx.annotation.Nullable;
 import com.example.moviementor.R;
 import com.example.moviementor.activities.MainActivity;
 
-public class AboutFragment extends BaseFragment {
+public class AboutSettingsFragment extends BaseFragment {
 
-    public AboutFragment() {
-        super(R.layout.about_fragment, Tab.SETTINGS);
+    public AboutSettingsFragment() {
+        super(R.layout.about_settings_fragment, Tab.SETTINGS);
     }
 
     @Override
     public void onViewCreated(final @NonNull View view, final @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setupAboutPage();
+        setupAboutSettingsPage();
     }
 
-    private void setupAboutPage() {
+    private void setupAboutSettingsPage() {
         final ImageButton headerBackButton = requireView()
-                .findViewById(R.id.about_page_back_button);
+                .findViewById(R.id.about_settings_page_back_button);
         final ImageButton headerSearchButton = requireView()
-                .findViewById(R.id.about_page_header_search_button);
+                .findViewById(R.id.about_settings_page_header_search_button);
 
         // Setup back button in header
         headerBackButton.setOnClickListener(view -> {

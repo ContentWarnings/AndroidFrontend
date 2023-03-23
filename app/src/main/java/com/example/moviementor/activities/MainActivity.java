@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 
 import com.example.moviementor.R;
-import com.example.moviementor.fragments.AboutFragment;
+import com.example.moviementor.fragments.AboutSettingsFragment;
 import com.example.moviementor.fragments.BaseFragment;
 import com.example.moviementor.fragments.ContentWarningFragment;
 import com.example.moviementor.fragments.ContentWarningSettingsFragment;
@@ -137,8 +137,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Get fragment stack manager to open about page in settings tab
     public void openAboutPage() {
-        final AboutFragment aboutFragment = new AboutFragment();
-        this.fragmentStackManager.openNewPage(getSupportFragmentManager(), aboutFragment);
+        final AboutSettingsFragment aboutSettingsFragment = new AboutSettingsFragment();
+        this.fragmentStackManager.openNewPage(getSupportFragmentManager(), aboutSettingsFragment);
     }
 
     // Get fragment stack manager to open a content warning's full details page
