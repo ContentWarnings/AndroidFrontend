@@ -43,6 +43,8 @@
     <string name="about_page_paragraph_header">About Movie Mentor</string>
     <string name="attribution_page_title">Attribution</string>
     <string name="attribution_page_paragraph_header">Movie Mentor Attributions</string>
+    <string name="privacy_policy_page_title">Privacy Policy</string>
+    <string name="privacy_policy_page_paragraph_header">Our Privacy Policy</string>
 
     <string name="about_page_paragraph">MovieMentor is an application developed by Jeffrey DiVincent,
         Adam Fernandes, Jacob Franz, Nathanael Gaulke, Lauren Morris, and Garrett Spears as part of
@@ -64,6 +66,24 @@
     <string name="attribution_page_paragraph">Source code can be found <a href="https://github.com/orgs/ContentWarnings/repositories">here</a>\n\n
         This application uses the <a href="https://www.themoviedb.org/documentation/api">TMDB API</a> and
         <a href="https://apis.justwatch.com/docs/api/">JustWatch API</a></string>
+
+    <string name="privacy_policy_page_paragraph">Overall our goal is to reduce tracking and data storage
+        on users to promote a safe environment for all users.\n\n\n<big><b>"Tracking and Data Storage"</b></big>\n
+        For users who do not have an account:\n\nThere is minimal data tracking which primarily
+        includes data collected by CloudFlare such as which pages are accessed, how many requests
+        are made, how many unique users are visiting, and the country of origin of said users.\n\n
+        For users with an account:\n\nData related to your account such as your email and login
+        credentials, as well as content warnings you have submitted are securely stored. These are
+        available for your viewing discretion in your profile and can be exported there.\n\nFor your
+        safety, your content warnings are NOT stored on MovieMentor\'s servers, rather saved in your
+        browser on your local machine.\n\nIn compliance with regulations such as those presented by
+        the General Data Protection Regulation (GDPR) and California Consumer Protection Act (CCPA),
+        all data is secured and monitored for potential data breaches. Additionally users are
+        provided with the option to delete their account including all data stored, as well as
+        export all of the data stored on an individual.\n\n\n<big><b>"Legal Compliance"</b></big>\nMovieMentor
+        reserves the right to give any data to law enforcement given a proper warrant is issued.
+        MovieMentor is based in the United States of America, as is CloudFlare, GitHub, and Amazon
+        Web Services. As of 2023-03-11 MovieMentor has not shared any data with the authorities.</string>
 
     <string name="action_genre_text">Action</string>
     <string name="adventure_genre_text">Adventure</string>

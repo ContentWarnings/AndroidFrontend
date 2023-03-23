@@ -91,4 +91,7 @@
     <color name="attribution_page_title_text">@color/white</color>
     <color name="attribution_page_paragraph_header">@color/white</color>
     <color name="attribution_page_paragraph_text">@color/white</color>
+    <color name="privacy_policy_page_title_text">@color/white</color>
+    <color name="privacy_policy_page_paragraph_header">@color/white</color>
+    <color name="privacy_policy_page_paragraph_text">@color/white</color>
 </resources>

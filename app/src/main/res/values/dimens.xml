@@ -258,4 +258,16 @@
     <dimen name="attribution_page_paragraph_header_margin_top">4dp</dimen>
     <dimen name="attribution_page_paragraph_text_size">18sp</dimen>
     <dimen name="attribution_page_paragraph_margin_top">6dp</dimen>
+    <dimen name="privacy_policy_page_title_text_size">24sp</dimen>
+    <dimen name="privacy_policy_page_header_padding_top">18dp</dimen>
+    <dimen name="privacy_policy_page_header_padding_bottom">15dp</dimen>
+    <dimen name="privacy_policy_page_header_margin_start">29dp</dimen>
+    <dimen name="privacy_policy_page_header_margin_end">33dp</dimen>
+    <dimen name="privacy_policy_page_back_button_margin_end">20dp</dimen>
+    <dimen name="privacy_policy_page_content_margin_horizontal">12dp</dimen>
+    <dimen name="privacy_policy_page_content_margin_bottom">10dp</dimen>
+    <dimen name="privacy_policy_page_paragraph_header_text_size">28sp</dimen>
+    <dimen name="privacy_policy_page_paragraph_header_margin_top">4dp</dimen>
+    <dimen name="privacy_policy_page_paragraph_text_size">18sp</dimen>
+    <dimen name="privacy_policy_page_paragraph_margin_top">6dp</dimen>
 </resources>
