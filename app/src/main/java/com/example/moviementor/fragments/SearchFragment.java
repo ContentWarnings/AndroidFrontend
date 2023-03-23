@@ -29,16 +29,16 @@ public class SearchFragment extends BaseFragment implements SearchPageAdapter.On
             "Mystery", "Romance", "Science Fiction", "TV Movie", "Thriller", "War", "Western"};
     // TODO: Replace temp image id with ids for each custom genre background image
     // Static array containing resource id for each genre's custom background image
-    private static final int[] GENRE_BACKGROUND_IMAGE_IDS = {R.drawable.temp_genre_background,
-            R.drawable.temp_genre_background, R.drawable.temp_genre_background,
-            R.drawable.temp_genre_background, R.drawable.temp_genre_background,
-            R.drawable.temp_genre_background, R.drawable.temp_genre_background,
-            R.drawable.temp_genre_background, R.drawable.temp_genre_background,
-            R.drawable.temp_genre_background, R.drawable.temp_genre_background,
-            R.drawable.temp_genre_background, R.drawable.temp_genre_background,
-            R.drawable.temp_genre_background, R.drawable.temp_genre_background,
-            R.drawable.temp_genre_background, R.drawable.temp_genre_background,
-            R.drawable.temp_genre_background, R.drawable.temp_genre_background};
+    private static final int[] GENRE_BACKGROUND_IMAGE_IDS = {R.drawable.action_genre_background,
+            R.drawable.adventure_genre_background, R.drawable.animation_genre_background,
+            R.drawable.comedy_genre_background, R.drawable.crime_genre_background,
+            R.drawable.documentary_genre_background, R.drawable.drama_genre_background,
+            R.drawable.family_genre_background, R.drawable.fantasy_genre_background,
+            R.drawable.history_genre_background, R.drawable.horror_genre_background,
+            R.drawable.music_genre_background, R.drawable.mystery_genre_background,
+            R.drawable.romance_genre_background, R.drawable.scifi_genre_background,
+            R.drawable.tvmovie_genre_background, R.drawable.thriller_genre_background,
+            R.drawable.war_genre_background, R.drawable.western_genre_background};
 
     // Search bar is always displayed as second item in RecyclerView
     private static final int SEARCH_BAR_POSITION = 1;
@@ -129,10 +129,6 @@ public class SearchFragment extends BaseFragment implements SearchPageAdapter.On
 
             // Attach fragment as listener to the search page RecyclerView
             this.searchPageAdapter.setOnItemClickListener(this);
-
-            // Give the adapter an alpha value to apply on genre background images
-            final int alphaValue = getResources().getInteger(R.integer.genre_background_image_alpha);
-            this.searchPageAdapter.assignAlphaValueForGenreBackgroundImages(alphaValue);
         }
 
         this.searchPageAdapter.assignUtilityViews(progressWheelView, noMatchingSearchResultsView);

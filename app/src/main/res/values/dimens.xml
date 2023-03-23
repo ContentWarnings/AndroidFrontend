@@ -37,6 +37,7 @@
     <dimen name="search_page_list_margin_horizontal">22.5dp</dimen>
     <dimen name="genre_name_text_size">42sp</dimen>
     <dimen name="genre_row_margin_vertical">11dp</dimen>
+    <dimen name="genre_row_height">89dp</dimen>
     <dimen name="search_bar_corner_radius">15dp</dimen>
     <dimen name="search_bar_margin_bottom">10dp</dimen>
     <dimen name="search_bar_margin_end">8dp</dimen>
