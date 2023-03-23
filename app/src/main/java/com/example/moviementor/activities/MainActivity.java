@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 
 import com.example.moviementor.R;
+import com.example.moviementor.fragments.AboutFragment;
 import com.example.moviementor.fragments.AboutSettingsFragment;
 import com.example.moviementor.fragments.BaseFragment;
 import com.example.moviementor.fragments.ContentWarningFragment;
@@ -119,6 +120,13 @@ public class MainActivity extends AppCompatActivity {
         this.fragmentStackManager.openNewPage(getSupportFragmentManager(), movieFragment);
     }
 
+    // Get fragment stack manager to open a content warning's full details page
+    public void openContentWarningPage(final @NonNull ContentWarning contentWarning) {
+        final ContentWarningFragment cwFragment = new ContentWarningFragment();
+        cwFragment.assignContentWarning(contentWarning);
+        this.fragmentStackManager.openNewPage(getSupportFragmentManager(), cwFragment);
+    }
+
     // Get fragment stack manager to open content warnings page in settings tab
     public void openContentWarningsPage() {
         final ContentWarningsFragment contentWarningsFragment = new ContentWarningsFragment();
@@ -135,16 +143,15 @@ public class MainActivity extends AppCompatActivity {
                 contentWarningSettingsFragment);
     }
 
-    // Get fragment stack manager to open about page in settings tab
-    public void openAboutPage() {
+    // Get fragment stack manager to open about settings page in settings tab
+    public void openAboutSettingsPage() {
         final AboutSettingsFragment aboutSettingsFragment = new AboutSettingsFragment();
         this.fragmentStackManager.openNewPage(getSupportFragmentManager(), aboutSettingsFragment);
     }
 
-    // Get fragment stack manager to open a content warning's full details page
-    public void openContentWarningPage(final @NonNull ContentWarning contentWarning) {
-        final ContentWarningFragment cwFragment = new ContentWarningFragment();
-        cwFragment.assignContentWarning(contentWarning);
-        this.fragmentStackManager.openNewPage(getSupportFragmentManager(), cwFragment);
+    // Get fragment stack manager to open about page in settings tab
+    public void openAboutPage() {
+        final AboutFragment aboutFragment = new AboutFragment();
+        this.fragmentStackManager.openNewPage(getSupportFragmentManager(), aboutFragment);
     }
 }
