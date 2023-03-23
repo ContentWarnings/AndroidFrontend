@@ -3,14 +3,12 @@ package com.example.moviementor.fragments;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -32,10 +30,12 @@ public class ContentWarningFragment extends BaseFragment {
     }
 
     private @Nullable ContentWarning contentWarning;
+    private @Nullable ContentWarningVotingState contentWarningVotingState;
 
     public ContentWarningFragment() {
         super(R.layout.content_warning_fragment, null);
         this.contentWarning = null;
+        this.contentWarningVotingState = null;
     }
 
     // Called right after constructor when ContentWarningFragment is created to give page content
@@ -118,6 +118,38 @@ public class ContentWarningFragment extends BaseFragment {
         Backend.fetchContentWarningVoteStatus(this, this.contentWarning.getContentWarningId());
     }
 
+    @Override
+    public void onHiddenChanged(final boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+        // Page is being shown again and have access to content warning data
+        if (!hidden && this.contentWarning != null) {
+            // User may have changed their vote for this content warning in another page, so need
+            // to hide the cw voting buttons until user's most recent voting status is acquired
+            final ViewGroup contentWarningVotingButtons = requireView()
+                    .findViewById(R.id.content_warning_voting_buttons);
+            contentWarningVotingButtons.setVisibility(View.GONE);
+
+            final ViewGroup upvoteButton = requireView()
+                    .findViewById(R.id.content_warning_upvote_button);
+            final ViewGroup downvoteButton = requireView()
+                    .findViewById(R.id.content_warning_downvote_button);
+
+            // Make both buttons appear unselected again until the user's voting status for this
+            // content warning is retrieved
+            upvoteButton.setAlpha(UNSELECTED_BUTTON_ALPHA);
+            downvoteButton.setAlpha(UNSELECTED_BUTTON_ALPHA);
+
+            // Display loading progress wheel at bottom of page until voting buttons are ready to
+            // be displayed
+            final ProgressBar loadingProgressWheel = requireView()
+                    .findViewById(R.id.voting_buttons_loading_circle);
+            loadingProgressWheel.setVisibility(View.VISIBLE);
+
+            Backend.fetchContentWarningVoteStatus(this, this.contentWarning.getContentWarningId());
+        }
+    }
+
     // Called by API to setup initial state of buttons based off whatever the user has voted
     // for this content warning previously
     public void setupVotingButtons(final @Nullable ContentWarningVotingState cwVotingState) {
@@ -132,54 +164,38 @@ public class ContentWarningFragment extends BaseFragment {
             return;
         }
 
-        final RadioGroup contentWarningVotingButtons = requireView()
-                .findViewById(R.id.content_warning_voting_group);
+        // Hold onto user's previous voting status for this content warning
+        this.contentWarningVotingState = cwVotingState;
+
+        final ViewGroup upvoteButton = requireView().findViewById(R.id.content_warning_upvote_button);
+        final ViewGroup downvoteButton = requireView().findViewById(R.id.content_warning_downvote_button);
 
         // Only need to set initial state of voting buttons if user has voted for this cw before
         if (cwVotingState == ContentWarningVotingState.UPVOTED) {
-            final RadioButton upvoteButton = requireView()
-                    .findViewById(R.id.content_warning_upvote_button);
-
-            upvoteButton.setChecked(true);
             upvoteButton.setAlpha(SELECTED_BUTTON_ALPHA);
         }
         else if (cwVotingState == ContentWarningVotingState.DOWNVOTED) {
-            final RadioButton downvoteButton = requireView()
-                    .findViewById(R.id.content_warning_downvote_button);
-
-            downvoteButton.setChecked(true);
             downvoteButton.setAlpha(SELECTED_BUTTON_ALPHA);
         }
 
-        // Setup click listener to detect if user selects new voting option for this content warning
-        contentWarningVotingButtons.setOnCheckedChangeListener((radioGroup, checkedId) -> {
-            // Get the RadioButton whose checked state was modified
-            final RadioButton voteButton = radioGroup.findViewById(checkedId);
-
-            // Don't need to do anything when RadioButton is deselected
-            if (!voteButton.isChecked()) {
+        upvoteButton.setOnClickListener(view -> {
+            // Don't let user upvote the content warning twice
+            if (this.contentWarningVotingState == ContentWarningVotingState.UPVOTED) {
                 return;
             }
 
-            // Get id of vote button that user checked
-            final @IdRes int selectedVoteButtonId = voteButton.getId();
+            // Otherwise, notify backend that user is upvoting this content warning
+            Backend.upvoteContentWarning(this, this.contentWarning.getContentWarningId());
+        });
 
-            // Get id of other vote button that was not pressed
-            @IdRes int otherVoteButtonId;
-            if (selectedVoteButtonId == R.id.content_warning_upvote_button) {
-                otherVoteButtonId = R.id.content_warning_downvote_button;
-            }
-            else {
-                otherVoteButtonId = R.id.content_warning_upvote_button;
+        downvoteButton.setOnClickListener(view -> {
+            // Don't let user downvote the content warning twice
+            if (this.contentWarningVotingState == ContentWarningVotingState.DOWNVOTED) {
+                return;
             }
 
-            final RadioButton otherVoteButton = requireView().findViewById(otherVoteButtonId);
-
-            // Make vote button that was checked have a pressed, opaque appearance
-            voteButton.setAlpha(SELECTED_BUTTON_ALPHA);
-
-            // Make the other vote button fully visible again, signifying that it can be pressed now
-            otherVoteButton.setAlpha(UNSELECTED_BUTTON_ALPHA);
+            // Otherwise, notify backend that user is downvoting this content warning
+            Backend.downvoteContentWarning(this, this.contentWarning.getContentWarningId());
         });
 
         // Hide loading progress wheel at bottom of page since voting buttons are ready
@@ -189,7 +205,59 @@ public class ContentWarningFragment extends BaseFragment {
         loadingProgressWheel.setVisibility(View.GONE);
 
         // Make voting buttons visible with their initial state
+        final LinearLayout contentWarningVotingButtons = requireView()
+                .findViewById(R.id.content_warning_voting_buttons);
         contentWarningVotingButtons.setVisibility(View.VISIBLE);
+    }
+
+    // Get results of whether upvote succeeded or not so voting buttons can be updated on success
+    public void onUpvoteFinished(final boolean upvoteSucceeded) {
+        // If content warning fragment has been removed from view hierarchy before retrieving result
+        // of upvote request, then ignore this outdated request
+        if (this.contentWarning == null) {
+            return;
+        }
+        // Couldn't fulfill this specific upvote request, so don't do anything
+        else if (!upvoteSucceeded) {
+            // TODO: Display dismissable message to user that cw could not be upvoted at this time
+            return;
+        }
+
+        // Set user's voting status to UPVOTED
+        this.contentWarningVotingState = ContentWarningVotingState.UPVOTED;
+
+        final ViewGroup upvoteButton = requireView().findViewById(R.id.content_warning_upvote_button);
+        final ViewGroup downvoteButton = requireView().findViewById(R.id.content_warning_downvote_button);
+
+        // Make upvote button slightly opaque and downvote button fully visible to signify to user
+        // that upvote button is currently selected
+        upvoteButton.setAlpha(SELECTED_BUTTON_ALPHA);
+        downvoteButton.setAlpha(UNSELECTED_BUTTON_ALPHA);
+    }
+
+    // Get results of whether downvote succeeded or not so voting buttons can be updated on success
+    public void onDownvoteFinished(final boolean downvoteSucceeded) {
+        // If content warning fragment has been removed from view hierarchy before retrieving result
+        // of downvote request, then ignore this outdated request
+        if (this.contentWarning == null) {
+            return;
+        }
+        // Couldn't fulfill this specific downvote request, so don't do anything
+        else if (!downvoteSucceeded) {
+            // TODO: Display dismissable message to user that cw could not be downvoted at this time
+            return;
+        }
+
+        // Set user's voting status to DOWNVOTED
+        this.contentWarningVotingState = ContentWarningVotingState.DOWNVOTED;
+
+        final ViewGroup upvoteButton = requireView().findViewById(R.id.content_warning_upvote_button);
+        final ViewGroup downvoteButton = requireView().findViewById(R.id.content_warning_downvote_button);
+
+        // Make downvote button slightly opaque and upvote button fully visible to signify to user
+        // that downvote button is currently selected
+        downvoteButton.setAlpha(SELECTED_BUTTON_ALPHA);
+        upvoteButton.setAlpha(UNSELECTED_BUTTON_ALPHA);
     }
 
     // When content warning fragment is removed from view hierarchy, un-assign its cw data, so that

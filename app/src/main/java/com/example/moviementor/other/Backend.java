@@ -49,6 +49,10 @@ public class Backend {
     // right after
     private static @Nullable RequestHandle previousSearchRequest = null;
 
+    // Keeps track of last pending upvote/downvote for a content warning, so that content warning
+    // can not be upvoted and downvoted simultaneously
+    private static @Nullable RequestHandle previousCwVote = null;
+
     private static AsyncHttpClient createAndSetupClient() {
         final AsyncHttpClient client = new AsyncHttpClient();
 
@@ -436,7 +440,7 @@ public class Backend {
         final String fetchMovieUrl = getAbsoluteUrl("movie") + "/" + movieId;
 
         // Hit API to get movie with specified movie's id as a parameter
-        client.get(fetchMovieUrl, new AsyncHttpResponseHandler() {
+        previousCwVote = client.get(fetchMovieUrl, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 // Object that will store all the parsed movie's data
@@ -808,6 +812,98 @@ public class Backend {
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 Log.e("Backend: ", error.toString());
                 // TODO: Upon failure set content warning details page view to an error screen with a reload button
+            }
+        });
+    }
+
+    public static void upvoteContentWarning(final @NonNull ContentWarningFragment contentWarningFragment,
+                                            final @NonNull String contentWarningId) {
+        // Don't let user try to upvote if pending upvote/downvote is still in progress for this
+        // content warning
+        if (previousCwVote != null && !previousCwVote.isFinished()) {
+            // TODO: Notify user that upvoting failed
+            contentWarningFragment.onUpvoteFinished(false);
+            return;
+        }
+
+        // Setup URL to upvote this cw
+        final String relativeUrl = "cw/" + contentWarningId + "/upvote";
+        final String upvoteContentWarningUrl = getAbsoluteUrl(relativeUrl);
+
+        // Hit API to try and upvote the content warning for this user
+        previousCwVote = client.get(upvoteContentWarningUrl, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                boolean upvoteSucceeded = false;
+
+                try {
+                    final JSONObject contentWarningUpvoteStatusObj = new JSONObject(new String(responseBody));
+                    final String upvoteStatus = contentWarningUpvoteStatusObj.optString("response", "");
+
+                    if (upvoteStatus.equals("Success")) {
+                        upvoteSucceeded = true;
+                    }
+                }
+                catch (final JSONException e) {
+                    Log.e("Backend: ", e.toString());
+                    // TODO: Notify user that upvoting failed
+                }
+
+                // Let content warning fragment know whether or not upvote succeeded
+                contentWarningFragment.onUpvoteFinished(upvoteSucceeded);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.e("Backend: ", error.toString());
+                // TODO: Notify user that upvoting failed
+                contentWarningFragment.onUpvoteFinished(false);
+            }
+        });
+    }
+
+    public static void downvoteContentWarning(final @NonNull ContentWarningFragment contentWarningFragment,
+                                              final @NonNull String contentWarningId) {
+        // Don't let user try to downvote if pending upvote/downvote is still in progress for this
+        // content warning
+        if (previousCwVote != null && !previousCwVote.isFinished()) {
+            // TODO: Notify user that downvoting failed
+            contentWarningFragment.onDownvoteFinished(false);
+            return;
+        }
+
+        // Setup URL to downvote this cw
+        final String relativeUrl = "cw/" + contentWarningId + "/downvote";
+        final String downvoteContentWarningUrl = getAbsoluteUrl(relativeUrl);
+
+        // Hit API to try and downvote the content warning for this user
+        previousCwVote = client.get(downvoteContentWarningUrl, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                boolean downvoteSucceeded = false;
+
+                try {
+                    final JSONObject contentWarningDownvoteStatusObj = new JSONObject(new String(responseBody));
+                    final String downvoteStatus = contentWarningDownvoteStatusObj.optString("response", "");
+
+                    if (downvoteStatus.equals("Success")) {
+                        downvoteSucceeded = true;
+                    }
+                }
+                catch (final JSONException e) {
+                    Log.e("Backend: ", e.toString());
+                    // TODO: Notify user that downvoting failed
+                }
+
+                // Let content warning fragment know whether or not downvote succeeded
+                contentWarningFragment.onDownvoteFinished(downvoteSucceeded);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.e("Backend: ", error.toString());
+                // TODO: Notify user that downvoting failed
+                contentWarningFragment.onDownvoteFinished(false);
             }
         });
     }
