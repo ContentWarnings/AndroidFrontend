@@ -79,6 +79,9 @@ public class ContentWarningsFragment extends BaseFragment implements ContentWarn
             // This page may have been reopened with new content warning preferences, so try to
             // update the adapter in case any changes were made
             this.contentWarningsSettingsAdapter.updateContentWarningPrefs(cwPrefsMap);
+
+            // Give content warnings page access to new empty search TextView since old one is stale
+            this.contentWarningsSettingsAdapter.updateEmptySearchTextRef(emptySearchText);
         }
 
         // Bind the adapter and a Linear Layout Manager to the RecyclerView

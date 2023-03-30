@@ -1,6 +1,7 @@
 package com.example.moviementor.adapters;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
     private @NonNull String searchString;
     private @Nullable OnItemClickListener listener;
 
-    private final @NonNull TextView emptySearchText;
+    private @NonNull TextView emptySearchText;
 
     public ContentWarningsSettingsAdapter(final @NonNull List<String> contentWarningNames,
                                           final @NonNull Map<String, ContentWarningVisibility> cwPrefsMap,
@@ -49,6 +50,10 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
 
         this.searchString = "";
         this.listener = null;
+    }
+
+    public void updateEmptySearchTextRef(final @NonNull TextView emptySearchText) {
+        this.emptySearchText = emptySearchText;
     }
 
     // Returns the total number of content warnings list plus 2 for the header and search bar
@@ -150,6 +155,7 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
         // filtered out from being displayed on the page
         if (this.contentWarningNames.isEmpty()) {
             this.emptySearchText.setVisibility(View.VISIBLE);
+            Log.d("YOO", "in here");
             this.emptySearchText.bringToFront();
         }
         else {
