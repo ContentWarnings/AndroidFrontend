@@ -11,6 +11,16 @@
         android:indeterminateTint="@color/loading_circle"
         android:layout_centerInParent="true" />
 
+    <TextView
+        android:id="@+id/content_warnings_empty_search_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:text="@string/content_warnings_empty_search_text"
+        android:textSize="@dimen/content_warnings_empty_search_text_size"
+        android:textColor="@color/content_warnings_empty_search_text" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/content_warnings_settings_recycler_view"
         android:layout_width="match_parent"
