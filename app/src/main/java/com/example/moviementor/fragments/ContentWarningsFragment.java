@@ -83,15 +83,6 @@ public class ContentWarningsFragment extends BaseFragment implements ContentWarn
     }
 
     // Function called by the listener attached to the child RecyclerView's adapter. Only called by
-    // listener when the header's search button is clicked on
-    @Override
-    public void onHeaderSearchButtonClick() {
-        // Route user's request to open search bar to the main activity
-        final MainActivity mainActivity = (MainActivity) requireActivity();
-        mainActivity.jumpToSearchBar();
-    }
-
-    // Function called by the listener attached to the child RecyclerView's adapter. Only called by
     // listener when the header's back button is clicked on
     @Override
     public void onHeaderBackButtonClick() {

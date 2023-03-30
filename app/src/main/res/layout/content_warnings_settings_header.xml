@@ -26,19 +26,4 @@
         android:textColor="@color/content_warnings_page_title_text"
         android:textSize="@dimen/content_warnings_page_title_text_size" />
 
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-
-        <ImageButton
-            android:id="@+id/content_warnings_page_header_search_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/header_search_magnifying_glass" />
-
-    </RelativeLayout>
-
 </LinearLayout>

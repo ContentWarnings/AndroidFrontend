@@ -101,6 +101,11 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
         }
     }
 
+    // Makes page immediately scroll to and open the search bar at the top of the page
+    private void jumpToContentWarningsSearchBar() {
+
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final @NonNull ViewGroup parent, final int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -175,21 +180,13 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
         if (getItemViewType(position) == VIEW_TYPE_HEADER) {
             final HeaderViewHolder headerViewHolder = (HeaderViewHolder) viewHolder;
 
-            // Setup back button in header
-            headerViewHolder.headerBackButton.setOnClickListener(view -> {
+            // Set up click listener on header's back button to call parent fragment's
+            // listener function if click detected and listener is currently attached
+            headerViewHolder.headerBackButton.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onHeaderBackButtonClick();
                 }
             });
-
-            // Setup click listener on header's search button to start user's request of jumping to
-            // the search bar on the search page
-            headerViewHolder.headerSearchButton.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onHeaderSearchButtonClick();
-                }
-            });
-
         }
         else if (getItemViewType(position) == VIEW_TYPE_SEARCH_BAR) {
             final View searchRowView = viewHolder.itemView;
@@ -261,35 +258,16 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
     // to the parent fragment in this adapter
     public interface OnItemClickListener {
         void onHeaderBackButtonClick();
-        void onHeaderSearchButtonClick();
         void onContentWarningRowClick(final @NonNull String contentWarningName,
                                       final ContentWarningVisibility contentWarningVisibility);
     }
 
     public class HeaderViewHolder extends RecyclerView.ViewHolder {
         public final ImageView headerBackButton;
-        public final ImageButton headerSearchButton;
 
         public HeaderViewHolder(final @NonNull View headerView) {
             super(headerView);
             this.headerBackButton = headerView.findViewById(R.id.content_warnings_page_back_button);
-            this.headerSearchButton = headerView.findViewById(R.id.content_warnings_page_header_search_button);
-
-            // Set up click listener on header's back button to call parent fragment's
-            // listener function if click detected and listener is currently attached
-            headerSearchButton.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onHeaderBackButtonClick();
-                }
-            });
-
-            // Set up click listener on header's search button to call parent fragment's
-            // listener function if click detected and listener is currently attached
-            headerSearchButton.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onHeaderSearchButtonClick();
-                }
-            });
         }
     }
 
