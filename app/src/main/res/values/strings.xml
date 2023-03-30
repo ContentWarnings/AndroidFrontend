@@ -48,6 +48,7 @@
     <string name="terms_of_service_page_title">Terms of Service</string>
     <string name="terms_of_service_page_paragraph_header">Our Terms of Service</string>
     <string name="content_warnings_search_bar_hint">Search All Content Warnings</string>
+    <string name="content_warnings_empty_search_text">No Content Warnings Found</string>
 
     <string name="about_page_paragraph">MovieMentor is an application developed by Jeffrey DiVincent,
         Adam Fernandes, Jacob Franz, Nathanael Gaulke, Lauren Morris, and Garrett Spears as part of

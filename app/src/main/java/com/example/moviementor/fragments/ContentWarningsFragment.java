@@ -3,6 +3,7 @@ package com.example.moviementor.fragments;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,6 +54,9 @@ public class ContentWarningsFragment extends BaseFragment implements ContentWarn
         final ProgressBar loadingProgressWheel = requireView().findViewById(R.id.loading_circle);
         loadingProgressWheel.setVisibility(View.GONE);
 
+        final TextView emptySearchText = requireView()
+                .findViewById(R.id.content_warnings_empty_search_text);
+
         final RecyclerView contentWarningsRecyclerView = requireView()
                 .findViewById(R.id.content_warnings_settings_recycler_view);
 
@@ -66,7 +70,7 @@ public class ContentWarningsFragment extends BaseFragment implements ContentWarn
         // create it
         if (this.contentWarningsSettingsAdapter == null) {
             this.contentWarningsSettingsAdapter = new
-                    ContentWarningsSettingsAdapter(contentWarningNames, cwPrefsMap);
+                    ContentWarningsSettingsAdapter(contentWarningNames, cwPrefsMap, emptySearchText);
 
             // Attach fragment as listener to the content warnings settings RecyclerView
             this.contentWarningsSettingsAdapter.setOnItemClickListener(this);

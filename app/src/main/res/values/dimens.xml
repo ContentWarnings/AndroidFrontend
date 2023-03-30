@@ -283,4 +283,5 @@
     <dimen name="terms_of_service_page_paragraph_text_size">18sp</dimen>
     <dimen name="terms_of_service_page_paragraph_margin_top">6dp</dimen>
     <dimen name="content_warnings_search_bar_margin_horizontal">22dp</dimen>
+    <dimen name="content_warnings_empty_search_text_size">16sp</dimen>
 </resources>

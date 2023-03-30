@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -20,7 +19,6 @@ import com.example.moviementor.R;
 import com.example.moviementor.other.ContentWarningPrefsStorage.ContentWarningVisibility;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -38,11 +36,16 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
     private @NonNull String searchString;
     private @Nullable OnItemClickListener listener;
 
+    private final @NonNull TextView emptySearchText;
+
     public ContentWarningsSettingsAdapter(final @NonNull List<String> contentWarningNames,
-                                          final @NonNull Map<String, ContentWarningVisibility> cwPrefsMap) {
+                                          final @NonNull Map<String, ContentWarningVisibility> cwPrefsMap,
+                                          final @NonNull TextView emptySearchText) {
         this.unfilteredContentWarningNames = contentWarningNames;
         this.contentWarningNames = new ArrayList<>(contentWarningNames);
         this.cwPrefsMap = cwPrefsMap;
+
+        this.emptySearchText = emptySearchText;
 
         this.searchString = "";
         this.listener = null;
@@ -141,6 +144,16 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
 
             notifyItemRangeRemoved(2, oldFilteredListSize);
             notifyItemRangeInserted(2, this.contentWarningNames.size());
+        }
+
+        // Toggle on/off empty search text based on whether or not all content warnings were
+        // filtered out from being displayed on the page
+        if (this.contentWarningNames.isEmpty()) {
+            this.emptySearchText.setVisibility(View.VISIBLE);
+            this.emptySearchText.bringToFront();
+        }
+        else {
+            this.emptySearchText.setVisibility(View.GONE);
         }
     }
 
