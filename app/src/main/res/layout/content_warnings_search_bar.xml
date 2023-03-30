@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/search_bar_row"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <android.widget.SearchView
+        android:id="@+id/search_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/search_bar_background"
+        android:theme="@style/SearchBarStyle"
+        android:queryHint="@string/content_warnings_search_bar_hint"
+        android:searchIcon="@drawable/search_bar_magnifying_glass"
+        android:iconifiedByDefault="false"
+        android:closeIcon="@drawable/search_bar_clear_text"
+        android:imeOptions="actionSearch|flagNoExtractUi|flagNoFullscreen"
+        android:layout_marginHorizontal="@dimen/content_warnings_search_bar_margin_horizontal"
+        android:layout_marginBottom="@dimen/search_bar_margin_bottom"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+</LinearLayout>
