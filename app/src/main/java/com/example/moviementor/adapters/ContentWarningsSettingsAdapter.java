@@ -1,11 +1,14 @@
 package com.example.moviementor.adapters;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,7 +26,8 @@ import java.util.Set;
 
 public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_HEADER = 1;
-    private static final int VIEW_TYPE_ITEM = 2;
+    private static final int VIEW_TYPE_SEARCH_BAR = 2;
+    private static final int VIEW_TYPE_ITEM = 3;
 
     private final @NonNull List<String> contentWarningNames;
     private final @NonNull Map<String, ContentWarningVisibility> cwPrefsMap;
@@ -37,17 +41,24 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
         this.listener = null;
     }
 
-    // Returns the total number of content warnings list plus 1 for the header
+    // Returns the total number of content warnings list plus 2 for the header and search bar
     @Override
     public int getItemCount() {
-        return this.contentWarningNames.size() + 1;
+        return this.contentWarningNames.size() + 2;
     }
 
-    // Returns whether view is of type header or content warning item.
+    // Returns whether view is of type header, search bar, or content warning item.
     @Override
     public int getItemViewType(final int position) {
-        // First view is the header, all other views are for movie items
-        return (position == 0) ? VIEW_TYPE_HEADER : VIEW_TYPE_ITEM;
+        if (position == 0) {
+            return VIEW_TYPE_HEADER;
+        }
+        else if (position == 1) {
+            return VIEW_TYPE_SEARCH_BAR;
+        }
+        else {
+            return VIEW_TYPE_ITEM;
+        }
     }
 
     // Called to update visibility text of a content warning row in case a content warning's
@@ -77,9 +88,10 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
                 }
 
                 // Find and update content warning row that had its visibility status modified.
-                // Offset position to update in RecyclerView by 1 since header is at the beginning
+                // Offset position to update in RecyclerView by 2 since header and search bar are
+                // at the beginning
                 final int rowChangePosition = this.contentWarningNames.indexOf(contentWarningName);
-                notifyItemChanged(rowChangePosition + 1);
+                notifyItemChanged(rowChangePosition + 2);
 
                 // Only one content warning's preferences can be updated at a time before returning
                 // to this page, so just return early since the rest of the old and new map will
@@ -119,13 +131,43 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
             // Return new view holder for inflated header
             return new HeaderViewHolder(headerView);
         }
+        else if (viewType == VIEW_TYPE_SEARCH_BAR) {
+            // Inflate custom layout for the search bar row
+            final View contentWarningsSearchBarView = inflater.inflate(R.layout.content_warnings_search_bar,
+                    parent, false);
 
-        // Inflate custom layout for the content warning row
-        final View contentWarningItemView = inflater.inflate(R.layout.content_warning_settings_row,
-                parent, false);
+            // Get actual search bar inside search row
+            final SearchView searchBar = contentWarningsSearchBarView.findViewById(R.id.search_bar);
 
-        // Return new view holder for singular content warning row
-        return new ItemViewHolder(contentWarningItemView);
+            // Set a listener to open and close keyboard when search bar gains and loses focus
+            searchBar.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
+                final InputMethodManager inputMethodManager = (InputMethodManager) parent.getContext()
+                        .getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+                if (!hasFocus) {
+                    inputMethodManager.hideSoftInputFromWindow(searchBar.getWindowToken(), 0);
+                }
+                else {
+                    // Newer Android versions only worked with "showSoftInput" whereas older Android
+                    // versions only worked with "toggleSoftInput", so just try the first approach
+                    // and if it fails to open the keyboard, then try the second one
+                    if (!inputMethodManager.showSoftInput(searchBar, InputMethodManager.SHOW_IMPLICIT)) {
+                        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+                    }
+                }
+            });
+
+            // Return new view holder for inflated search bar
+            return new SearchBarViewHolder(contentWarningsSearchBarView);
+        }
+        else {
+            // Inflate custom layout for the content warning row
+            final View contentWarningItemView = inflater.inflate(R.layout.content_warning_settings_row,
+                    parent, false);
+
+            // Return new view holder for singular content warning row
+            return new ItemViewHolder(contentWarningItemView);
+        }
     }
 
     @Override
@@ -148,11 +190,20 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
                 }
             });
 
-        } else {
+        }
+        else if (getItemViewType(position) == VIEW_TYPE_SEARCH_BAR) {
+            final View searchRowView = viewHolder.itemView;
+
+            // Get actual search bar inside search row
+            final SearchView searchBar = searchRowView.findViewById(R.id.search_bar);
+
+            // TODO: Restore search query text and attach filtering listener
+        }
+        else {
             final ItemViewHolder itemViewHolder = (ItemViewHolder) viewHolder;
 
             // Get the current content warning to display
-            final @NonNull String contentWarningName = this.contentWarningNames.get(position - 1);
+            final @NonNull String contentWarningName = this.contentWarningNames.get(position - 2);
 
             // Bind this content warning name to the row's first line of text
             itemViewHolder.contentWarningName.setText(contentWarningName);
@@ -176,7 +227,7 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
 
             // If this is the last content warning row, then hide the bottom divider since there is
             // no content warning row that will be displayed below
-            if (position == this.contentWarningNames.size()) {
+            if (position - 2 == this.contentWarningNames.size() - 1) {
                 itemViewHolder.contentWarningDivider.setVisibility(View.GONE);
             }
             else {
@@ -239,6 +290,12 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
                     listener.onHeaderSearchButtonClick();
                 }
             });
+        }
+    }
+
+    public class SearchBarViewHolder extends RecyclerView.ViewHolder {
+        public SearchBarViewHolder(final @NonNull View searchBarView) {
+            super(searchBarView);
         }
     }
 
