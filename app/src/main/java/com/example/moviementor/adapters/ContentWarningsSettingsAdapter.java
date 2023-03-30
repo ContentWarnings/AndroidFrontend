@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moviementor.R;
 import com.example.moviementor.other.ContentWarningPrefsStorage.ContentWarningVisibility;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -29,15 +31,20 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_SEARCH_BAR = 2;
     private static final int VIEW_TYPE_ITEM = 3;
 
-    private final @NonNull List<String> contentWarningNames;
+    private final @NonNull List<String> unfilteredContentWarningNames;
+    private @NonNull List<String> contentWarningNames;
     private final @NonNull Map<String, ContentWarningVisibility> cwPrefsMap;
 
+    private @NonNull String searchString;
     private @Nullable OnItemClickListener listener;
 
     public ContentWarningsSettingsAdapter(final @NonNull List<String> contentWarningNames,
                                           final @NonNull Map<String, ContentWarningVisibility> cwPrefsMap) {
-        this.contentWarningNames = contentWarningNames;
+        this.unfilteredContentWarningNames = contentWarningNames;
+        this.contentWarningNames = new ArrayList<>(contentWarningNames);
         this.cwPrefsMap = cwPrefsMap;
+
+        this.searchString = "";
         this.listener = null;
     }
 
@@ -101,9 +108,40 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
         }
     }
 
-    // Makes page immediately scroll to and open the search bar at the top of the page
-    private void jumpToContentWarningsSearchBar() {
+    // Called whenever the search bar's string is modified to re-filter what content warnings
+    // are being displayed on the page
+    private void onSearchStringChange(final @NonNull String newSearchString) {
+        // Don't do anything since the search string was actually not modified at all
+        if (this.searchString.equals(newSearchString)) {
+            return;
+        }
+        // If search bar text was cleared then add all content warnings back onto the page
+        // that were previously filtered out
+        else if (newSearchString.isEmpty()) {
+            this.searchString = newSearchString;
 
+            final int oldFilteredListSize = this.contentWarningNames.size();
+            this.contentWarningNames = new ArrayList<>(this.unfilteredContentWarningNames);
+
+            notifyItemRangeRemoved(2, oldFilteredListSize);
+            notifyItemRangeInserted(2, this.contentWarningNames.size());
+        }
+        // Otherwise, need to re-filter the list of content warnings being displayed on the page
+        else {
+            this.searchString = newSearchString;
+
+            final int oldFilteredListSize = this.contentWarningNames.size();
+            this.contentWarningNames = new ArrayList<>();
+            final String lowerCaseSearchString = this.searchString.toLowerCase();
+            for (final @NonNull String contentWarningName : this.unfilteredContentWarningNames) {
+                if (contentWarningName.toLowerCase().contains(lowerCaseSearchString)) {
+                    this.contentWarningNames.add(contentWarningName);
+                }
+            }
+
+            notifyItemRangeRemoved(2, oldFilteredListSize);
+            notifyItemRangeInserted(2, this.contentWarningNames.size());
+        }
     }
 
     @Override
@@ -194,7 +232,26 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
             // Get actual search bar inside search row
             final SearchView searchBar = searchRowView.findViewById(R.id.search_bar);
 
-            // TODO: Restore search query text and attach filtering listener
+            // Restore the search bar's search string when it is scrolled back onto the screen
+            searchBar.setQuery(this.searchString, false);
+
+            // Set listener on search bar that is triggered anytime something is typed into
+            // the search bar
+            searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                // Don't do anything when user presses submit since content warnings should already
+                // be filtered
+                @Override
+                public boolean onQueryTextSubmit(final @NonNull String s) {
+                    return false;
+                }
+
+                // Whenever text in the search bar is modified, need to handle the change
+                @Override
+                public boolean onQueryTextChange(final @NonNull String str) {
+                    onSearchStringChange(str.trim());
+                    return false;
+                }
+            });
         }
         else {
             final ItemViewHolder itemViewHolder = (ItemViewHolder) viewHolder;
