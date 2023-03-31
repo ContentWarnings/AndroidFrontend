@@ -1,7 +1,6 @@
 package com.example.moviementor.adapters;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -155,7 +154,6 @@ public class ContentWarningsSettingsAdapter extends RecyclerView.Adapter {
         // filtered out from being displayed on the page
         if (this.contentWarningNames.isEmpty()) {
             this.emptySearchText.setVisibility(View.VISIBLE);
-            Log.d("YOO", "in here");
             this.emptySearchText.bringToFront();
         }
         else {
