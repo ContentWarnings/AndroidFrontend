@@ -12,7 +12,7 @@
     <color name="header_background">@color/white</color>
     <color name="header_title">@color/black</color>
     <color name="header_search_magnifying_glass">@color/black</color>
-    <color name="footer_background">#D9D9D9</color>
+    <color name="footer_background">#D6D6D6</color>
     <color name="footer_item_icon">@color/black</color>
     <color name="footer_item_text">@color/black</color>
     <color name="page_background">@color/white</color>
