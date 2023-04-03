@@ -63,6 +63,14 @@
                 android:textColor="@color/attribution_page_paragraph_text"
                 android:layout_marginTop="@dimen/attribution_page_paragraph_margin_top" />
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/tmdb_logo" />
+
         </LinearLayout>
 
     </LinearLayout>
