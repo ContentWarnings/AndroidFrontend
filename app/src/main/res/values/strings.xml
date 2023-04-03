@@ -16,6 +16,7 @@
     <string name="apply_search_options_button">Apply</string>
     <string name="movie_page_warning_banner_line_1">Proceed with caution.</string>
     <string name="movie_page_warning_banner_line_2">This contains material you previously flagged.</string>
+    <string name="movie_page_just_watch_attribution">Streaming Information Provided by JustWatch</string>
     <string name="movie_page_summary_header">Summary</string>
     <string name="movie_page_content_warnings_header">Content Warnings</string>
     <string name="movie_page_no_content_warnings">No Content Warnings Reported</string>

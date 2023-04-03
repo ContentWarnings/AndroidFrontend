@@ -366,6 +366,13 @@ public class MovieFragment extends BaseFragment {
             movieRatingBar.setVisibility(View.VISIBLE);
         }
 
+        // Display JustWatch attribution text if streaming providers are available for this movie
+        if (!movieData.getStreamingProviders().isEmpty()) {
+            final TextView justWatchAttributionText = requireView()
+                    .findViewById(R.id.just_watch_attribution_text);
+            justWatchAttributionText.setVisibility(View.VISIBLE);
+        }
+
         // Setup empty RecyclerView for streaming providers
         final RecyclerView streamingProvidersRecyclerView = requireView()
                 .findViewById(R.id.movie_page_streaming_providers_recycler_view);
