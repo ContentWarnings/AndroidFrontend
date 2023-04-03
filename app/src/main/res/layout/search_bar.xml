@@ -13,6 +13,7 @@
         android:background="@drawable/search_bar_background"
         android:theme="@style/SearchBarStyle"
         android:queryHint="@string/search_bar_hint"
+        android:queryBackground="@null"
         android:searchIcon="@drawable/search_bar_magnifying_glass"
         android:iconifiedByDefault="false"
         android:closeIcon="@drawable/search_bar_clear_text"

@@ -1,5 +1,6 @@
 package com.example.moviementor.fragments;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -125,7 +126,11 @@ public class SearchFragment extends BaseFragment implements SearchPageAdapter.On
             final Map<String, ContentWarningPrefsStorage.ContentWarningVisibility> cwPrefsMap = cwPrefsStorage
                     .getAllContentWarningPrefs();
 
-            this.searchPageAdapter = new SearchPageAdapter(this.genreList, cwPrefsMap);
+            // Get current light/dark mode status of the user's device
+            boolean isLightMode = (getResources().getConfiguration().uiMode
+                    & Configuration.UI_MODE_NIGHT_MASK) != Configuration.UI_MODE_NIGHT_YES;
+
+            this.searchPageAdapter = new SearchPageAdapter(this.genreList, cwPrefsMap, isLightMode);
 
             // Attach fragment as listener to the search page RecyclerView
             this.searchPageAdapter.setOnItemClickListener(this);

@@ -7,5 +7,5 @@
       android:pathData="M16.686,8.628L17.033,9.339L17.816,9.453L24.968,10.502L19.784,15.598L19.225,16.147L19.357,16.92L20.578,24.098L14.203,20.718L13.5,20.345L12.797,20.718L6.422,24.098L7.643,16.92L7.775,16.147L7.216,15.598L2.032,10.502L9.184,9.453L9.967,9.339L10.314,8.628L13.5,2.116L16.686,8.628Z"
       android:strokeWidth="3"
       android:fillColor="#00000000"
-      android:strokeColor="#B0B0B0"/>
+      android:strokeColor="@color/footer_item_icon"/>
 </vector>
