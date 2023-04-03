@@ -32,7 +32,7 @@
     <color name="search_result_year_and_description">@color/black</color>
     <color name="content_warning_tile_text">@color/black</color>
     <color name="content_warning_tile_normal_background">#99D3D3D3</color>
-    <color name="content_warning_tile_warn_background">#1976D2</color>
+    <color name="content_warning_tile_warn_background">#EE3498db</color>
     <color name="search_result_bottom_border">#60000000</color>
     <color name="no_matching_results_text">@color/black</color>
     <color name="filter_icon_background">@android:color/transparent</color>
