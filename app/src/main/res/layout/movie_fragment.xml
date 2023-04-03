@@ -163,6 +163,18 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/just_watch_attribution_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/movie_page_just_watch_attribution_text_margin_top"
+                android:layout_marginStart="@dimen/movie_page_just_watch_attribution_text_margin_start"
+                android:text="@string/movie_page_just_watch_attribution"
+                android:textColor="@color/movie_page_just_watch_attribution_text"
+                android:textSize="@dimen/movie_page_just_watch_attribution_text_size"
+                android:alpha="0.5" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/movie_page_streaming_providers_recycler_view"
                 android:layout_width="match_parent"

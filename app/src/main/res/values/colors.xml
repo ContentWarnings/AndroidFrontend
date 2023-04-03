@@ -61,6 +61,7 @@
     <color name="movie_page_warning_banner_background">#1976D2</color>
     <color name="movie_page_warning_banner_text">@color/white</color>
     <color name="movie_page_date_and_runtime_text">@color/black</color>
+    <color name="movie_page_just_watch_attribution_text">@color/black</color>
     <color name="streaming_provider_option_text">@color/black</color>
     <color name="mpa_rating_text">@color/black</color>
     <color name="mpa_rating_description_text">@color/black</color>

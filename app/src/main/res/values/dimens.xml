@@ -128,6 +128,9 @@
     <dimen name="genre_tile_expanded_icon_margin_end">7.33dp</dimen>
     <dimen name="genre_tile_expanded_padding_vertical">1.5dp</dimen>
     <dimen name="rating_bar_height">24dp</dimen>
+    <dimen name="movie_page_just_watch_attribution_text_size">15sp</dimen>
+    <dimen name="movie_page_just_watch_attribution_text_margin_top">4dp</dimen>
+    <dimen name="movie_page_just_watch_attribution_text_margin_start">16dp</dimen>
     <dimen name="streaming_providers_recycler_view_margin_top">10dp</dimen>
     <dimen name="streaming_provider_item_margin_horizontal">12dp</dimen>
     <dimen name="streaming_provider_image_height">60dp</dimen>
