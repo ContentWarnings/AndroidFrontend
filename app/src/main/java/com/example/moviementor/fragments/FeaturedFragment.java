@@ -3,6 +3,7 @@ package com.example.moviementor.fragments;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -80,6 +81,16 @@ public class FeaturedFragment extends BaseFragment implements TrendingMoviesAdap
         // Now that RecyclerView is populated, remove the loading progress wheel
         final ProgressBar loadingProgressWheel = requireView().findViewById(R.id.loading_circle);
         loadingProgressWheel.setVisibility(View.GONE);
+
+        // If the header is the only item in the adapter, then all movies were filtered out, so
+        // display text to user, otherwise make sure this text is hidden
+        final TextView allFeaturedMoviesFilteredOut = requireView().findViewById(R.id.all_featured_movies_filtered_out);
+        if (this.trendingMoviesAdapter.getItemCount() <= 1) {
+            allFeaturedMoviesFilteredOut.setVisibility(View.VISIBLE);
+        }
+        else {
+            allFeaturedMoviesFilteredOut.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -96,6 +107,16 @@ public class FeaturedFragment extends BaseFragment implements TrendingMoviesAdap
                     .getAllContentWarningPrefs();
 
             this.trendingMoviesAdapter.checkContentWarningPrefsChanged(cwPrefsMap);
+
+            // If the header is the only item in the adapter, then all movies were filtered out, so
+            // display text to user, otherwise make sure this text is hidden
+            final TextView allFeaturedMoviesFilteredOut = requireView().findViewById(R.id.all_featured_movies_filtered_out);
+            if (this.trendingMoviesAdapter.getItemCount() <= 1) {
+                allFeaturedMoviesFilteredOut.setVisibility(View.VISIBLE);
+            }
+            else {
+                allFeaturedMoviesFilteredOut.setVisibility(View.GONE);
+            }
         }
     }
 
