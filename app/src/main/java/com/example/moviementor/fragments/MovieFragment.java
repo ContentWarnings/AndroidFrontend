@@ -389,22 +389,18 @@ public class MovieFragment extends BaseFragment {
                 new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));
 
         final @NonNull String movieMpaRating = movieData.getMovieMpaRating();
+        final @NonNull String mpaRatingDescription = getMpaRatingDescription(movieMpaRating);
 
-        // Display mpa rating for movie only if its available
-        if (!movieMpaRating.isEmpty() && !movieMpaRating.equals(MovieViewModel.MISSSING_MPA_RATING)) {
-            final @NonNull String mpaRatingDescription = getMpaRatingDescription(movieMpaRating);
+        final TextView mpaRatingBox = requireView().findViewById(R.id.mpa_rating_box);
+        final TextView mpaRatingDescriptionText = requireView().findViewById(R.id.mpa_rating_description);
 
-            final TextView mpaRatingBox = requireView().findViewById(R.id.mpa_rating_box);
-            final TextView mpaRatingDescriptionText = requireView().findViewById(R.id.mpa_rating_description);
+        // Populate movie's mpa rating and its associated description on the page
+        mpaRatingBox.setText(movieMpaRating);
+        mpaRatingDescriptionText.setText(mpaRatingDescription);
 
-            // Populate movie's mpa rating and its associated description on the page
-            mpaRatingBox.setText(movieMpaRating);
-            mpaRatingDescriptionText.setText(mpaRatingDescription);
-
-            // Set the box background around MPA rating
-            final Drawable mpaBoxBackground = ContextCompat.getDrawable(requireContext(), R.drawable.mpa_rating_box_background);
-            mpaRatingBox.setBackground(mpaBoxBackground);
-        }
+        // Set the box background around MPA rating
+        final Drawable mpaBoxBackground = ContextCompat.getDrawable(requireContext(), R.drawable.mpa_rating_box_background);
+        mpaRatingBox.setBackground(mpaBoxBackground);
 
         // Make summary header visible
         final TextView moviePageSummaryHeader = requireView().findViewById(R.id.movie_page_summary_header);
@@ -575,6 +571,8 @@ public class MovieFragment extends BaseFragment {
                 return getResources().getString(R.string.mpa_r_rating);
             case "NC-17":
                 return getResources().getString(R.string.mpa_nc_17_rating);
+            case "Unknown":
+                    return getResources().getString(R.string.mpa_unknown_rating);
             default:
                 return getResources().getString(R.string.mpa_nr_rating);
         }

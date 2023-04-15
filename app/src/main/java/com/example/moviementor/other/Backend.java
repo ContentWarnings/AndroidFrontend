@@ -463,7 +463,7 @@ public class Backend {
                     final int movieRuntime = movieResult.optInt("runtime", MovieViewModel.MISSING_RUNTIME);
                     final @NonNull String movieOverview = movieResult.optString("overview", "");
                     final double movieRating = movieResult.optDouble("rating", MovieViewModel.MISSING_RATING);
-                    final @NonNull String movieMpaRating = movieResult.optString("mpa", "");
+                    final @NonNull String movieMpaRating = movieResult.optString("mpa", MovieViewModel.MISSING_MPA_RATING);
                     final @Nullable JSONArray genreJSONArray = movieResult.optJSONArray("genres");
                     final @Nullable JSONObject streamingInfo = movieResult.optJSONObject("streaming_info");
                     final @Nullable JSONArray contentWarningsJSONArray = movieResult.optJSONArray("cw");

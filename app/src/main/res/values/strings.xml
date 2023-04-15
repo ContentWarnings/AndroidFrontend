@@ -209,4 +209,5 @@
     <string name="mpa_r_rating">Restricted</string>
     <string name="mpa_nc_17_rating">Adults Only</string>
     <string name="mpa_nr_rating">Not Rated</string>
+    <string name="mpa_unknown_rating">Rating Unknown</string>
 </resources>
