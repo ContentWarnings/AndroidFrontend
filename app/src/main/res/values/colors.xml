@@ -104,4 +104,5 @@
     <color name="terms_of_service_page_paragraph_header">@color/black</color>
     <color name="terms_of_service_page_paragraph_text">@color/black</color>
     <color name="content_warnings_empty_search_text">@color/black</color>
+    <color name="all_featured_movies_filtered_out_text">@color/black</color>
 </resources>
